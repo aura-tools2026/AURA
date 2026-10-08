@@ -1,2 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  
+<meta name="description" content="AURA Advanced QR Code Generator. Create free QR codes for text, URLs, Wi-Fi, email, phone and contacts.">
+
+<title>Advanced QR Code Generator — AURA</title>
+
+<style>
+:root{
+  --bg:#050505;
+  --panel:#0d0d0d;
+  --panel2:#101010;
+  --text:#fff;
+  --muted:#999;
+  --border:rgba(255,255,255,.16);
+  --border2:rgba(255,255,255,.09);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
+
+header{
+  height:72px;
+  padding:0 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.28);
+  border-left:1px solid rgba(255,255,255,.28);
+  border-right:1px solid rgba(255,255,255,.28);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(5,5,5,.94);
+  backdrop-filter:blur(12px);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:white;
+  font-size:22px;
+  font-weight:800;
+}
+
+.logo-icon{
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  box-shadow:0 0 20px rgba(255,255,255,.08);
+}
+
+.back{
+  color:#999;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.back:hover{
+  color:white;
+}
+
+main{
+  width:100%;
+  border-left:1px solid rgba(255,255,255,.28);
+  border-right:1px solid rgba(255,255,255,.28);
+}
+
+.hero{
+  text-align:center;
+  padding:55px 20px 38px;
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+
+.badge{
+  display:inline-block;
+  border:1px solid var(--border);
+  padding:8px 14px;
+  border-radius:30px;
+  color:#aaa;
+  font-size:12px;
+  margin-bottom:18px;
+}
+
+h1{
+  font-size:clamp(36px,7vw,60px);
+  letter-spacing:-2px;
+}
+
+h1 span{
+  color:#777;
+}
+
+.hero p{
+  max-width:650px;
+  margin:18px auto 0;
+  color:#888;
+  line-height:1.7;
+}
+
+.tool-section{
+  padding:35px 5%;
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+
+.tool-grid{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:24px;
+}
+
+.panel{
+  background:linear-gradient(145deg,#111,#090909);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+/* QR TYPES */
+
+.types{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-bottom:22px;
+}
+
+.type{
+  border:1px solid var(--border2);
+  background:#090909;
+  color:#aaa;
+  border-radius:11px;
+  padding:12px 5px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.type:hover{
+  color:white;
+  border-color:rgba(255,255,255,.35);
+}
+
+.type.active{
+  background:white;
+  color:black;
+  border-color:white;
+}
+
+/* FORM */
+
+.group{
+  margin-bottom:17px;
+}
+
+label{
+  display:block;
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:8px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  background:#070707;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:13px;
+  font-size:14px;
+  outline:none;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:rgba(255,255,255,.55);
+  box-shadow:0 0 0 3px rgba(255,255,255,.04);
+}
+
+/* OPTIONS */
+
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.option{
+  background:#080808;
+  border:1px solid var(--border2);
+  padding:13px;
+  border-radius:12px;
+}
+
+.option-title{
+  font-size:11px;
+  color:#777;
+  margin-bottom:8px;
+}
+
+input[type="color"]{
+  height:40px;
+  padding:3px;
+  cursor:pointer;
+}
+
+input[type="file"]{
+  padding:10px;
+}
+
+/* BUTTONS */
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:20px;
+}
+
+button{
+  font-family:inherit;
+}
+
+.generate{
+  background:white;
+  color:black;
+  border:1px solid white;
+  padding:14px;
+  border-radius:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.clear{
+  background:transparent;
+  color:white;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:11px;
+  cursor:pointer;
+}
+
+.generate:hover,
+.clear:hover{
+  transform:translateY(-2px);
+}
+
+/* PREVIEW */
+
+.preview{
+  min-height:560px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.preview-title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.qr-box{
+  width:310px;
+  height:310px;
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow:0 0 50px rgba(255,255,255,.08);
+}
+
+#qrcode{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#qrcode canvas{
+  display:block;
+  max-width:100%;
+  max-height:100%;
+}
+
+.placeholder{
+  color:#777;
+  text-align:center;
+  font-size:13px;
+}
+
+.status{
+  margin-top:16px;
+  min-height:18px;
+  color:#777;
+  font-size:12px;
+  text-align:center;
+}
+
+.preview-buttons{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:18px;
+}
+
+.download,
+.copy{
+  padding:13px;
+  border-radius:11px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.download{
+  background:white;
+  color:black;
+  border:1px solid white;
+}
+
+.copy{
+  background:#101010;
+  color:white;
+  border:1px solid var(--border);
+}
+
+/* FEATURES */
+
+.features{
+  max-width:1100px;
+  margin:25px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.feature{
+  border:1px solid var(--border2);
+  border-radius:14px;
+  padding:18px;
+  background:#090909;
+}
+
+.feature h3{
+  font-size:14px;
+  margin-bottom:7px;
+}
+
+.feature p{
+  color:#777;
+  font-size:12px;
+  line-height:1.6;
+}
+
+footer{
+  text-align:center;
+  padding:28px;
+  color:#666;
+  font-size:12px;
+  border-top:1px solid var(--border2);
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+  .tool-grid{
+    grid-template-columns:1fr;
+  }
+
+  .preview{
+    min-height:470px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:550px){
+
+  header{
+    height:66px;
+    padding:0 18px;
+  }
+
+  .hero{
+    padding:38px 18px 28px;
+  }
+
+  h1{
+    font-size:39px;
+  }
+
+  .tool-section{
+    padding:22px 14px;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+  .types{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .buttons{
+    grid-template-columns:1fr;
+  }
+
+  .qr-box{
+    width:280px;
+    height:280px;
+    padding:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="logo">
+  <span class="logo-icon">✦</span>
+  AURA
+</a>
+
+<a href="index.html" class="back">
+  ← Back to AURA
+</a>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+<div class="badge">✦ Advanced QR Tool</div>
+
+<h1>
+QR Code <span>Generator</span>
+</h1>
+
+<p>
+Create professional QR codes for websites, text, Wi-Fi,
+email, phone numbers and contacts — quickly and privately.
+</p>
+
+</section>
+
+
+<section class="tool-section">
+
+<div class="tool-grid">
+
+<!-- CREATOR -->
+
+<div class="panel">
+
+<div class="title">
+Create your QR Code
+</div>
+
+
+<div class="types">
+
+<button class="type active" data-type="url">🔗 URL</button>
+
+<button class="type" data-type="text">📝 Text</button>
+
+<button class="type" data-type="wifi">📶 Wi-Fi</button>
+
+<button class="type" data-type="email">📧 Email</button>
+
+<button class="type" data-type="phone">📞 Phone</button>
+
+<button class="type" data-type="contact">👤 Contact</button>
+
+</div>
+
+
+<div id="formArea"></div>
+
+
+<div class="options">
+
+<div class="option">
+
+<div class="option-title">
+QR COLOR
+</div>
+
+<input type="color" id="darkColor" value="#000000">
+
+</div>
+
+
+<div class="option">
+
+<div class="option-title">
+BACKGROUND
+</div>
+
+<input type="color" id="lightColor" value="#ffffff">
+
+</div>
+
+</div>
+
+
+<div class="group" style="margin-top:15px;">
+
+<label>QR Size</label>
+
+<select id="qrSize">
+
+<option value="200">Small — 200px</option>
+
+<option value="300" selected>
+Medium — 300px
+</option>
+
+<option value="400">
+Large — 400px
+</option>
+
+<option value="500">
+Extra Large — 500px
+</option>
+
+</select>
+
+</div>
+
+
+<div class="group">
+
+<label>
+Optional Logo
+</label>
+
+<input
+type="file"
+id="logoInput"
+accept="image/png,image/jpeg,image/webp"
+>
+
+</div>
+
+
+<div class="buttons">
+
+<button class="generate" onclick="generateQR()">
+⚡ Generate QR
+</button>
+
+<button class="clear" onclick="clearAll()">
+↻ Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PREVIEW -->
+
+<div class="panel preview">
+
+<div class="preview-title">
+Live Preview
+</div>
+
+
+<div class="qr-box">
+
+<div id="qrcode">
+
+<div class="placeholder">
+Your QR code will appear here
+</div>
+
+</div>
+
+</div>
+
+
+<div class="status" id="status">
+Ready to create your QR code.
+</div>
+
+
+<div class="preview-buttons">
+
+<button class="download" onclick="downloadQR()">
+⬇ Download PNG
+</button>
+
+<button class="copy" onclick="copyQR()">
+📋 Copy
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="features">
+
+<div class="feature">
+<h3>⚡ Fast</h3>
+<p>
+QR codes are generated directly in your browser.
+</p>
+</div>
+
+<div class="feature">
+<h3>🔒 Private</h3>
+<p>
+Your QR information stays on your device.
+</p>
+</div>
+
+<div class="feature">
+<h3>📱 Mobile Ready</h3>
+<p>
+Designed to work smoothly on phones and desktops.
+</p>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+© 2026 AURA — Free Online Tools
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+<script>
+
+let currentType = "url";
+let qrData = "";
+let logoImage = null;
+
+
+/* DEFAULT FORM */
+
+function loadForm(type){
+
+const area = document.getElementById("formArea");
+
+
+if(type === "url"){
+
+area.innerHTML = `
+<div class="group">
+<label>Website URL</label>
+<input id="mainInput"
+type="url"
+placeholder="https://example.com">
+</div>
+`;
+
+}
+
+
+if(type === "text"){
+
+area.innerHTML = `
+<div class="group">
+<label>Your Text</label>
+<textarea id="mainInput"
+placeholder="Type your message here..."></textarea>
+</div>
+`;
+
+}
+
+
+if(type === "phone"){
+
+area.innerHTML = `
+<div class="group">
+<label>Phone Number</label>
+<input id="mainInput"
+type="tel"
+placeholder="+91 9876543210">
+</div>
+`;
+
+}
+
+
+if(type === "email"){
+
+area.innerHTML = `
+<div class="group">
+
+<label>Email Address</label>
+<input id="email"
+type="email"
+placeholder="hello@example.com">
+
+<label style="margin-top:12px">
+Subject
+</label>
+
+<input id="subject"
+placeholder="Hello">
+
+<label style="margin-top:12px">
+Message
+</label>
+
+<textarea id="message"
+placeholder="Your message"></textarea>
+
+</div>
+`;
+
+}
+
+
+if(type === "wifi"){
+
+area.innerHTML = `
+<div class="group">
+
+<label>Wi-Fi Name</label>
+
+<input id="wifiName"
+placeholder="My WiFi">
+
+<label style="margin-top:12px">
+Wi-Fi Password
+</label>
+
+<input id="wifiPassword"
+type="password"
+placeholder="Password">
+
+<label style="margin-top:12px">
+Security
+</label>
+
+<select id="wifiSecurity">
+
+<option value="WPA">
+WPA / WPA2
+</option>
+
+<option value="WEP">
+WEP
+</option>
+
+<option value="nopass">
+No Password
+</option>
+
+</select>
+
+</div>
+`;
+
+}
+
+
+if(type === "contact"){
+
+area.innerHTML = `
+<div class="group">
+
+<label>Name</label>
+<input id="contactName"
+placeholder="John Doe">
+
+<label style="margin-top:12px">
+Phone
+</label>
+
+<input id="contactPhone"
+placeholder="+91 9876543210">
+
+<label style="margin-top:12px">
+Email
+</label>
+
+<input id="contactEmail"
+placeholder="john@example.com">
+
+<label style="margin-top:12px">
+Organization
+</label>
+
+<input id="contactOrg"
+placeholder="AURA">
+
+</div>
+`;
+
+}
+
+}
+
+
+/* TYPE BUTTONS */
+
+document.querySelectorAll(".type").forEach(btn => {
+
+btn.addEventListener("click",()=>{
+
+document.querySelectorAll(".type")
+.forEach(b=>b.classList.remove("active"));
+
+btn.classList.add("active");
+
+currentType = btn.dataset.type;
+
+loadForm(currentType);
+
+});
+
+});
+
+
+/* GET DATA */
+
+function getData(){
+
+if(currentType === "url"){
+
+return document
+.getElementById("mainInput")
+.value.trim();
+
+}
+
+
+if(currentType === "text"){
+
+return document
+.getElementById("mainInput")
+.value.trim();
+
+}
+
+
+if(currentType === "phone"){
+
+let phone =
+document.getElementById("mainInput")
+.value.trim();
+
+return "tel:" + phone;
+
+}
+
+
+if(currentType === "email"){
+
+let email =
+document.getElementById("email")
+.value.trim();
+
+let subject =
+document.getElementById("subject")
+.value.trim();
+
+let message =
+document.getElementById("message")
+.value.trim();
+
+return "mailto:" + email +
+"?subject=" +
+encodeURIComponent(subject) +
+"&body=" +
+encodeURIComponent(message);
+
+}
+
+
+if(currentType === "wifi"){
+
+let name =
+document.getElementById("wifiName")
+.value;
+
+let password =
+document.getElementById("wifiPassword")
+.value;
+
+let security =
+document.getElementById("wifiSecurity")
+.value;
+
+return "WIFI:T:" +
+security +
+";S:" +
+escapeWifi(name) +
+";P:" +
+escapeWifi(password) +
+";;";
+
+}
+
+
+if(currentType === "contact"){
+
+let name =
+document.getElementById("contactName")
+.value;
+
+let phone =
+document.getElementById("contactPhone")
+.value;
+
+let email =
+document.getElementById("contactEmail")
+.value;
+
+let org =
+document.getElementById("contactOrg")
+.value;
+
+return `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+ORG:${org}
+TEL:${phone}
+EMAIL:${email}
+END:VCARD`;
+
+}
+
+}
+
+
+/* WIFI ESCAPE */
+
+function escapeWifi(value){
+
+return value
+.replace(/\\/g,"\\\\")
+.replace(/;/g,"\\;")
+.replace(/,/g,"\\,")
+.replace(/:/g,"\\:");
+
+}
+
+
+/* GENERATE */
+
+function generateQR(){
+
+if(typeof QRCode === "undefined"){
+
+alert("QR library is still loading. Please try again.");
+
+return;
+
+}
+
+
+let data = getData();
+
+
+if(!data){
+
+alert("Please enter something first.");
+
+return;
+
+}
+
+
+qrData = data;
+
+
+let container =
+document.getElementById("qrcode");
+
+container.innerHTML = "";
+
+
+let size =
+Number(document.getElementById("qrSize").value);
+
+
+let dark =
+document.getElementById("darkColor").value;
+
+
+let light =
+document.getElementById("lightColor").value;
+
+
+/*
+IMPORTANT:
+A quiet white margin is kept around the QR.
+This makes scanning easier.
+*/
+
+let qr = document.createElement("div");
+
+container.appendChild(qr);
+
+
+new QRCode(qr,{
+
+text:data,
+
+width:size,
+
+height:size,
+
+colorDark:dark,
+
+colorLight:light,
+
+correctLevel:QRCode.CorrectLevel.M
+
+});
+
+
+setTimeout(()=>{
+
+addLogoIfNeeded();
+
+},250);
+
+
+document.getElementById("status").textContent =
+"✓ QR code generated successfully.";
+
+}
+
+
+/* LOGO */
+
+document
+.getElementById("logoInput")
+.addEventListener("change",function(){
+
+let file = this.files[0];
+
+if(!file){
+
+logoImage = null;
+
+return;
+
+}
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+
+logoImage = e.target.result;
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+
+/*
+Logo is intentionally small.
+The QR remains mostly untouched so it stays
+easy to scan.
+*/
+
+function addLogoIfNeeded(){
+
+if(!logoImage){
+return;
+}
+
+let canvas =
+document.querySelector("#qrcode canvas");
+
+if(!canvas){
+return;
+}
+
+let ctx =
+canvas.getContext("2d");
+
+let img =
+new Image();
+
+img.onload = function(){
+
+let box = canvas.width * .20;
+
+let x =
+(canvas.width - box) / 2;
+
+let y =
+(canvas.height - box) / 2;
+
+
+/* white protection area */
+
+ctx.fillStyle = "#ffffff";
+
+ctx.fillRect(
+x - 8,
+y - 8,
+box + 16,
+box + 16
+);
+
+
+/* logo */
+
+ctx.drawImage(
+img,
+x,
+y,
+box,
+box
+);
+
+};
+
+img.src = logoImage;
+
+}
+
+
+/* DOWNLOAD */
+
+function downloadQR(){
+
+let canvas =
+document.querySelector("#qrcode canvas");
+
+if(!canvas){
+
+alert("Generate a QR code first.");
+
+return;
+
+}
+
+
+/*
+Create a clean white final image.
+This adds extra quiet space around the QR.
+*/
+
+let finalCanvas =
+document.createElement("canvas");
+
+let padding = 40;
+
+finalCanvas.width =
+canvas.width + padding * 2;
+
+finalCanvas.height =
+canvas.height + padding * 2;
+
+let ctx =
+finalCanvas.getContext("2d");
+
+ctx.fillStyle = "#ffffff";
+
+ctx.fillRect(
+0,
+0,
+finalCanvas.width,
+finalCanvas.height
+);
+
+ctx.drawImage(
+canvas,
+padding,
+padding
+);
+
+
+let link =
+document.createElement("a");
+
+link.download =
+"AURA-QR-Code.png";
+
+link.href =
+finalCanvas.toDataURL("image/png");
+
+link.click();
+
+
+document.getElementById("status").textContent =
+"✓ QR code downloaded.";
+
+}
+
+
+/* COPY */
+
+async function copyQR(){
+
+let canvas =
+document.querySelector("#qrcode canvas");
+
+if(!canvas){
+
+alert("Generate a QR code first.");
+
+return;
+
+}
+
+
+canvas.toBlob(async blob=>{
+
+try{
+
+await navigator.clipboard.write([
+
+new ClipboardItem({
+"image/png":blob
+})
+
+]);
+
+document.getElementById("status").textContent =
+"✓ QR code copied.";
+
+}catch(error){
+
+alert(
+"Copy is not supported here. Please use Download PNG."
+);
+
+}
+
+},"image/png");
+
+}
+
+
+/* CLEAR */
+
+function clearAll(){
+
+document.getElementById("qrcode").innerHTML = `
+<div class="placeholder">
+Your QR code will appear here
+</div>
+`;
+
+document.getElementById("status").textContent =
+"Ready to create your QR code.";
+
+document.getElementById("logoInput").value = "";
+
+logoImage = null;
+
+currentType = "url";
+
+document.querySelectorAll(".type")
+.forEach(b=>b.classList.remove("active"));
+
+document
+.querySelector('[data-type="url"]')
+.classList.add("active");
+
+loadForm("url");
+
+}
+
+
+/* START */
+
+loadForm("url");
+
+</script>
+
+</body>
+</html>
