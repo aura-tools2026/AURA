@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AURA — Free Online Tools</title>
+  <meta name="description" content="AURA provides simple, fast and free online tools for PDF, images, text, QR codes and calculations.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050505;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 5, 5, 0.94);
+      border-bottom: 1px solid #242424;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #555;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      font-size: 20px;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      padding: 90px 20px 60px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #292929;
+      border-radius: 30px;
+      background: #101010;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: #888;
+    }
+
+    .hero p {
+      color: #999;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* SEARCH */
+    .search-box {
+      max-width: 650px;
+      margin: 35px auto 0;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 18px 22px;
+      border-radius: 14px;
+      border: 1px solid #303030;
+      background: #101010;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #666;
+    }
+
+    /* TOOLS */
+    .tools-section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 24px 80px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 25px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: block;
+      text-decoration: none;
+      color: white;
+      background: #0d0d0d;
+      border: 1px solid #252525;
+      border-radius: 18px;
+      padding: 24px;
+      transition: 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      border-color: #555;
+      background: #111;
+    }
+
+    .tool-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: #171717;
+      border: 1px solid #292929;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      margin-bottom: 18px;
+    }
+
+    .tool-card h3 {
+      font-size: 18px;
+      margin-bottom: 9px;
+    }
+
+    .tool-card p {
+      color: #888;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .open {
+      display: inline-block;
+      margin-top: 18px;
+      color: #bbb;
+      font-size: 13px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #222;
+      padding: 35px 20px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav {
+        padding: 15px 18px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        AURA
+      </div>
+
+      <nav>
+        <a href="#">Home</a>
+        <a href="#tools">Tools</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="badge">✦ Simple • Fast • Free</div>
+
+    <h1>Powerful tools.<br><span>Made simple.</span></h1>
+
+    <p>
+      AURA brings useful online tools together in one clean,
+      fast and easy-to-use place.
+    </p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search a tool..."
+        onkeyup="searchTools()"
+      >
+    </div>
+
+  </section>
+
+
+  <!-- TOOLS -->
+  <section class="tools-section" id="tools">
+
+    <h2 class="section-title">Popular Tools</h2>
+
+    <div class="tools-grid" id="toolsGrid">
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">📄</div>
+        <h3>PDF to Word</h3>
+        <p>Convert PDF files into editable Word documents.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">🖼️</div>
+        <h3>JPG to PDF</h3>
+        <p>Convert your images into PDF files quickly.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">📑</div>
+        <h3>PDF to JPG</h3>
+        <p>Turn PDF pages into high-quality JPG images.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">📝</div>
+        <h3>Word to PDF</h3>
+        <p>Convert Word documents into PDF format.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">🔗</div>
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDF files into one document.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">📦</div>
+        <h3>Compress PDF</h3>
+        <p>Reduce PDF file size while keeping good quality.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">🖼️</div>
+        <h3>Images to PDF</h3>
+        <p>Combine images and create a PDF document.</p>
+        <span class="open">Open tool →</span>
+      </a>
+
+      <a href="#" class="tool-card">
+        <div class="tool-icon">🔄</div>
+        <h3>PDF Converter</h3>
+        <p>Convert PDF files into different formats.</p>
+        <span class="open">
