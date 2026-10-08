@@ -598,7 +598,363 @@ footer{
   section{
     padding:55px 0;
   }
+} /* =================================
+   AURA PREMIUM ANIMATION SYSTEM
+================================= */
+
+/* Smooth page */
+html{
+  scroll-behavior:smooth;
 }
+
+/* Background moving glow */
+body:after{
+  content:"";
+  position:fixed;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(255,255,255,.045),
+    transparent 70%
+  );
+  top:25%;
+  right:-220px;
+  pointer-events:none;
+  z-index:-1;
+  animation:auraFloat 12s ease-in-out infinite alternate;
+}
+
+@keyframes auraFloat{
+  0%{
+    transform:translate(0,0) scale(1);
+  }
+  50%{
+    transform:translate(-120px,80px) scale(1.15);
+  }
+  100%{
+    transform:translate(-30px,180px) scale(.95);
+  }
+}
+
+
+/* Logo animation */
+
+.logo-icon{
+  animation:logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow{
+  0%,100%{
+    box-shadow:0 0 0 rgba(255,255,255,0);
+  }
+
+  50%{
+    box-shadow:
+      0 0 25px rgba(255,255,255,.12),
+      inset 0 0 15px rgba(255,255,255,.04);
+  }
+}
+
+
+/* Hero entrance */
+
+.hero .badge{
+  animation:fadeUp .8s ease both;
+}
+
+.hero h1{
+  animation:fadeUp 1s ease .12s both;
+}
+
+.hero p{
+  animation:fadeUp 1s ease .24s both;
+}
+
+.hero .search{
+  animation:fadeUp 1s ease .36s both;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+
+/* Hero glow */
+
+.hero-glow{
+  animation:heroGlow 7s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow{
+  from{
+    transform:translateX(-50%) scale(.85);
+    opacity:.55;
+  }
+
+  to{
+    transform:translateX(-50%) scale(1.2);
+    opacity:1;
+  }
+}
+
+
+/* Badge */
+
+.badge{
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.badge:hover{
+  transform:translateY(-3px);
+  border-color:#555;
+  box-shadow:0 10px 30px rgba(255,255,255,.06);
+}
+
+
+/* Search animation */
+
+.search input{
+  transition:
+    border-color .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
+}
+
+.search input:focus{
+  transform:translateY(-2px);
+  border-color:#777;
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.025),
+    0 15px 40px rgba(0,0,0,.25);
+}
+
+
+/* Category buttons */
+
+.category{
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    border-color .25s ease;
+}
+
+.category:hover{
+  transform:translateY(-4px);
+}
+
+.category.active{
+  transform:translateY(-2px);
+}
+
+
+/* Scroll reveal */
+
+.reveal{
+  opacity:0;
+  transform:translateY(35px);
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* Tool cards */
+
+.tool-card{
+  transition:
+    transform .35s cubic-bezier(.2,.7,.2,1),
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
+
+.tool-card:hover{
+  transform:translateY(-9px) scale(1.01);
+  border-color:#555;
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.35),
+    0 0 25px rgba(255,255,255,.025);
+}
+
+
+/* Tool icon */
+
+.tool-icon{
+  transition:
+    transform .35s ease,
+    background .35s ease;
+}
+
+.tool-card:hover .tool-icon{
+  transform:scale(1.08) rotate(-3deg);
+}
+
+
+/* Open tool arrow */
+
+.open{
+  transition:transform .25s ease;
+}
+
+.tool-card:hover .open{
+  transform:translateX(5px);
+}
+
+
+/* Stats */
+
+.stat{
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.stat:hover{
+  transform:translateY(-6px);
+  border-color:#444;
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+
+/* Features */
+
+.feature{
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
+
+.feature:hover{
+  transform:translateY(-7px);
+  border-color:#444;
+  box-shadow:0 18px 45px rgba(0,0,0,.3);
+}
+
+.feature-icon{
+  transition:transform .3s ease;
+}
+
+.feature:hover .feature-icon{
+  transform:scale(1.15) rotate(-5deg);
+}
+
+
+/* CTA */
+
+.cta{
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
+
+.cta:hover{
+  transform:translateY(-5px);
+  border-color:#444;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+
+/* Main button */
+
+.main-btn{
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.main-btn:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 12px 30px rgba(255,255,255,.12);
+}
+
+.main-btn:active{
+  transform:scale(.97);
+}
+
+
+/* FAQ */
+
+details{
+  transition:
+    transform .25s ease,
+    border-color .25s ease;
+}
+
+details:hover{
+  transform:translateY(-2px);
+  border-color:#444;
+}
+
+
+/* Header buttons */
+
+.icon-btn{
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.icon-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+  border-color:#555;
+  box-shadow:0 8px 25px rgba(255,255,255,.05);
+}
+
+.icon-btn:active{
+  transform:scale(.94);
+}
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+  body:after{
+    width:280px;
+    height:280px;
+  }
+
+  .tool-card:hover{
+    transform:translateY(-5px);
+  }
+
+}
+
+
+/* Accessibility */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *:before,
+  *:after{
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+
+  }
 </style>
 </head>
 
