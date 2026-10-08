@@ -957,51 +957,68 @@ details:hover{
   } @media(prefers-reduced-motion:reduce){
    ...
 }
-
-/* AURA MOBILE SPACING FIX */
+/* =========================================
+   AURA MOBILE SPACING + CLEAR FRAME
+   ========================================= */
 
 @media(max-width:550px){
 
+  /* HERO - extra space kam */
   .hero{
     padding-top:20px;
     padding-bottom:20px;
   }
 
+  /* SEARCH → CATEGORIES gap */
   #categories{
     padding-top:15px;
     padding-bottom:10px;
   }
 
+  /* CATEGORIES → POPULAR TOOLS gap */
   #tools{
     padding-top:10px;
     padding-bottom:10px;
   }
 
+  /* TOOLS → STATS gap */
   #tools + section{
     padding-top:10px;
   }
 
+  /* STATS → WHY AURA gap */
   #about{
     padding-top:20px;
   }
-
 }
-/* AURA MAIN CONTENT FRAME */
+
+
+/* =========================================
+   AURA FULL WIDTH CLEAR FRAME
+   ========================================= */
 
 main{
-  width:min(1180px,92%);
+  width:100%;
   margin:0 auto;
-  border-left:1px solid var(--border);
-  border-right:1px solid var(--border);
+
+  /* LEFT + RIGHT CLEAR LINES */
+  border-left:1px solid rgba(255,255,255,.28);
+  border-right:1px solid rgba(255,255,255,.28);
 }
+
+
+/* SECTION SEPARATOR LINES */
 
 main > section{
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.22);
 }
 
+
+/* TOP LINE */
+
 main > .hero{
-  border-top:1px solid var(--border);
-  }
+  border-top:1px solid rgba(255,255,255,.28);
+}
 </style>
 </style>
 </head>
