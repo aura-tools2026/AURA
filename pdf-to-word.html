@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF to Word Converter | AURA</title>
+<meta name="description" content="Convert PDF files to editable Word documents online with AURA.">
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<!-- DOCX -->
+<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#050505;
+  --card:#0b0b0b;
+  --card2:#101010;
+  --border:rgba(255,255,255,.18);
+  --border2:rgba(255,255,255,.10);
+  --text:#fff;
+  --muted:#999;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+
+  border-top:1px solid rgba(255,255,255,.28);
+  border-left:1px solid rgba(255,255,255,.28);
+  border-right:1px solid rgba(255,255,255,.28);
+  border-bottom:1px solid var(--border);
+
+  position:relative;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  text-decoration:none;
+  color:#fff;
+
+  font-size:21px;
+  font-weight:800;
+}
+
+.logo-icon{
+  width:35px;
+  height:35px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid rgba(255,255,255,.30);
+  border-radius:10px;
+
+  box-shadow:0 0 18px rgba(255,255,255,.05);
+}
+
+/* MAIN FRAME */
+
+main{
+  width:100%;
+  min-height:calc(100vh - 70px);
+
+  border-left:1px solid rgba(255,255,255,.28);
+  border-right:1px solid rgba(255,255,255,.28);
+}
+
+/* BACK */
+
+.back{
+  display:inline-block;
+
+  margin:22px 20px 0;
+
+  color:#999;
+  text-decoration:none;
+
+  font-size:14px;
+
+  transition:.2s;
+}
+
+.back:hover{
+  color:#fff;
+}
+
+/* HERO */
+
+.hero{
+  text-align:center;
+
+  padding:38px 20px 34px;
+
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+
+.badge{
+  display:inline-block;
+
+  padding:7px 13px;
+
+  border:1px solid var(--border);
+  border-radius:30px;
+
+  color:#aaa;
+
+  font-size:12px;
+
+  margin-bottom:16px;
+}
+
+.hero h1{
+  font-size:42px;
+  line-height:1.08;
+
+  margin-bottom:14px;
+}
+
+.hero h1 span{
+  color:#888;
+}
+
+.hero p{
+  max-width:650px;
+
+  margin:auto;
+
+  color:#999;
+
+  line-height:1.6;
+}
+
+/* TOOL AREA */
+
+.tool-area{
+  max-width:950px;
+
+  margin:auto;
+
+  padding:32px 20px 60px;
+}
+
+.tool-card{
+  background:var(--card);
+
+  border:1px solid var(--border);
+
+  border-radius:20px;
+
+  padding:25px;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+}
+
+/* DROP ZONE */
+
+.drop-zone{
+  border:1px dashed rgba(255,255,255,.30);
+
+  border-radius:16px;
+
+  padding:48px 20px;
+
+  text-align:center;
+
+  background:#080808;
+
+  cursor:pointer;
+
+  transition:
+    border-color .25s,
+    background .25s,
+    transform .25s;
+}
+
+.drop-zone:hover,
+.drop-zone.dragging{
+  border-color:rgba(255,255,255,.65);
+
+  background:#0d0d0d;
+
+  transform:translateY(-2px);
+}
+
+.upload-icon{
+  width:60px;
+  height:60px;
+
+  margin:0 auto 15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid var(--border);
+
+  border-radius:16px;
+
+  font-size:29px;
+
+  background:#111;
+}
+
+.drop-zone h2{
+  font-size:19px;
+
+  margin-bottom:8px;
+}
+
+.drop-zone p{
+  color:#888;
+
+  font-size:13px;
+
+  line-height:1.5;
+}
+
+.choose-text{
+  display:inline-block;
+
+  margin-top:15px;
+
+  padding:10px 16px;
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  color:#fff;
+
+  font-size:13px;
+}
+
+#pdfInput{
+  display:none;
+}
+
+/* FILE INFO */
+
+.file-info{
+  display:none;
+
+  margin-top:15px;
+
+  padding:15px;
+
+  background:#090909;
+
+  border:1px solid var(--border2);
+
+  border-radius:12px;
+}
+
+.file-name{
+  color:#fff;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  word-break:break-word;
+}
+
+.file-meta{
+  color:#888;
+
+  font-size:12px;
+
+  margin-top:6px;
+}
+
+/* OPTIONS */
+
+.options{
+  display:none;
+
+  margin-top:20px;
+
+  padding:18px;
+
+  background:#090909;
+
+  border:1px solid var(--border2);
+
+  border-radius:13px;
+}
+
+.option-title{
+  color:#aaa;
+
+  font-size:12px;
+
+  margin-bottom:8px;
+}
+
+select{
+  width:100%;
+
+  padding:12px;
+
+  background:#111;
+
+  color:#fff;
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  outline:none;
+}
+
+/* BUTTONS */
+
+.buttons{
+  display:none;
+
+  gap:10px;
+
+  margin-top:20px;
+}
+
+button{
+  border:none;
+
+  cursor:pointer;
+
+  font-family:inherit;
+
+  font-weight:700;
+
+  border-radius:10px;
+
+  padding:13px 18px;
+
+  transition:
+    transform .2s,
+    opacity .2s,
+    background .2s;
+}
+
+.primary{
+  background:#fff;
+
+  color:#000;
+}
+
+.secondary{
+  background:#151515;
+
+  color:#fff;
+
+  border:1px solid var(--border);
+}
+
+button:hover:not(:disabled){
+  transform:translateY(-2px);
+}
+
+button:active:not(:disabled){
+  transform:scale(.97);
+}
+
+button:disabled{
+  opacity:.45;
+
+  cursor:not-allowed;
+}
+
+/* PROGRESS */
+
+.progress{
+  display:none;
+
+  margin-top:22px;
+}
+
+.progress-track{
+  width:100%;
+
+  height:7px;
+
+  background:#171717;
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.progress-bar{
+  width:0%;
+
+  height:100%;
+
+  background:#fff;
+
+  transition:width .25s;
+}
+
+/* STATUS */
+
+.status{
+  margin-top:12px;
+
+  color:#999;
+
+  font-size:13px;
+
+  line-height:1.5;
+}
+
+/* RESULT */
+
+.result{
+  display:none;
+
+  margin-top:20px;
+
+  padding:18px;
+
+  background:#090909;
+
+  border:1px solid var(--border);
+
+  border-radius:13px;
+}
+
+.result-title{
+  font-size:14px;
+
+  font-weight:700;
+
+  margin-bottom:7px;
+}
+
+.result-text{
+  color:#999;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+/* PREVIEW */
+
+.preview{
+  display:none;
+
+  margin-top:20px;
+}
+
+.preview-title{
+  font-size:15px;
+
+  margin-bottom:10px;
+}
+
+.preview-box{
+  max-height:330px;
+
+  overflow:auto;
+
+  padding:16px;
+
+  background:#070707;
+
+  border:1px solid var(--border2);
+
+  border-radius:12px;
+
+  color:#aaa;
+
+  font-size:13px;
+
+  line-height:1.7;
+
+  white-space:pre-wrap;
+
+  word-break:break-word;
+}
+
+/* WARNING */
+
+.warning{
+  margin-top:20px;
+
+  padding:14px;
+
+  border:1px solid var(--border2);
+
+  border-radius:11px;
+
+  color:#888;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+.warning strong{
+  color:#aaa;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--border);
+
+  text-align:center;
+
+  padding:25px 15px;
+
+  color:#777;
+
+  font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  header{
+    height:64px;
+  }
+
+  main{
+    min-height:calc(100vh - 64px);
+  }
+
+  .hero{
+    padding:30px 17px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .tool-area{
+    padding:24px 14px 45px;
+  }
+
+  .tool-card{
+    padding:17px;
+
+    border-radius:17px;
+  }
+
+  .drop-zone{
+    padding:38px 14px;
+  }
+
+  .buttons{
+    flex-direction:column;
+  }
+
+  .buttons button{
+    width:100%;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="logo">
+  <span class="logo-icon">✦</span>
+  AURA
+</a>
+
+</header>
+
+
+<main>
+
+<a href="index.html" class="back">
+  ← Back to AURA
+</a>
+
+
+<section class="hero">
+
+<div class="badge">
+  PDF TOOL
+</div>
+
+<h1>
+  PDF to<br>
+  <span>Word Converter</span>
+</h1>
+
+<p>
+  Convert text-based PDF files into editable Word documents.
+  Fast, simple and processed directly in your browser.
+</p>
+
+</section>
+
+
+<section class="tool-area">
+
+<div class="tool-card">
+
+<!-- UPLOAD -->
+
+<label
+  class="drop-zone"
+  id="dropZone"
+  for="pdfInput"
+>
+
+<div class="upload-icon">
+  📄
+</div>
+
+<h2>
+  Upload your PDF
+</h2>
+
+<p>
+  Choose a PDF file or drag and drop it here.
+</p>
+
+<span class="choose-text">
+  Choose PDF
+</span>
+
+</label>
+
+<input
+  type="file"
+  id="pdfInput"
+  accept=".pdf,application/pdf"
+>
+
+
+<!-- FILE INFO -->
+
+<div
+  class="file-info"
+  id="fileInfo"
+>
+
+<div
+  class="file-name"
+  id="fileName"
+></div>
+
+<div
+  class="file-meta"
+  id="fileMeta"
+></div>
+
+</div>
+
+
+<!-- OPTIONS -->
+
+<div
+  class="options"
+  id="options"
+>
+
+<div class="option-title">
+  Conversion mode
+</div>
+
+<select id="mode">
+
+<option value="clean">
+  Clean Editable Text
+</option>
+
+<option value="paragraph">
+  Preserve Paragraph Spacing
+</option>
+
+</select>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div
+  class="buttons"
+  id="buttons"
+>
+
+<button
+  class="primary"
+  id="convertBtn"
+  onclick="convertPDF()"
+>
+  Convert to Word
+</button>
+
+<button
+  class="secondary"
+  onclick="resetTool()"
+>
+  Clear
+</button>
+
+</div>
+
+
+<!-- PROGRESS -->
+
+<div
+  class="progress"
+  id="progress"
+>
+
+<div class="progress-track">
+
+<div
+  class="progress-bar"
+  id="progressBar"
+></div>
+
+</div>
+
+</div>
+
+
+<div
+  class="status"
+  id="status"
+>
+  Select a PDF to begin.
+</div>
+
+
+<!-- RESULT -->
+
+<div
+  class="result"
+  id="result"
+>
+
+<div class="result-title">
+  ✓ Word document ready
+</div>
+
+<div
+  class="result-text"
+  id="resultText"
+></div>
+
+</div>
+
+
+<!-- PREVIEW -->
+
+<div
+  class="preview"
+  id="preview"
+>
+
+<div class="preview-title">
+  Extracted text preview
+</div>
+
+<div
+  class="preview-box"
+  id="previewBox"
+></div>
+
+</div>
+
+
+<div class="warning">
+  <strong>Note:</strong>
+  This version converts PDFs containing selectable text.
+  Scanned/image-only PDFs do not contain selectable text and
+  will require OCR. We will add advanced OCR support separately.
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+© 2026 AURA · Free Online Tools
+</footer>
+
+</main>
+
+
+<script>
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+
+let selectedFile = null;
+
+
+/* ELEMENTS */
+
+const input =
+document.getElementById("pdfInput");
+
+const dropZone =
+document.getElementById("dropZone");
+
+const fileInfo =
+document.getElementById("fileInfo");
+
+const fileName =
+document.getElementById("fileName");
+
+const fileMeta =
+document.getElementById("fileMeta");
+
+const options =
+document.getElementById("options");
+
+const buttons =
+document.getElementById("buttons");
+
+const status =
+document.getElementById("status");
+
+const progress =
+document.getElementById("progress");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const preview =
+document.getElementById("preview");
+
+const previewBox =
+document.getElementById("previewBox");
+
+const result =
+document.getElementById("result");
+
+const resultText =
+document.getElementById("resultText");
+
+
+/* FILE SELECT */
+
+input.addEventListener(
+"change",
+function(){
+
+if(this.files.length){
+handleFile(this.files[0]);
+}
+
+});
+
+
+/* DRAG AND DROP */
+
+dropZone.addEventListener(
+"dragover",
+function(event){
+
+event.preventDefault();
+
+dropZone.classList.add("dragging");
+
+});
+
+
+dropZone.addEventListener(
+"dragleave",
+function(){
+
+dropZone.classList.remove("dragging");
+
+});
+
+
+dropZone.addEventListener(
+"drop",
+function(event){
+
+event.preventDefault();
+
+dropZone.classList.remove("dragging");
+
+const file =
+event.dataTransfer.files[0];
+
+if(file){
+handleFile(file);
+}
+
+});
+
+
+/* HANDLE FILE */
+
+function handleFile(file){
+
+if(
+file.type !== "application/pdf" &&
+!file.name.toLowerCase().endsWith(".pdf")
+){
+
+alert("Please select a PDF file.");
+
+return;
+
+}
+
+
+selectedFile = file;
+
+
+fileInfo.style.display = "block";
+
+fileName.textContent =
+file.name;
+
+fileMeta.textContent =
+formatBytes(file.size) +
+" · PDF";
+
+
+options.style.display = "block";
+
+buttons.style.display = "flex";
+
+status.textContent =
+"PDF selected. Ready to convert.";
+
+progress.style.display = "none";
+
+preview.style.display = "none";
+
+result.style.display = "none";
+
+}
+
+
+/* CONVERT */
+
+async function convertPDF(){
+
+if(!selectedFile){
+
+alert("Please choose a PDF first.");
+
+return;
+
+}
+
+
+const button =
+document.getElementById("convertBtn");
+
+button.disabled = true;
+
+progress.style.display = "block";
+
+progressBar.style.width = "3%";
+
+status.textContent =
+"Opening PDF...";
+
+
+try{
+
+const arrayBuffer =
+await selectedFile.arrayBuffer();
+
+
+const pdf =
+await pdfjsLib
+.getDocument({
+data:arrayBuffer
+})
+.promise;
+
+
+const totalPages =
+pdf.numPages;
+
+
+let pages = [];
+
+let totalCharacters = 0;
+
+
+for(
+let pageNumber=1;
+pageNumber<=totalPages;
+pageNumber++
+){
+
+status.textContent =
+"Reading page " +
+pageNumber +
+" of " +
+totalPages +
+"...";
+
+
+const page =
+await pdf.getPage(pageNumber);
+
+
+const content =
+await page.getTextContent();
+
+
+const items =
+content.items;
+
+
+const lines =
+buildLines(items);
+
+
+const pageText =
+lines.join("\n").trim();
+
+
+if(pageText){
+
+pages.push(pageText);
+
+totalCharacters +=
+pageText.length;
+
+}
+
+
+progressBar.style.width =
+(
+5 +
+(pageNumber / totalPages) * 70
+) + "%";
+
+}
+
+
+/* NO TEXT */
+
+if(
+pages.length === 0 ||
+totalCharacters === 0
+){
+
+throw new Error(
+"No selectable text was found. This may be a scanned PDF."
+);
+
+}
+
+
+const fullText =
+pages.join("\n\n");
+
+
+previewBox.textContent =
+fullText.substring(0,12000);
+
+preview.style.display =
+"block";
+
+
+status.textContent =
+"Creating editable Word document...";
+
+
+progressBar.style.width =
+"82%";
+
+
+/* DOCX */
+
+const {
+Document,
+Packer,
+Paragraph,
+TextRun
+} = docx;
+
+
+const mode =
+document.getElementById("mode").value;
+
+
+const children = [];
+
+
+pages.forEach(
+(pageText,pageIndex)=>{
+
+const lines =
+pageText.split("\n");
+
+
+lines.forEach(
+line=>{
+
+const text =
+line.trim();
+
+
+if(!text){
+return;
+}
+
+
+children.push(
+new Paragraph({
+
+children:[
+new TextRun({
+text:text,
+size:22
+})
+],
+
+spacing:{
+after:
+mode === "paragraph"
+? 220
+: 120
+}
+
+})
+);
+
+});
+
+
+/* Page break */
+
+if(
+pageIndex <
+pages.length - 1
+){
+
+children.push(
+new Paragraph({
+pageBreakBefore:true,
+children:[
+new TextRun({
+text:""
+})
+]
+})
+);
+
+}
+
+});
+
+
+const documentFile =
+new Document({
+
+sections:[
+{
+properties:{},
+children:children
+}
+]
+
+});
+
+
+progressBar.style.width =
+"90%";
+
+
+const blob =
+await Packer.toBlob(
+documentFile
+);
+
+
+/* DOWNLOAD */
+
+const url =
+URL.createObjectURL(blob);
+
+
+const link =
+document.createElement("a");
+
+
+link.href = url;
+
+
+link.download =
+selectedFile.name
+.replace(/\.pdf$/i,"")
++
+".docx";
+
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+
+setTimeout(
+()=>{
+URL.revokeObjectURL(url);
+},
+2000
+);
+
+
+progressBar.style.width =
+"100%";
+
+
+status.textContent =
+"✓ Conversion completed successfully.";
+
+
+result.style.display =
+"block";
+
+
+resultText.textContent =
+totalPages +
+" page(s) converted · " +
+formatNumber(totalCharacters) +
+" characters extracted · Word file downloaded.";
+
+
+}catch(error){
+
+console.error(error);
+
+progressBar.style.width =
+"0%";
+
+
+status.textContent =
+"Conversion failed.";
+
+
+alert(
+"PDF could not be converted.\n\n" +
+error.message
+);
+
+}
+
+
+button.disabled = false;
+
+}
+
+
+/* BUILD TEXT LINES */
+
+function buildLines(items){
+
+const usable =
+items
+.filter(item =>
+item.str &&
+item.str.trim()
+)
+.map(item=>({
+
+text:item.str.trim(),
+
+x:item.transform[4],
+
+y:item.transform[5]
+
+}));
+
+
+usable.sort(
+(a,b)=>{
+
+if(
+Math.abs(a.y-b.y) < 4
+){
+
+return a.x-b.x;
+
+}
+
+return b.y-a.y;
+
+});
+
+
+const lines = [];
+
+
+for(
+const item of usable
+){
+
+let current =
+lines[lines.length-1];
+
+
+if(
+current &&
+Math.abs(
+current.y-item.y
+) < 4
+){
+
+current.items.push(item);
+
+}else{
+
+lines.push({
+y:item.y,
+items:[item]
+});
+
+}
+
+}
+
+
+return lines.map(
+line=>{
+
+line.items.sort(
+(a,b)=>a.x-b.x
+);
+
+return line.items
+.map(item=>item.text)
+.join(" ")
+.replace(/\s+/g," ")
+.trim();
+
+}
+);
+
+}
+
+
+/* RESET */
+
+function resetTool(){
+
+selectedFile = null;
+
+input.value = "";
+
+fileInfo.style.display =
+"none";
+
+options.style.display =
+"none";
+
+buttons.style.display =
+"none";
+
+progress.style.display =
+"none";
+
+preview.style.display =
+"none";
+
+result.style.display =
+"none";
+
+previewBox.textContent =
+"";
+
+progressBar.style.width =
+"0%";
+
+status.textContent =
+"Select a PDF to begin.";
+
+}
+
+
+/* HELPERS */
+
+function formatBytes(bytes){
+
+if(bytes === 0){
+return "0 B";
+}
+ 
+const units =
+[
+"B",
+"KB",
+"MB",
+"GB"
+];
+
+const index =
+Math.floor(
+Math.log(bytes) /
+Math.log(1024)
+);
+
+return (
+bytes /
+Math.pow(1024,index)
+).toFixed(
+index === 0 ? 0 : 2
+)
++
+" " +
+units[index];
+
+}
+
+
+function formatNumber(number){
+
+return number.toLocaleString();
+
+}
+
+</script>
+
+</body>
+</html>
