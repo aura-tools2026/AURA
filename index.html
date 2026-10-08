@@ -954,7 +954,40 @@ details:hover{
     scroll-behavior:auto !important;
   }
 
+  } @media(prefers-reduced-motion:reduce){
+   ...
+}
+
+/* AURA MOBILE SPACING FIX */
+
+@media(max-width:550px){
+
+  .hero{
+    padding-top:20px;
+    padding-bottom:20px;
   }
+
+  #categories{
+    padding-top:15px;
+    padding-bottom:10px;
+  }
+
+  #tools{
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+
+  #tools + section{
+    padding-top:10px;
+  }
+
+  #about{
+    padding-top:20px;
+  }
+
+}
+
+</style>
 </style>
 </head>
 
