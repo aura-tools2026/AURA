@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPG to PDF Converter | AURA</title>
+<meta name="description" content="Convert JPG, JPEG and PNG images into a PDF online for free with AURA.">
+
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080808;
+  color:#fff;
+}
+header{
+  padding:18px 5%;
+  border-bottom:1px solid #292929;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  color:#fff;
+  text-decoration:none;
+}
+.logo span{color:#aaa}
+.home{
+  color:#fff;
+  text-decoration:none;
+  border:1px solid #444;
+  padding:10px 15px;
+  border-radius:20px;
+}
+main{
+  max-width:900px;
+  margin:35px auto;
+  padding:0 16px;
+}
+h1{
+  text-align:center;
+  font-size:clamp(28px,5vw,42px);
+  margin-bottom:10px;
+}
+.subtitle{
+  text-align:center;
+  color:#aaa;
+  line-height:1.6;
+  margin-bottom:28px;
+}
+.box{
+  background:#111;
+  border:1px solid #303030;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:20px;
+}
+.drop{
+  display:block;
+  text-align:center;
+  padding:35px 15px;
+  border:2px dashed #555;
+  border-radius:15px;
+  cursor:pointer;
+  background:#151515;
+}
+.drop:hover{border-color:#fff}
+.drop strong{
+  display:block;
+  font-size:19px;
+  margin-bottom:10px;
+}
+.drop span{
+  color:#aaa;
+  font-size:14px;
+}
+input[type=file]{
+  display:none;
+}
+label{
+  display:block;
+  margin-bottom:9px;
+  color:#ddd;
+}
+select{
+  width:100%;
+  padding:12px;
+  background:#080808;
+  color:white;
+  border:1px solid #444;
+  border-radius:10px;
+  font-size:15px;
+}
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:20px;
+}
+button{
+  padding:13px 18px;
+  border-radius:11px;
+  border:1px solid #555;
+  background:#fff;
+  color:#000;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+.secondary{
+  background:#171717;
+  color:white;
+}
+.status{
+  color:#bbb;
+  font-size:14px;
+  margin-top:15px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.preview-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;
+  margin-top:20px;
+}
+.preview-card{
+  background:#171717;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:10px;
+  min-width:0;
+}
+.preview-card img{
+  width:100%;
+  height:140px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:8px;
+}
+.preview-card p{
+  font-size:13px;
+  color:#ccc;
+  overflow-wrap:anywhere;
+}
+.note{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.6;
+}
+footer{
+  text-align:center;
+  color:#777;
+  padding:25px;
+  font-size:13px;
+}
+@media(max-width:550px){
+  .options{grid-template-columns:1fr}
+  .box{padding:16px}
+  header{padding:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">✦ AURA<span>.</span></a>
+  <a class="home" href="index.html">← Home</a>
+</header>
+
+<main>
+  <h1>JPG to PDF Converter</h1>
+
+  <p class="subtitle">
+    Convert JPG, JPEG and PNG images into PDF.<br>
+    Free, simple and easy to use.
+  </p>
+
+  <section class="box">
+
+    <label class="drop" for="imageFiles">
+      <strong>🖼️ Upload Your Images</strong>
+      <span>Select JPG, JPEG or PNG files from your device.</span>
+      <span id="fileName" style="display:block;margin-top:10px">
+      </span>
+      <span style="display:block;margin-top:12px">
+        <b style="color:white">Choose Images</b>
+      </span>
+    </label>
+
+    <input
+      id="imageFiles"
+      type="file"
+      accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+      multiple
+    >
+
+    <div class="options">
+      <div>
+        <label for="pageSize">PDF Page Size</label>
+        <select id="pageSize">
+          <option value="a4">A4</option>
+          <option value="letter">Letter</option>
+          <option value="fit">Fit to Image</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="orientation">Page Orientation</label>
+        <select id="orientation">
+          <option value="auto">Automatic</option>
+          <option value="portrait">Portrait</option>
+          <option value="landscape">Landscape</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="convertBtn" disabled>
+        Convert to PDF
+      </button>
+
+      <button id="clearBtn" class="secondary" type="button">
+        Clear
+      </button>
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite">
+      Choose images to get started.
+    </div>
+
+    <div class="preview-list" id="previewList"></div>
+
+    <div id="downloadArea" style="margin-top:15px"></div>
+
+  </section>
+
+  <section class="box">
+    <h2>How to convert JPG to PDF</h2>
+    <p class="note">
+      1. Tap Choose Images.<br>
+      2. Select one or more JPG, JPEG or PNG images.<br>
+      3. Select your preferred PDF page size.<br>
+      4. Tap Convert to PDF.<br>
+      5. Download your PDF file.
+    </p>
+
+    <p class="note">
+      Your images are processed in your browser. Avoid selecting
+      extremely large images if your device has limited memory.
+    </p>
+  </section>
+
+  <section class="box">
+    <h2>Explore More Tools</h2>
+    <p class="note">Try more free tools from AURA.</p>
+
+    <div class="actions">
+      <button class="secondary" type="button"
+        onclick="location.href='index.html'">
+        ✦ All Tools
+      </button>
+      <button class="secondary" type="button"
+        onclick="location.href='pdf-to-jpg.html'">
+        🖼️ PDF to JPG
+      </button>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>100% Browser Based</h2>
+    <p class="note">
+      Your images are processed directly in your browser.
+      They are not uploaded to an AURA server by this tool.
+    </p>
+  </section>
+</main>
+
+<footer>© 2026 AURA · Free Online Tools</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+(() => {
+  const imageInput = document.getElementById("imageFiles");
+  const fileName = document.getElementById("fileName");
+  const convertBtn = document.getElementById("convertBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const status = document.getElementById("status");
+  const previewList = document.getElementById("previewList");
+  const downloadArea = document.getElementById("downloadArea");
+  const pageSize = document.getElementById("pageSize");
+  const orientation = document.getElementById("orientation");
+
+  let selectedFiles = [];
+  let busy = false;
+  let previewUrls = [];
+
+  function setStatus(message) {
+    status.textContent = message;
+  }
+
+  function clearPreviews() {
+    previewUrls.forEach(url => URL.revokeObjectURL(url));
+    previewUrls = [];
+    previewList.replaceChildren();
+  }
+
+  function resetTool() {
+    if (busy) return;
+
+    imageInput.value = "";
+    selectedFiles = [];
+    fileName.textContent = "";
+    convertBtn.disabled = true;
+    downloadArea.replaceChildren();
+    clearPreviews();
+    setStatus("Choose images to get started.");
+  }
+
+  imageInput.addEventListener("change", () => {
+    clearPreviews();
+    downloadArea.replaceChildren();
+    selectedFiles = [];
+
+    const files = Array.from(imageInput.files || []);
+
+    if (files.length === 0) {
+      fileName.textContent = "";
+      convertBtn.disabled = true;
+      setStatus("Choose images to get started.");
+      return;
+    }
+
+    const validFiles = files.filter(file =>
+      file.type === "image/jpeg" ||
+      file.type === "image/png" ||
+      /\.(jpe?g|png)$/i.test(file.name)
+    );
+
+    if (validFiles.length !== files.length) {
+      setStatus("Some files were skipped. Select JPG, JPEG or PNG images only.");
+    }
+
+    selectedFiles = validFiles;
+
+    if (selectedFiles.length === 0) {
+      fileName.textContent = "";
+      convertBtn.disabled = true;
+      setStatus("No valid images selected. Please choose JPG or PNG files.");
+      return;
+    }
+
+    fileName.textContent = selectedFiles.length + " image(s) selected";
+    convertBtn.disabled = false;
+
+    if (validFiles.length === files.length) {
+      setStatus("Ready to convert " + selectedFiles.length + " image(s).");
+    }
+
+    selectedFiles.forEach((file, index) => {
+      const url = URL.createObjectURL(file);
+      previewUrls.push(url);
+
+      const card = document.createElement("div");
+      card.className = "preview-card";
+
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = file.name;
+
+      const name = document.createElement("p");
+      name.textContent = (index + 1) + ". " + file.name;
+
+      card.append(img, name);
+      previewList.appendChild(card);
+    });
+  });
+
+  clearBtn.addEventListener("click", resetTool);
+
+  convertBtn.addEventListener("click", async () => {
+    if (busy || selectedFiles.length === 0) return;
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      setStatus("PDF library could not load. Check your internet and refresh the page.");
+      return;
+    }
+
+    busy = true;
+    convertBtn.disabled = true;
+    clearBtn.disabled = true;
+    downloadArea.replaceChildren();
+
+    try {
+      const { jsPDF } = window.jspdf;
+      let pdf = null;
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+
+        setStatus(
+          "Adding image " + (i + 1) +
+          " of " + selectedFiles.length + "..."
+        );
+
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Could not read " + file.name));
+
+          reader.readAsDataURL(file);
+        });
+
+        const image = await new Promise((resolve, reject) => {
+          const img = new Image();
+
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error("Could not open " + file.name));
+
+          img.src = dataUrl;
+        });
+
+        const width = image.naturalWidth;
+        const height = image.naturalHeight;
+        const isLandscape = width > height;
+
+        let format = pageSize.value;
+        let pageOrientation = orientation.value;
+
+        if (pageOrientation === "auto") {
+          pageOrientation = isLandscape ? "landscape" : "portrait";
+        }
+
+        if (format === "fit") {
+          const pdfWidth = width * 0.264583;
+          const pdfHeight = height * 0.264583;
+
+          if (!pdf) {
+            pdf = new jsPDF({
+              orientation: pageOrientation,
+              unit: "mm",
+              format: [pdfWidth, pdfHeight],
+              compress: true
+            });
+          } else {
+            pdf.addPage([pdfWidth, pdfHeight], pageOrientation);
+          }
+
+          pdf.addImage(
+            dataUrl,
+            file.type === "image/png" ? "PNG" : "JPEG",
+            0,
+            0,
+            pdfWidth,
+            pdfHeight,
+            undefined,
+            "FAST"
+          );
+        } else {
+          const pdfFormat = format === "letter" ? "letter" : "a4";
+
+          if (!pdf) {
+            pdf = new jsPDF({
+              orientation: pageOrientation,
+              unit: "mm",
+              format: pdfFormat,
+              compress: true
+            });
+          } else {
+            pdf.addPage(pdfFormat, pageOrientation);
+          }
+
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const margin = 8;
+
+          const maxWidth = pageWidth - margin * 2;
+          const maxHeight = pageHeight - margin * 2;
+
+          const ratio = Math.min(
+            maxWidth / width,
+            maxHeight / height
+          );
+
+          const imgWidth = width * ratio;
+          const imgHeight = height * ratio;
+
+          const x = (pageWidth - imgWidth) / 2;
+          const y = (pageHeight - imgHeight) / 2;
+
+          pdf.addImage(
+            dataUrl,
+            file.type === "image/png" ? "PNG" : "JPEG",
+            x,
+            y,
+            imgWidth,
+            imgHeight,
+            undefined,
+            "FAST"
+          );
+        }
+      }
+
+      setStatus("Creating your PDF...");
+
+      const blob = pdf.output("blob");
+      const pdfUrl = URL.createObjectURL(blob);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = pdfUrl;
+      downloadLink.download = "aura-images.pdf";
+      downloadLink.textContent = "⬇️ Download PDF";
+      downloadLink.style.display = "block";
+      downloadLink.style.textAlign = "center";
+      downloadLink.style.textDecoration = "none";
+      downloadLink.style.background = "#fff";
+      downloadLink.style.color = "#000";
+      downloadLink.style.padding = "14px";
+      downloadLink.style.borderRadius = "10px";
+      downloadLink.style.fontWeight = "bold";
+
+      downloadArea.appendChild(downloadLink);
+
+      setStatus("Success! Your PDF is ready to download.");
+
+    } catch (error) {
+      console.error(error);
+      setStatus("Conversion failed: " + (error.message || "Please try different images."));
+    } finally {
+      busy = false;
+      convertBtn.disabled = selectedFiles.length === 0;
+      clearBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
