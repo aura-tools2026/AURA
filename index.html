@@ -1048,21 +1048,35 @@ header{
 
 <div class="nav-actions">
 
-<button class="icon-btn" onclick="focusSearch()" aria-label="Search">
-  ⌕
-</button>
+  <button class="icon-btn"
+    onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})"
+    aria-label="Quick Tools">
+    ⚡
+  </button>
 
-<button class="icon-btn" onclick="toggleTheme()" aria-label="Theme">
-  ◐
-</button>
+  <button class="icon-btn"
+    onclick="toggleTheme()"
+    aria-label="Theme">
+    ◐
+  </button>
 
-<button class="icon-btn" onclick="accountMessage()" aria-label="Account">
-  ♙
-</button>
+  <button class="icon-btn"
+    onclick="alert('New tools and updates will appear here soon!')"
+    aria-label="Updates">
+    🔔
+  </button>
 
-<button class="icon-btn menu-btn" onclick="toggleMenu()" aria-label="Menu">
-  ☰
-</button>
+  <button class="icon-btn"
+    onclick="accountMessage()"
+    aria-label="Account">
+    ♙
+  </button>
+
+  <button class="icon-btn menu-btn"
+    onclick="toggleMenu()"
+    aria-label="Menu">
+    ☰
+  </button>
 
 </div>
 </div>
