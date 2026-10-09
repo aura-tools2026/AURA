@@ -1024,6 +1024,36 @@ header{
   border-left:1px solid rgba(255,255,255,.28);
   border-right:1px solid rgba(255,255,255,.28);
 }
+  /* BRIGHT TOP ACTION BUTTONS */
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:24px;
+  background:rgba(28,28,28,.97);
+  box-shadow:
+    0 0 20px rgba(255,255,255,.10),
+    inset 0 1px 0 rgba(255,255,255,.15);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.nav-actions .icon-btn{
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:16px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  box-shadow:0 0 12px rgba(255,255,255,.06);
+  transition:.25s ease;
+}
+
+.nav-actions .icon-btn:active{
+  background:rgba(255,255,255,.20);
+  transform:scale(.95);
+}
 </style>
 </style>
 </head>
