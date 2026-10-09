@@ -267,7 +267,7 @@ footer{
 
  fileInput.addEventListener("change", () => {
    const file = fileInput.files && fileInput.files[0];
-
+alert("File selected: " + (file ? file.name : "NO FILE"));
    results.replaceChildren();
    selectedFile = null;
    convertBtn.disabled = true;
