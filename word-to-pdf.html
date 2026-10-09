@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Word to PDF Converter | AURA</title>
+<meta name="description" content="Convert Word DOCX documents to PDF online with AURA. Preview, choose page settings, and download your PDF for free.">
+
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080808;
+  color:#fff;
+}
+
+header{
+  padding:18px 5%;
+  border-bottom:1px solid #292929;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  color:#fff;
+  text-decoration:none;
+}
+
+.logo span{color:#aaa}
+
+.home{
+  color:#fff;
+  text-decoration:none;
+  border:1px solid #444;
+  padding:10px 15px;
+  border-radius:20px;
+}
+
+main{
+  max-width:900px;
+  margin:35px auto;
+  padding:0 16px;
+}
+
+h1{
+  text-align:center;
+  font-size:clamp(28px,5vw,42px);
+  margin-bottom:10px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#aaa;
+  line-height:1.6;
+  margin-bottom:28px;
+}
+
+.box{
+  background:#111;
+  border:1px solid #303030;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:20px;
+}
+
+.drop{
+  display:block;
+  text-align:center;
+  padding:35px 15px;
+  border:2px dashed #555;
+  border-radius:15px;
+  cursor:pointer;
+  background:#151515;
+}
+
+.drop:hover{border-color:#fff}
+
+.drop strong{
+  display:block;
+  font-size:19px;
+  margin-bottom:10px;
+}
+
+.drop span{
+  color:#aaa;
+  font-size:14px;
+}
+
+input[type=file]{display:none}
+
+label{
+  display:block;
+  margin-bottom:9px;
+  color:#ddd;
+}
+
+select{
+  width:100%;
+  padding:12px;
+  background:#080808;
+  color:white;
+  border:1px solid #444;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:20px;
+}
+
+button{
+  padding:13px 18px;
+  border-radius:11px;
+  border:1px solid #555;
+  background:#fff;
+  color:#000;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.secondary{
+  background:#171717;
+  color:white;
+}
+
+.status{
+  color:#bbb;
+  font-size:14px;
+  margin-top:15px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+
+.preview{
+  background:#171717;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:15px;
+  margin-top:18px;
+  overflow-wrap:anywhere;
+  line-height:1.6;
+}
+
+.download{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#fff;
+  color:#000;
+  border-radius:10px;
+  padding:14px;
+  font-weight:bold;
+  margin-top:15px;
+}
+
+.note{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.7;
+}
+
+footer{
+  text-align:center;
+  color:#777;
+  padding:25px;
+  font-size:13px;
+}
+
+.tool-link{
+  display:block;
+  text-decoration:none;
+  color:#fff;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:17px;
+  margin-top:12px;
+  cursor:pointer;
+}
+
+.tool-link:hover{
+  border-color:#777;
+  background:#1b1b1b;
+}
+
+@media(max-width:550px){
+  .options{grid-template-columns:1fr}
+  .box{padding:16px}
+  header{padding:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">✦ AURA<span>.</span></a>
+  <a class="home" href="index.html">← Home</a>
+</header>
+
+<main>
+
+<h1>Word to PDF Converter</h1>
+
+<p class="subtitle">
+Convert Word documents into PDF files.<br>
+Free, simple and easy to use.
+</p>
+
+<section class="box">
+
+<label class="drop" for="wordFile">
+  <strong>📄 Upload Your Word Document</strong>
+  <span>Select a DOCX file from your device.</span>
+  <span id="fileName" style="display:block;margin-top:12px"></span>
+  <span style="display:block;margin-top:12px">
+    <b style="color:white">Choose Word File</b>
+  </span>
+</label>
+
+<input
+  id="wordFile"
+  type="file"
+  accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+>
+
+<div class="options">
+
+  <div>
+    <label for="pageSize">PDF Page Size</label>
+    <select id="pageSize">
+      <option value="A4">A4</option>
+      <option value="LETTER">Letter</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="orientation">Page Orientation</label>
+    <select id="orientation">
+      <option value="portrait">Portrait</option>
+      <option value="landscape">Landscape</option>
+    </select>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button id="convertBtn" disabled>Convert to PDF</button>
+  <button id="clearBtn" class="secondary" type="button">Clear</button>
+</div>
+
+<div class="status" id="status" role="status" aria-live="polite">
+Choose a Word document to get started.
+</div>
+
+<div id="preview" class="preview" hidden></div>
+<div id="downloadArea"></div>
+
+</section>
+
+<section class="box">
+<h2>✨ Extra Features</h2>
+<p class="note">
+• Word file name and file size display.<br>
+• Document text preview before conversion.<br>
+• A4 and Letter page sizes.<br>
+• Portrait and Landscape page orientation.<br>
+• Downloadable PDF file.<br>
+• Clear and restart the converter.<br>
+• Mobile-friendly design.
+</p>
+</section>
+
+<section class="box">
+<h2>How to Convert Word to PDF</h2>
+<p class="note">
+1. Upload your Word DOCX file.<br>
+2. Check the document text preview.<br>
+3. Choose page size and orientation.<br>
+4. Tap Convert to PDF.<br>
+5. Download your PDF.
+</p>
+<p class="note">
+Your document is processed in your browser. Avoid uploading confidential documents to websites you do not trust.
+</p>
+</section>
+
+<section class="box">
+<h2>Explore More Tools</h2>
+<p class="note">Tap anywhere on a tool box to open it.</p>
+
+<a class="tool-link" href="index.html">
+✦ All AURA Tools →
+</a>
+
+<a class="tool-link" href="pdf-to-jpg.html">
+🖼️ PDF to JPG →
+</a>
+
+<a class="tool-link" href="jpg-to-pdf.html">
+📄 JPG to PDF →
+</a>
+</section>
+
+</main>
+
+<footer>© 2026 AURA · Free Online Tools</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.9.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+(() => {
+  const wordFile = document.getElementById("wordFile");
+  const fileName = document.getElementById("fileName");
+  const convertBtn = document.getElementById("convertBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const status = document.getElementById("status");
+  const preview = document.getElementById("preview");
+  const downloadArea = document.getElementById("downloadArea");
+  const pageSize = document.getElementById("pageSize");
+  const orientation = document.getElementById("orientation");
+
+  let selectedFile = null;
+  let extractedText = "";
+  let busy = false;
+  let downloadUrl = null;
+
+  function setStatus(message){
+    status.textContent = message;
+  }
+
+  function clearDownload(){
+    downloadArea.replaceChildren();
+
+    if(downloadUrl){
+      URL.revokeObjectURL(downloadUrl);
+      downloadUrl = null;
+    }
+  }
+
+  function resetTool(){
+    if(busy) return;
+
+    wordFile.value = "";
+    selectedFile = null;
+    extractedText = "";
+
+    fileName.textContent = "";
+    preview.textContent = "";
+    preview.hidden = true;
+
+    convertBtn.disabled = true;
+
+    clearDownload();
+
+    setStatus("Choose a Word document to get started.");
+  }
+
+  wordFile.addEventListener("change", async () => {
+    selectedFile = null;
+    extractedText = "";
+    convertBtn.disabled = true;
+
+    preview.hidden = true;
+    preview.textContent = "";
+    clearDownload();
+
+    const file = wordFile.files && wordFile.files[0];
+
+    if(!file){
+      fileName.textContent = "";
+      setStatus("Choose a Word document to get started.");
+      return;
+    }
+
+    if(!file.name.toLowerCase().endsWith(".docx")){
+      wordFile.value = "";
+      fileName.textContent = "";
+      setStatus("Please select a .docx Word document.");
+      return;
+    }
+
+    if(file.size > 20 * 1024 * 1024){
+      wordFile.value = "";
+      fileName.textContent = "";
+      setStatus("File is too large. Please select a DOCX file under 20 MB.");
+      return;
+    }
+
+    selectedFile = file;
+
+    fileName.textContent =
+      file.name + " (" + (file.size / 1024).toFixed(1) + " KB)";
+
+    setStatus("Reading Word document...");
+
+    if(!window.mammoth){
+      setStatus("Document reader could not load. Check your internet and refresh.");
+      return;
+    }
+
+    try{
+      const arrayBuffer = await file.arrayBuffer();
+
+      const result = await mammoth.extractRawText({
+        arrayBuffer: arrayBuffer
+      });
+
+      extractedText = result.value.trim();
+
+      if(!extractedText){
+        setStatus("No readable text found in this document.");
+        return;
+      }
+
+      preview.textContent =
+        "Document preview:\n\n" +
+        extractedText.slice(0, 4000) +
+        (extractedText.length > 4000 ? "\n\nPreview shortened." : "");
+
+      preview.hidden = false;
+
+      convertBtn.disabled = false;
+
+      setStatus("Word document ready. You can convert it to PDF.");
+
+    }catch(error){
+      console.error(error);
+      selectedFile = null;
+      convertBtn.disabled = true;
+      setStatus("Could not read this DOCX file. Please try another Word document.");
+    }
+  });
+
+  clearBtn.addEventListener("click", resetTool);
+
+  convertBtn.addEventListener("click", async () => {
+    if(busy || !selectedFile || !extractedText) return;
+
+    if(!window.jspdf || !window.jspdf.jsPDF){
+      setStatus("PDF library could not load. Check your internet and refresh.");
+      return;
+    }
+
+    busy = true;
+    convertBtn.disabled = true;
+    clearBtn.disabled = true;
+    clearDownload();
+
+    try{
+      setStatus("Creating your PDF...");
+
+      const { jsPDF } = window.jspdf;
+
+      const pdf = new jsPDF({
+        orientation: orientation.value,
+        unit: "mm",
+        format: pageSize.value.toLowerCase(),
+        compress: true
+      });
+
+      const margin = 15;
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const maxWidth = pageWidth - margin * 2;
+      const lineHeight = 6;
+      const maxY = pageHeight - margin;
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(11);
+
+      const paragraphs = extractedText.replace(/\r/g, "").split("\n");
+      let y = margin;
+
+      for(const paragraph of paragraphs){
+        const lineText = paragraph.trim();
+
+        if(!lineText){
+          y += 3;
+          if(y > maxY){
+            pdf.addPage();
+            y = margin;
+          }
+          continue;
+        }
+
+        const lines = pdf.splitTextToSize(lineText, maxWidth);
+
+        for(const line of lines){
+          if(y + lineHeight > maxY){
+            pdf.addPage();
+            y = margin;
+          }
+
+          pdf.text(line, margin, y);
+          y += lineHeight;
+        }
+      }
+
+      const blob = pdf.output("blob");
+      downloadUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.className = "download";
+      link.href = downloadUrl;
+      link.download =
+        selectedFile.name.replace(/\.docx$/i, "") + ".pdf";
+      link.textContent = "⬇️ Download PDF";
+
+      downloadArea.appendChild(link);
+
+      setStatus("PDF created successfully! Tap Download PDF.");
+
+    }catch(error){
+      console.error(error);
+      setStatus("Conversion failed. Please try another DOCX file.");
+    }finally{
+      busy = false;
+      convertBtn.disabled = !extractedText;
+      clearBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+  </html>
