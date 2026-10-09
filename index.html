@@ -1053,7 +1053,23 @@ header{
 .nav-actions .icon-btn:active{
   background:rgba(255,255,255,.20);
   transform:scale(.95);
-}
+} @media(max-width:600px){
+  header .container.nav{
+    gap:6px !important;
+  }
+
+  header .logo{
+    margin-right:0 !important;
+    flex-shrink:0;
+  }
+
+  header .nav-actions{
+    margin-left:auto !important;
+    gap:7px !important;
+    padding:7px 8px !important;
+    flex-shrink:0;
+  }
+  }
 </style>
 </style>
 </head>
