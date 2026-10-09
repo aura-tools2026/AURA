@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF to JPG Converter | AURA</title>
+<meta name="description" content="Convert PDF pages to JPG images online for free with AURA. Preview pages and download images easily.">
+
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#080808;
+ color:#fff;
+}
+header{
+ padding:18px 5%;
+ border-bottom:1px solid #292929;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+}
+.logo{
+ font-size:25px;
+ font-weight:bold;
+ color:#fff;
+ text-decoration:none;
+}
+.logo span{color:#aaa}
+.home{
+ color:#fff;
+ text-decoration:none;
+ border:1px solid #444;
+ padding:10px 15px;
+ border-radius:20px;
+}
+main{
+ max-width:900px;
+ margin:35px auto;
+ padding:0 16px;
+}
+h1{
+ text-align:center;
+ font-size:clamp(28px,5vw,42px);
+ margin-bottom:10px;
+}
+.subtitle{
+ text-align:center;
+ color:#aaa;
+ line-height:1.6;
+ margin-bottom:28px;
+}
+.box{
+ background:#111;
+ border:1px solid #303030;
+ border-radius:20px;
+ padding:22px;
+ margin-bottom:20px;
+}
+.drop{
+ display:block;
+ text-align:center;
+ padding:35px 15px;
+ border:2px dashed #555;
+ border-radius:15px;
+ cursor:pointer;
+ background:#151515;
+}
+.drop:hover{border-color:#fff}
+.drop strong{
+ display:block;
+ font-size:19px;
+ margin-bottom:10px;
+}
+.drop span{color:#aaa;font-size:14px}
+input[type=file]{display:none}
+label{display:block;margin-bottom:9px;color:#ddd}
+select,input[type=text]{
+ width:100%;
+ padding:12px;
+ background:#080808;
+ color:white;
+ border:1px solid #444;
+ border-radius:10px;
+ font-size:15px;
+}
+.options{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:16px;
+ margin-top:20px;
+}
+button{
+ padding:13px 18px;
+ border-radius:11px;
+ border:1px solid #555;
+ background:#fff;
+ color:#000;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+}
+button:disabled{opacity:.4;cursor:not-allowed}
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-top:20px;
+}
+.secondary{
+ background:#171717;
+ color:white;
+}
+.status{
+ color:#bbb;
+ font-size:14px;
+ margin-top:15px;
+ line-height:1.6;
+ overflow-wrap:anywhere;
+}
+.results{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+ gap:15px;
+ margin-top:20px;
+}
+.page-card{
+ background:#171717;
+ border:1px solid #333;
+ border-radius:13px;
+ padding:12px;
+ min-width:0;
+}
+.page-card img{
+ display:block;
+ width:100%;
+ height:230px;
+ object-fit:contain;
+ background:#fff;
+ border-radius:8px;
+}
+.page-card p{font-size:14px;color:#ccc}
+.download{
+ display:block;
+ text-align:center;
+ text-decoration:none;
+ background:#fff;
+ color:#000;
+ border-radius:9px;
+ padding:10px;
+ font-weight:bold;
+ font-size:14px;
+}
+.note{
+ color:#aaa;
+ font-size:13px;
+ line-height:1.6;
+}
+footer{
+ text-align:center;
+ color:#777;
+ padding:25px;
+ font-size:13px;
+}
+@media(max-width:550px){
+ .options{grid-template-columns:1fr}
+ .box{padding:16px}
+ header{padding:15px}
+}
+</style>
+</head>
+
+<body>
+<header>
+ <a class="logo" href="index.html">✦ AURA<span>.</span></a>
+ <a class="home" href="index.html">← Home</a>
+</header>
+
+<main>
+ <h1>PDF to JPG Converter</h1>
+ <p class="subtitle">
+ Convert PDF pages into JPG images online.<br>
+ Free, simple and easy to use.
+ </p>
+
+ <section class="box">
+  <label class="drop" for="pdfFile">
+   <strong>📄 Choose a PDF file</strong>
+   <span>Tap here to upload your PDF</span>
+   <span id="fileName" style="display:block;margin-top:10px"></span>
+  </label>
+  <input id="pdfFile" type="file" accept="application/pdf,.pdf">
+
+  <div class="options">
+   <div>
+    <label for="scale">Image quality</label>
+    <select id="scale">
+     <option value="1">Standard</option>
+     <option value="1.5" selected>High</option>
+     <option value="2">Very high</option>
+    </select>
+   </div>
+   <div>
+    <label for="pageRange">Pages to convert</label>
+    <select id="pageRange">
+     <option value="all">All pages</option>
+     <option value="first">First page only</option>
+    </select>
+   </div>
+  </div>
+
+  <div class="actions">
+   <button id="convertBtn" disabled>Convert to JPG</button>
+   <button id="clearBtn" class="secondary">Clear</button>
+  </div>
+
+  <div class="status" id="status" role="status" aria-live="polite">
+   Choose a PDF file to get started.
+  </div>
+
+  <div class="results" id="results"></div>
+ </section>
+
+ <section class="box">
+  <h2>How to convert PDF to JPG</h2>
+  <p class="note">
+   1. Choose a PDF file from your device.<br>
+   2. Select your preferred image quality.<br>
+   3. Tap Convert to JPG.<br>
+   4. Preview each page and download the JPG images.
+  </p>
+  <p class="note">
+   Your PDF is processed in your browser. Large PDFs may take longer
+   and use more memory. This tool creates one JPG image per converted page.
+  </p>
+ </section>
+</main>
+
+<footer>© 2026 AURA · Free Online Tools</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+(() => {
+ const fileInput = document.getElementById("pdfFile");
+ const fileName = document.getElementById("fileName");
+ const convertBtn = document.getElementById("convertBtn");
+ const clearBtn = document.getElementById("clearBtn");
+ const status = document.getElementById("status");
+ const results = document.getElementById("results");
+ const scaleSelect = document.getElementById("scale");
+ const pageRange = document.getElementById("pageRange");
+
+ let selectedFile = null;
+ let busy = false;
+
+ if (window.pdfjsLib) {
+   pdfjsLib.GlobalWorkerOptions.workerSrc =
+     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+ }
+
+ function setStatus(message) {
+   status.textContent = message;
+ }
+
+ fileInput.addEventListener("change", () => {
+   const file = fileInput.files && fileInput.files[0];
+
+   results.replaceChildren();
+   selectedFile = null;
+   convertBtn.disabled = true;
+
+   if (!file) {
+     fileName.textContent = "";
+     setStatus("Choose a PDF file to get started.");
+     return;
+   }
+
+   if (file.type !== "application/pdf" &&
+       !file.name.toLowerCase().endsWith(".pdf")) {
+     fileInput.value = "";
+     fileName.textContent = "";
+     setStatus("Please select a PDF file.");
+     return;
+   }
+
+   selectedFile = file;
+   fileName.textContent = file.name;
+   convertBtn.disabled = false;
+   setStatus("PDF selected: " + file.name);
+ });
+
+ function addPageResult(blob, pageNumber) {
+   const url = URL.createObjectURL(blob);
+   const card = document.createElement("div");
+   card.className = "page-card";
+
+   const image = document.createElement("img");
+   image.src = url;
+   image.alt = "Converted PDF page " + pageNumber;
+
+   const title = document.createElement("p");
+   title.textContent = "Page " + pageNumber;
+
+   const link = document.createElement("a");
+   link.className = "download";
+   link.href = url;
+   link.download = "aura-page-" + pageNumber + ".jpg";
+   link.textContent = "Download JPG";
+
+   card.append(image, title, link);
+   results.appendChild(card);
+ }
+
+ convertBtn.addEventListener("click", async () => {
+   if (busy || !selectedFile) return;
+
+   if (!window.pdfjsLib) {
+     setStatus("PDF library could not load. Check your internet connection and refresh the page.");
+     return;
+   }
+
+   busy = true;
+   convertBtn.disabled = true;
+   results.replaceChildren();
+
+   try {
+     setStatus("Reading PDF...");
+     const buffer = await selectedFile.arrayBuffer();
+     const pdf = await pdfjsLib.getDocument({
+       data: new Uint8Array(buffer)
+     }).promise;
+
+     const totalPages = pageRange.value === "first" ? 1 : pdf.numPages;
+     const scale = Number(scaleSelect.value);
+
+     for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+       setStatus("Converting page " + pageNumber + " of " + totalPages + "...");
+
+       const page = await pdf.getPage(pageNumber);
+       const viewport = page.getViewport({ scale });
+       const canvas = document.createElement("canvas");
+       const context = canvas.getContext("2d");
+
+       canvas.width = Math.ceil(viewport.width);
+       canvas.height = Math.ceil(viewport.height);
+
+       await page.render({
+         canvasContext: context,
