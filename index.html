@@ -1366,37 +1366,303 @@ All Tools
   </div>
 </a>
 
+  <!-- ===== AURA NEW TOOLS: START ===== -->
 
-<div class="tool-card" data-category="pdf" data-name="pdf converter">
-<div class="tool-icon">🔄</div>
-<h3>PDF Converter</h3>
-<p>Convert PDF files into useful formats.</p>
-<div class="tool-bottom">
-<span class="open">Open tool →</span>
-<span class="tag">PDF</span>
-</div>
-</div>
+<style>
+.aura-new-tools {
+  max-width: 1150px;
+  margin: 35px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
+.aura-new-tools * {
+  box-sizing: border-box;
+}
 
-<div class="tool-card" data-category="pdf" data-name="pdf editor">
-<div class="tool-icon">✏️</div>
-<h3>PDF Editor</h3>
-<p>Edit and manage PDF documents online.</p>
-<div class="tool-bottom">
-<span class="open">Open tool →</span>
-<span class="tag">PDF</span>
-</div>
-</div>
+.aura-new-tools .section-heading {
+  font-size: 27px;
+  color: #172033;
+  margin-bottom: 8px;
+}
 
-<div class="tool-card" data-category="qr" data-name="qr code generator">
-<div class="tool-icon">▦</div>
-<h3>QR Code Generator</h3>
-<p>Create QR codes quickly and easily.</p>
-<div class="tool-bottom">
-<span class="open" onclick="window.location.href='qr-code.html'">Open tool →</span>
-<span class="tag">QR</span>
-</div>
-</div>
+.aura-new-tools .section-description {
+  color: #64748b;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.aura-new-tools .new-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.aura-new-tools .new-tool-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 245px;
+  padding: 23px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #172033;
+  box-shadow: 0 5px 18px #00000008;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.aura-new-tools .new-tool-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px #00000012;
+}
+
+.aura-new-tools .new-tool-icon {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  font-size: 30px;
+  margin-bottom: 18px;
+}
+
+.aura-new-tools .converter-icon {
+  background: linear-gradient(135deg, #dbeafe, #93c5fd);
+}
+
+.aura-new-tools .editor-icon {
+  background: linear-gradient(135deg, #ffedd5, #fdba74);
+}
+
+.aura-new-tools .qr-icon {
+  background: linear-gradient(135deg, #d1fae5, #6ee7b7);
+}
+
+.aura-new-tools .new-tool-card h3 {
+  font-size: 19px;
+  margin: 0 0 10px;
+}
+
+.aura-new-tools .new-tool-card p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0 0 22px;
+}
+
+.aura-new-tools .new-tool-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.aura-new-tools .new-open {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.aura-new-tools .converter-card .new-open {
+  color: #2563eb;
+}
+
+.aura-new-tools .editor-card .new-open {
+  color: #ea580c;
+}
+
+.aura-new-tools .qr-card .new-open {
+  color: #059669;
+}
+
+.aura-new-tools .new-badge {
+  font-size: 11px;
+  font-weight: bold;
+  padding: 6px 9px;
+  border-radius: 7px;
+}
+
+.aura-new-tools .converter-card .new-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.aura-new-tools .editor-card .new-badge {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.aura-new-tools .qr-card .new-badge {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.aura-new-tools .other-tools {
+  margin-top: 38px;
+  padding: 22px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+}
+
+.aura-new-tools .other-tools h3 {
+  margin: 0 0 15px;
+  font-size: 19px;
+}
+
+.aura-new-tools .other-tool-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.aura-new-tools .other-tool-links a {
+  display: inline-block;
+  padding: 10px 13px;
+  background: #fff;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.aura-new-tools .other-tool-links a:hover {
+  border-color: #818cf8;
+  color: #4f46e5;
+}
+
+@media(max-width: 760px) {
+  .aura-new-tools .new-tools-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media(max-width: 520px) {
+  .aura-new-tools {
+    padding: 14px;
+  }
+
+  .aura-new-tools .new-tools-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .aura-new-tools .new-tool-card {
+    min-height: 220px;
+    padding: 20px;
+  }
+
+  .aura-new-tools .section-heading {
+    font-size: 24px;
+  }
+}
+</style>
+
+<section class="aura-new-tools">
+
+  <h2 class="section-heading">✨ New Tools</h2>
+
+  <p class="section-description">
+    Explore AURA's latest free online tools.
+    Simple, useful and designed for mobile and desktop.
+  </p>
+
+  <div class="new-tools-grid">
+
+    <!-- 1. PDF CONVERTER -->
+    <a href="pdf-converter.html"
+       class="new-tool-card converter-card">
+
+      <div class="new-tool-icon converter-icon">🔄</div>
+
+      <h3>PDF Converter</h3>
+
+      <p>
+        Convert PDF pages into JPG or PNG images.
+        Choose pages and image quality.
+      </p>
+
+      <div class="new-tool-bottom">
+        <span class="new-open">Open tool →</span>
+        <span class="new-badge">NEW</span>
+      </div>
+
+    </a>
+
+    <!-- 2. PDF EDITOR -->
+    <a href="pdf-editor.html"
+       class="new-tool-card editor-card">
+
+      <div class="new-tool-icon editor-icon">✏️</div>
+
+      <h3>PDF Editor</h3>
+
+      <p>
+        Add text notes to PDF pages and save
+        your edited document.
+      </p>
+
+      <div class="new-tool-bottom">
+        <span class="new-open">Open tool →</span>
+        <span class="new-badge">NEW</span>
+      </div>
+
+    </a>
+
+    <!-- 3. QR CODE GENERATOR -->
+    <a href="qr-code-generator.html"
+       class="new-tool-card qr-card">
+
+      <div class="new-tool-icon qr-icon">📱</div>
+
+      <h3>QR Code Generator</h3>
+
+      <p>
+        Generate QR codes for website links,
+        text and other information.
+      </p>
+
+      <div class="new-tool-bottom">
+        <span class="new-open">Open tool →</span>
+        <span class="new-badge">NEW</span>
+      </div>
+
+    </a>
+
+  </div>
+
+  <!-- OTHER AURA TOOLS -->
+  <div class="other-tools">
+
+    <h3>🧰 Explore Other AURA Tools</h3>
+
+    <div class="other-tool-links">
+
+      <a href="merge-pdf.html">📚 Merge PDF</a>
+
+      <a href="compress-pdf.html">🗜️ Compress PDF</a>
+
+      <a href="pdf-to-jpg.html">🖼️ PDF to JPG</a>
+
+      <a href="jpg-to-pdf.html">📷 JPG to PDF</a>
+
+      <a href="images-to-pdf.html">🖼️ Images to PDF</a>
+
+      <a href="word-to-pdf.html">📄 Word to PDF</a>
+
+      <a href="age-calculator.html">🎂 Age Calculator</a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ===== AURA NEW TOOLS: END ===== -->
 
 <div class="tool-card" data-category="text" data-name="word counter">
 <div class="tool-icon">🔤</div>
