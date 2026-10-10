@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merge PDF - AURA Tools</title>
+<meta name="description" content="Merge multiple PDF files into one PDF online for free with AURA Tools.">
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  color: #172033;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 760px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  color: #5b4bdb;
+  letter-spacing: 1px;
+}
+
+.back {
+  text-decoration: none;
+  background: white;
+  color: #4f46e5;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 3px 12px #0000000d;
+}
+
+.hero {
+  text-align: center;
+  margin: 35px 0 25px;
+}
+
+.icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 15px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6d5dfc, #8b5cf6);
+  border-radius: 24px;
+  font-size: 36px;
+  box-shadow: 0 12px 25px #6d5dfc40;
+}
+
+h1 {
+  font-size: clamp(28px, 6vw, 38px);
+  margin-bottom: 12px;
+}
+
+.hero p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 15px 45px #33415512;
+}
+
+.dropzone {
+  border: 2px dashed #a5b4fc;
+  background: #f5f5ff;
+  border-radius: 18px;
+  padding: 30px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.dropzone:hover {
+  background: #eeeeff;
+  border-color: #6366f1;
+}
+
+.upload-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.dropzone h3 {
+  margin-bottom: 8px;
+}
+
+.dropzone p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#pdfInput {
+  display: none;
+}
+
+.file-count {
+  margin: 20px 0 12px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+}
+
+.pdf-icon {
+  font-size: 25px;
+}
+
+.file-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.file-name {
+  font-weight: bold;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.file-size {
+  color: #64748b;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.small-btn {
+  border: 0;
+  border-radius: 8px;
+  background: #e8eaff;
+  color: #4338ca;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button {
+  font-family: inherit;
+}
+
+.secondary, .merge {
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.secondary {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.merge {
+  flex: 1;
+  background: linear-gradient(135deg, #5b4bdb, #7c3aed);
+  color: white;
+  box-shadow: 0 6px 15px #6d5dfc35;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.progress-wrap {
+  display: none;
+  margin-top: 20px;
+}
+
+.progress-track {
+  height: 9px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  transition: width .25s;
+}
+
+.status {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  display: none;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.status.success {
+  display: block;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.error {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.feature {
+  background: white;
+  padding: 17px 10px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+}
+
+.feature span {
+  font-size: 25px;
+}
+
+.feature h4 {
+  font-size: 13px;
+  margin: 9px 0 5px;
+}
+
+.feature p {
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  margin: 30px 0 10px;
+}
+
+@media(max-width: 500px) {
+  body { padding: 14px; }
+  .card { padding: 15px; }
+  .features { grid-template-columns: 1fr; }
+  .feature { display: flex; text-align: left; align-items: center; gap: 12px; }
+  .feature h4 { margin-top: 0; }
+  .buttons { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="logo">AURA</div>
+    <a href="index.html" class="back">← Home</a>
+  </header>
+
+  <section class="hero">
+    <div class="icon">📚</div>
+    <h1>Merge PDF Files</h1>
+    <p>Combine multiple PDF documents into one file.<br>
+    Simple, fast and free.</p>
+  </section>
+
+  <main class="card">
+    <label for="pdfInput" class="dropzone" id="dropzone">
+      <div class="upload-icon">📤</div>
+      <h3>Select PDF Files</h3>
+      <p>Tap here to choose multiple PDF files<br>
+      You can also drag and drop files on supported devices.</p>
+    </label>
+
+    <input type="file" id="pdfInput" accept=".pdf,application/pdf" multiple>
+
+    <div class="file-count" id="fileCount">No PDF files selected</div>
+    <div class="file-list" id="fileList"></div>
+
+    <div class="buttons">
+      <button class="secondary" id="addMore">＋ Add PDFs</button>
+      <button class="secondary" id="clearBtn">Clear All</button>
+    </div>
+
+    <button class="merge" id="mergeBtn"
+      style="width:100%;margin-top:12px;" disabled>
+      🔗 Merge PDF Files
+    </button>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div id="progressText">Preparing PDFs...</div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="status" id="status"></div>
+  </main>
+
+  <section class="features">
+    <div class="feature">
+      <span>🔒</span>
+      <div>
+        <h4>Private Processing</h4>
+        <p>Files are processed in your browser.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <span>⚡</span>
+      <div>
+        <h4>Easy to Use</h4>
+        <p>Merge your selected PDFs in a few taps.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <span>📱</span>
+      <div>
+        <h4>Mobile Friendly</h4>
+        <p>Designed for phones and computers.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © AURA Tools · Free PDF utility
+  </footer>
+</div>
+
+<script>
+const input = document.getElementById("pdfInput");
+const fileList = document.getElementById("fileList");
+const fileCount = document.getElementById("fileCount");
+const mergeBtn = document.getElementById("mergeBtn");
+const clearBtn = document.getElementById("clearBtn");
+const addMore = document.getElementById("addMore");
+const statusBox = document.getElementById("status");
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
+const dropzone = document.getElementById("dropzone");
+
+let files = [];
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+}
+
+function showStatus(message, type) {
+  statusBox.textContent = message;
+  statusBox.className = "status " + type;
+}
+
+function addFiles(selectedFiles) {
+  const incoming = Array.from(selectedFiles);
+
+  for (const file of incoming) {
+    const isPDF = file.type === "application/pdf" ||
+                  file.name.toLowerCase().endsWith(".pdf");
+
+    if (!isPDF) {
+      showStatus("Please select PDF files only.", "error");
+      continue;
+    }
+
+    files.push(file);
+  }
+
+  renderFiles();
+}
+
+function renderFiles() {
+  fileList.innerHTML = "";
+
+  fileCount.textContent = files.length
+    ? files.length + " PDF file(s) selected"
+    : "No PDF files selected";
+
+  files.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.className = "file-item";
+
+    const icon = document.createElement("div");
+    icon.className = "pdf-icon";
+    icon.textContent = "📕";
+
+    const info = document.createElement("div");
+    info.className = "file-info";
+
+    const name = document.createElement("div");
+    name.className = "file-name";
+    name.textContent = (index + 1) + ". " + file.name;
+
+    const size = document.createElement("div");
+    size.className = "file-size";
+    size.textContent = formatSize(file.size);
+
+    info.append(name, size);
+
+    const actions = document.createElement("div");
+    actions.className = "file-actions";
+
+    const up = document.createElement("button");
+    up.className = "small-btn";
+    up.textContent = "↑";
+    up.title = "Move up";
+    up.disabled = index === 0;
+    up.onclick = () => moveFile(index, -1);
+
+    const down = document.createElement("button");
+    down.className = "small-btn";
+    down.textContent = "↓";
+    down.title = "Move down";
+    down.disabled = index === files.length - 1;
+    down.onclick = () => moveFile(index, 1);
+
+    const remove = document.createElement("button");
+    remove.className = "small-btn remove";
+    remove.textContent = "✕";
+    remove.title = "Remove file";
+    remove.onclick = () => {
+      files.splice(index, 1);
+      renderFiles();
+    };
+
+    actions.append(up, down, remove);
+    item.append(icon, info, actions);
+    fileList.appendChild(item);
+  });
+
+  mergeBtn.disabled = files.length < 2;
+  clearBtn.disabled = files.length === 0;
+  addMore.disabled = false;
+}
+
+function moveFile(index, direction) {
+  const target = index + direction;
+  if (target < 0 || target >= files.length) return;
+
+  [files[index], files[target]] = [files[target], files[index]];
+  renderFiles();
+}
+
+input.addEventListener("change", () => {
+  addFiles(input.files);
+  input.value = "";
+});
+
+addMore.addEventListener("click", () => input.click());
+
+clearBtn.addEventListener("click", () => {
+  files = [];
+  fileList.innerHTML = "";
+  renderFiles();
+  statusBox.className = "status";
+  progressWrap.style.display = "none";
+});
+
+dropzone.addEventListener("dragover", event => {
+  event.preventDefault();
+  dropzone.style.borderColor = "#4f46e5";
+});
+
+dropzone.addEventListener("dragleave", () => {
+  dropzone.style.borderColor = "#a5b4fc";
+});
+
+dropzone.addEventListener("drop", event => {
+  event.preventDefault();
+  dropzone.style.borderColor = "#a5b4fc";
+  addFiles(event.dataTransfer.files);
+});
+
+mergeBtn.addEventListener("click", async () => {
+  if (files.length < 2) {
+    showStatus("Please select at least two PDF files.", "error");
+    return;
+  }
+
+  if (!window.PDFLib) {
+    showStatus("PDF library could not load. Check your internet connection and reload the page.", "error");
+    return;
+  }
+
+  mergeBtn.disabled = true;
+  addMore.disabled = true;
+  clearBtn.disabled = true;
+  progressWrap.style.display = "block";
+  progressBar.style.width = "0%";
+  statusBox.className = "status";
+
+  try {
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (let i = 0; i < files.length; i++) {
+      progressText.textContent =
+        "Processing PDF " + (i + 1) + " of " + files.length + "...";
+
+      const bytes = await files[i].arrayBuffer();
+      const sourcePdf = await PDFLib.PDFDocument.load(bytes);
+      const copiedPages = await mergedPdf.copyPages(
+        sourcePdf,
+        sourcePdf.getPageIndices()
+      );
+
+      copiedPages.forEach(page => mergedPdf.addPage(page));
+
+      progressBar.style.width =
+        Math.round(((i + 1) / files.length) * 90) + "%";
+    }
+
+    progressText.textContent = "Creating merged PDF...";
+    const mergedBytes = await mergedPdf.save();
+    const blob = new Blob([mergedBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "AURA-Merged.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    progressBar.style.width = "100%";
+    progressText.textContent = "Merge complete!";
+    showStatus("Success! Your merged PDF has been downloaded.", "success");
+
+  } catch (error) {
+    console.error(error);
+    showStatus(
+      "Could not merge these PDFs. One file may be damaged, encrypted, or unsupported. Try valid, unlocked PDF files.",
+      "error"
+    );
+  } finally {
+    mergeBtn.disabled = files.length < 2;
+    addMore.disabled = false;
+    clearBtn.disabled = files.length === 0;
+  }
+});
+
+renderFiles();
+</script>
+</body>
+</html>
