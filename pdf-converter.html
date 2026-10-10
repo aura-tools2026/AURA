@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Converter - AURA</title>
+<meta name="description" content="Convert PDF pages to JPG or PNG images online with AURA.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;background:#eff6ff;color:#172554}
+.wrap{max-width:760px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
+.logo{font-size:28px;font-weight:900;color:#2563eb}
+.home{background:white;padding:12px 16px;border-radius:12px;color:#2563eb;text-decoration:none;font-weight:bold}
+.hero{text-align:center;margin-bottom:25px}
+.icon{font-size:42px;margin-bottom:12px}
+h1{font-size:32px;margin:8px}
+.hero p{color:#64748b;line-height:1.6}
+.card{background:white;padding:22px;border-radius:22px;box-shadow:0 12px 35px #1d4ed810}
+.upload{display:block;text-align:center;padding:30px 15px;border:2px dashed #60a5fa;border-radius:16px;background:#f8fbff;cursor:pointer}
+.upload strong{display:block;margin:12px}
+input[type=file]{display:none}
+.info{margin:16px 0;color:#475569;overflow-wrap:anywhere}
+label.field{display:block;font-weight:bold;margin:18px 0 8px}
+select,input[type=number]{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;background:white}
+button{border:0;border-radius:12px;padding:14px;font-weight:bold;font-size:15px;cursor:pointer}
+.primary{width:100%;margin-top:18px;background:linear-gradient(135deg,#2563eb,#0ea5e9);color:white}
+.secondary{background:#dbeafe;color:#1d4ed8}
+button:disabled{opacity:.5}
+#results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.result{border:1px solid #dbeafe;border-radius:12px;padding:10px;min-width:0}
+.result img{width:100%;height:160px;object-fit:contain;background:#f8fafc}
+.result p{font-size:13px;overflow-wrap:anywhere}
+.result a{display:block;background:#dbeafe;padding:10px;text-align:center;border-radius:8px;color:#1d4ed8;text-decoration:none;font-weight:bold;margin-top:8px}
+.status{display:none;margin-top:16px;padding:13px;border-radius:10px;line-height:1.5}
+.ok{display:block;background:#dcfce7;color:#166534}
+.err{display:block;background:#fee2e2;color:#991b1b}
+.note{font-size:13px;color:#64748b;line-height:1.7;margin-top:20px}
+@media(max-width:480px){body{padding:12px}.card{padding:15px}#results{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">AURA</div><a class="home" href="index.html">← Home</a></header>
+<section class="hero">
+<div class="icon">🔄</div>
+<h1>PDF Converter</h1>
+<p>Convert PDF pages into downloadable JPG or PNG images.</p>
+</section>
+<main class="card">
+<label class="upload" for="pdf">
+<div style="font-size:35px">📄</div>
+<strong>Select PDF File</strong>
+<span style="color:#64748b;font-size:13px">Choose a PDF from your device</span>
+</label>
+<input type="file" id="pdf" accept="application/pdf,.pdf">
+<div class="info" id="info">No PDF selected</div>
+<label class="field" for="format">Output format</label>
+<select id="format"><option value="jpg">JPG Image</option><option value="png">PNG Image</option></select>
+<label class="field" for="quality">JPG quality</label>
+<select id="quality"><option value="0.9">High</option><option value="0.75">Medium</option><option value="0.55">Smaller file</option></select>
+<label class="field" for="scale">Image resolution</label>
+<select id="scale"><option value="1">Standard</option><option value="1.5">High</option><option value="2">Very high</option></select>
+<label class="field" for="pages">Pages to convert (optional)</label>
+<input type="text" id="pages" placeholder="Example: 1,3,5-7">
+<p class="note">Leave pages blank to convert every page. For selected pages, use numbers like 1,3,5-7.</p>
+<button class="primary" id="convert" disabled>Convert PDF</button>
+<div id="status" class="status"></div>
+<div id="results"></div>
+<p class="note">Uses PDF.js in your browser. Large PDFs may take time. Keep this page open until conversion finishes.</p>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const input=document.getElementById('pdf'),info=document.getElementById('info'),btn=document.getElementById('convert'),status=document.getElementById('status'),results=document.getElementById('results');
+let file=null;
+input.onchange=()=>{
+file=input.files[0]||null;
+info.textContent=file?file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB':'No PDF selected';
+btn.disabled=!file;
+results.innerHTML='';
+status.className='status';
+};
+function parsePages(text,total){
+if(!text.trim())return Array.from({length:total},(_,i)=>i+1);
+const set=new Set();
+for(const part of text.split(',')){
+const p=part.trim();
+if(/^\d+$/.test(p)){const n=Number(p);if(n<1||n>total)throw Error('Page '+n+' is outside the PDF.');set.add(n);}
+else if(/^(\d+)-(\d+)$/.test(p)){
+const [a,b]=p.split('-').map(Number);
+if(a<1||b>total||a>b)throw Error('Invalid page range: '+p);
+for(let n=a;n<=b;n++)set.add(n);
+}else throw Error('Use page numbers like 1,3,5-7.');
+}
+return [...set].sort((a,b)=>a-b);
+}
+btn.onclick=async()=>{
+if(!file)return;
+if(!window.pdfjsLib){status.textContent='PDF library failed to load. Check internet and reload.';status.className='status err';return;}
+btn.disabled=true;btn.textContent='Converting...';results.innerHTML='';status.className='status';
+try{
+const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+const pages=parsePages(document.getElementById('pages').value,doc.numPages);
+for(const n of pages){
+status.textContent='Converting page '+n+' of '+doc.numPages+'...';status.className='status ok';
+const page=await doc.getPage(n),viewport=page.getViewport({scale:Number(document.getElementById('scale').value)});
+const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+const format=document.getElementById('format').value;
+const mime=format==='png'?'image/png':'image/jpeg';
+const blob=await new Promise(resolve=>canvas.toBlob(resolve,mime,Number(document.getElementById('quality').value)));
+if(!blob)throw Error('Could not create image.');
+const url=URL.createObjectURL(blob),box=document.createElement('div');box.className='result';
+const img=document.createElement('img');img.src=url;img.alt='Converted page '+n;
+const label=document.createElement('p');label.textContent='Page '+n+' · '+(blob.size/1024).toFixed(1)+' KB';
+const a=document.createElement('a');a.href=url;a.download='AURA-page-'+n+'.'+format;a.textContent='Download image';
+box.append(img,label,a);results.appendChild(box);canvas.width=0;canvas.height=0;
+}
+status.textContent='Done! '+pages.length+' page(s) converted. Download each image below.';status.className='status ok';
+}catch(e){status.textContent=e.message||'Could not convert this PDF.';status.className='status err';}
+finally{btn.disabled=!file;btn.textContent='Convert PDF';}
+};
+</script>
+</body>
+  </html>
