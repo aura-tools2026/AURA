@@ -2,2056 +2,1042 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free online PDF, QR, calculator, security and text tools.">
 <title>AURA — Free Online Tools</title>
-<meta name="description" content="AURA offers fast, simple and free online tools for PDF, images, text, QR codes, calculators and more.">
-<meta name="theme-color" content="#050505">
 
 <style>
-:root{
-  --bg:#050505;
-  --surface:#0c0c0c;
-  --surface2:#111;
-  --border:#252525;
-  --text:#fff;
-  --muted:#8b8b8b;
-  --soft:#bdbdbd;
-  --accent:#fff;
-  --shadow:0 20px 60px rgba(0,0,0,.35);
-}
-
-.light{
-  --bg:#f7f7f7;
-  --surface:#fff;
-  --surface2:#f1f1f1;
-  --border:#ddd;
-  --text:#080808;
-  --muted:#666;
-  --soft:#333;
-  --accent:#000;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  transition:.3s;
-  overflow-x:hidden;
-}
-
-body:before{
-  content:"";
-  position:fixed;
-  width:500px;
-  height:500px;
-  border-radius:50%;
-  background:rgba(255,255,255,.035);
-  filter:blur(100px);
-  top:-220px;
-  left:-180px;
-  pointer-events:none;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-button,
-input{
-  font:inherit;
-}
-
-.container{
-  width:min(1180px,92%);
-  margin:auto;
-}
-
-/* HEADER */
-
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(5,5,5,.82);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--border);
-}
-
-.light header{
-  background:rgba(255,255,255,.86);
-}
-
-.nav{
-  height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-
-.logo-icon{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:var(--surface);
-  box-shadow:var(--shadow);
-}
-
-.desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:27px;
-}
-
-.desktop-nav a{
-  color:var(--muted);
-  font-size:14px;
-  transition:.2s;
-}
-
-.desktop-nav a:hover{
-  color:var(--text);
-}
-
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background:var(--surface);
-  color:var(--text);
-  cursor:pointer;
-  transition:.2s;
-}
-
-.icon-btn:hover{
-  transform:translateY(-2px);
-  border-color:var(--muted);
-}
-
-.menu-btn{
-  display:none;
-}
-
-/* MOBILE MENU */
-
-.mobile-menu{
-  display:none;
-  border-top:1px solid var(--border);
-  padding:15px 4%;
-  background:var(--surface);
-}
-
-.mobile-menu a{
-  display:block;
-  padding:12px 0;
-  color:var(--soft);
-  border-bottom:1px solid var(--border);
-}
-
-/* HERO */
-
-.hero{
-  position:relative;
-  text-align:center;
-  padding:100px 0 80px;
-}
-
-.hero-glow{
-  position:absolute;
-  width:350px;
-  height:350px;
-  background:rgba(255,255,255,.04);
-  border-radius:50%;
-  filter:blur(80px);
-  left:50%;
-  top:80px;
-  transform:translateX(-50%);
-  pointer-events:none;
-}
-
-.badge{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 15px;
-  border:1px solid var(--border);
-  border-radius:30px;
-  background:var(--surface);
-  color:var(--soft);
-  font-size:13px;
-  margin-bottom:25px;
-}
-
-.hero h1{
-  position:relative;
-  font-size:clamp(46px,8vw,88px);
-  line-height:.98;
-  letter-spacing:-5px;
-  max-width:900px;
-  margin:auto;
-}
-
-.hero h1 span{
-  color:#777;
-}
-
-.light .hero h1 span{
-  color:#999;
-}
-
-.hero p{
-  position:relative;
-  max-width:650px;
-  margin:28px auto;
-  color:var(--muted);
-  font-size:18px;
-}
-
-.search{
-  position:relative;
-  max-width:720px;
-  margin:35px auto 0;
-}
-
-.search input{
-  width:100%;
-  height:60px;
-  padding:0 60px 0 22px;
-  border:1px solid var(--border);
-  border-radius:17px;
-  outline:none;
-  background:var(--surface);
-  color:var(--text);
-  box-shadow:var(--shadow);
-}
-
-.search input:focus{
-  border-color:#777;
-}
-
-.search-icon{
-  position:absolute;
-  right:20px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--muted);
-}
-
-/* SECTION */
-
-section{
-  padding:75px 0;
-}
-
-.section-head{
-  margin-bottom:30px;
-}
-
-.section-head h2{
-  font-size:34px;
-  letter-spacing:-1px;
-}
-
-.section-head p{
-  color:var(--muted);
-  margin-top:5px;
-}
-
-/* CATEGORIES */
-
-.categories{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.category{
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--soft);
-  padding:10px 17px;
-  border-radius:30px;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.category:hover,
-.category.active{
-  background:var(--accent);
-  color:var(--bg);
-}
-
-/* TOOLS */
-
-.tools-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.tool-card{
-  position:relative;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:21px;
-  padding:26px;
-  transition:.25s;
-  overflow:hidden;
-}
-
-.tool-card:hover{
-  transform:translateY(-6px);
-  border-color:#555;
-  box-shadow:var(--shadow);
-}
-
-.tool-icon{
-  width:54px;
-  height:54px;
-  display:grid;
-  place-items:center;
-  border-radius:15px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  font-size:25px;
-  margin-bottom:20px;
-}
-
-.tool-card h3{
-  font-size:19px;
-  margin-bottom:7px;
-}
-
-.tool-card p{
-  color:var(--muted);
-  font-size:14px;
-  min-height:44px;
-}
-
-.tool-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:20px;
-}
-
-.open{
-  font-size:14px;
-  font-weight:bold;
-}
-
-.tag{
-  font-size:11px;
-  border:1px solid var(--border);
-  padding:4px 8px;
-  border-radius:20px;
-  color:var(--muted);
-}
-
-.no-results{
-  display:none;
-  color:var(--muted);
-  padding:30px 0;
-  text-align:center;
-}
-
-/* CTA */
-
-.cta{
-  border:1px solid var(--border);
-  border-radius:25px;
-  padding:50px 30px;
-  text-align:center;
-  background:var(--surface);
-}
-
-.cta h2{
-  font-size:35px;
-}
-
-.cta p{
-  color:var(--muted);
-  margin:10px auto 25px;
-}
-
-.main-btn{
-  display:inline-block;
-  padding:13px 22px;
-  border-radius:12px;
-  background:var(--accent);
-  color:var(--bg);
-  font-weight:bold;
-  border:0;
-  cursor:pointer;
-}
-
-/* FEATURES */
-
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.feature{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:28px;
-}
-
-.feature-icon{
-  font-size:27px;
-  margin-bottom:14px;
-}
-
-.feature p{
-  color:var(--muted);
-  font-size:14px;
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.stat{
-  text-align:center;
-  border:1px solid var(--border);
-  background:var(--surface);
-  border-radius:18px;
-  padding:25px 10px;
-}
-
-.stat strong{
-  display:block;
-  font-size:28px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* FAQ */
-
-.faq{
-  max-width:850px;
-  margin:auto;
-}
-
-details{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:18px 20px;
-  margin-bottom:12px;
-}
-
-summary{
-  cursor:pointer;
-  font-weight:bold;
-}
-
-details p{
-  color:var(--muted);
-  margin-top:12px;
-}
-
-/* FOOTER */
-
-footer{
-  border-top:1px solid var(--border);
-  padding:60px 0 25px;
-  background:var(--surface);
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:35px;
-}
-
-.footer-brand p{
-  max-width:350px;
-  color:var(--muted);
-  margin-top:15px;
-}
-
-.footer-col h4{
-  margin-bottom:14px;
-}
-
-.footer-col a{
-  display:block;
-  color:var(--muted);
-  margin:8px 0;
-  font-size:14px;
-}
-
-.footer-col a:hover{
-  color:var(--text);
-}
-
-.copyright{
-  border-top:1px solid var(--border);
-  margin-top:40px;
-  padding-top:22px;
-  color:var(--muted);
-  font-size:13px;
-  text-align:center;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-  .desktop-nav{
-    display:none;
-  }
-
-  .menu-btn{
-    display:grid;
-  }
-
-  .tools-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .features{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:550px){
-
-  .hero{
-    padding:70px 0 55px;
-  }
-
-  .hero h1{
-    font-size:48px;
-    letter-spacing:-3px;
-  }
-
-  .hero p{
-    font-size:16px;
-  }
-
-  .tools-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-
-  section{
-    padding:55px 0;
-  }
-} /* =================================
-   AURA PREMIUM ANIMATION SYSTEM
-================================= */
-
-/* Smooth page */
-html{
-  scroll-behavior:smooth;
-}
-
-/* Background moving glow */
-body:after{
-  content:"";
-  position:fixed;
-  width:420px;
-  height:420px;
-  border-radius:50%;
-  background:radial-gradient(
-    circle,
-    rgba(255,255,255,.045),
-    transparent 70%
-  );
-  top:25%;
-  right:-220px;
-  pointer-events:none;
-  z-index:-1;
-  animation:auraFloat 12s ease-in-out infinite alternate;
-}
-
-@keyframes auraFloat{
-  0%{
-    transform:translate(0,0) scale(1);
-  }
-  50%{
-    transform:translate(-120px,80px) scale(1.15);
-  }
-  100%{
-    transform:translate(-30px,180px) scale(.95);
-  }
-}
-
-
-/* Logo animation */
-
-.logo-icon{
-  animation:logoGlow 3s ease-in-out infinite;
-}
-
-@keyframes logoGlow{
-  0%,100%{
-    box-shadow:0 0 0 rgba(255,255,255,0);
-  }
-
-  50%{
-    box-shadow:
-      0 0 25px rgba(255,255,255,.12),
-      inset 0 0 15px rgba(255,255,255,.04);
-  }
-}
-
-
-/* Hero entrance */
-
-.hero .badge{
-  animation:fadeUp .8s ease both;
-}
-
-.hero h1{
-  animation:fadeUp 1s ease .12s both;
-}
-
-.hero p{
-  animation:fadeUp 1s ease .24s both;
-}
-
-.hero .search{
-  animation:fadeUp 1s ease .36s both;
-}
-
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-
-/* Hero glow */
-
-.hero-glow{
-  animation:heroGlow 7s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlow{
-  from{
-    transform:translateX(-50%) scale(.85);
-    opacity:.55;
-  }
-
-  to{
-    transform:translateX(-50%) scale(1.2);
-    opacity:1;
-  }
-}
-
-
-/* Badge */
-
-.badge{
-  transition:
-    transform .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease;
-}
-
-.badge:hover{
-  transform:translateY(-3px);
-  border-color:#555;
-  box-shadow:0 10px 30px rgba(255,255,255,.06);
-}
-
-
-/* Search animation */
-
-.search input{
-  transition:
-    border-color .3s ease,
-    box-shadow .3s ease,
-    transform .3s ease;
-}
-
-.search input:focus{
-  transform:translateY(-2px);
-  border-color:#777;
-  box-shadow:
-    0 0 0 4px rgba(255,255,255,.025),
-    0 15px 40px rgba(0,0,0,.25);
-}
-
-
-/* Category buttons */
-
-.category{
-  transition:
-    transform .25s ease,
-    background .25s ease,
-    border-color .25s ease;
-}
-
-.category:hover{
-  transform:translateY(-4px);
-}
-
-.category.active{
-  transform:translateY(-2px);
-}
-
-
-/* Scroll reveal */
-
-.reveal{
-  opacity:0;
-  transform:translateY(35px);
-  transition:
-    opacity .8s ease,
-    transform .8s cubic-bezier(.2,.7,.2,1);
-}
-
-.reveal.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-
-/* Tool cards */
-
-.tool-card{
-  transition:
-    transform .35s cubic-bezier(.2,.7,.2,1),
-    border-color .35s ease,
-    box-shadow .35s ease;
-}
-
-.tool-card:hover{
-  transform:translateY(-9px) scale(1.01);
-  border-color:#555;
-  box-shadow:
-    0 20px 55px rgba(0,0,0,.35),
-    0 0 25px rgba(255,255,255,.025);
-}
-
-
-/* Tool icon */
-
-.tool-icon{
-  transition:
-    transform .35s ease,
-    background .35s ease;
-}
-
-.tool-card:hover .tool-icon{
-  transform:scale(1.08) rotate(-3deg);
-}
-
-
-/* Open tool arrow */
-
-.open{
-  transition:transform .25s ease;
-}
-
-.tool-card:hover .open{
-  transform:translateX(5px);
-}
-
-
-/* Stats */
-
-.stat{
-  transition:
-    transform .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease;
-}
-
-.stat:hover{
-  transform:translateY(-6px);
-  border-color:#444;
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-}
-
-
-/* Features */
-
-.feature{
-  transition:
-    transform .35s ease,
-    border-color .35s ease,
-    box-shadow .35s ease;
-}
-
-.feature:hover{
-  transform:translateY(-7px);
-  border-color:#444;
-  box-shadow:0 18px 45px rgba(0,0,0,.3);
-}
-
-.feature-icon{
-  transition:transform .3s ease;
-}
-
-.feature:hover .feature-icon{
-  transform:scale(1.15) rotate(-5deg);
-}
-
-
-/* CTA */
-
-.cta{
-  transition:
-    transform .35s ease,
-    border-color .35s ease,
-    box-shadow .35s ease;
-}
-
-.cta:hover{
-  transform:translateY(-5px);
-  border-color:#444;
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
-}
-
-
-/* Main button */
-
-.main-btn{
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-}
-
-.main-btn:hover{
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 12px 30px rgba(255,255,255,.12);
-}
-
-.main-btn:active{
-  transform:scale(.97);
-}
-
-
-/* FAQ */
-
-details{
-  transition:
-    transform .25s ease,
-    border-color .25s ease;
-}
-
-details:hover{
-  transform:translateY(-2px);
-  border-color:#444;
-}
-
-
-/* Header buttons */
-
-.icon-btn{
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
-}
-
-.icon-btn:hover{
-  transform:translateY(-3px) scale(1.03);
-  border-color:#555;
-  box-shadow:0 8px 25px rgba(255,255,255,.05);
-}
-
-.icon-btn:active{
-  transform:scale(.94);
-}
-
-
-/* Mobile */
-
-@media(max-width:600px){
-
-  body:after{
-    width:280px;
-    height:280px;
-  }
-
-  .tool-card:hover{
-    transform:translateY(-5px);
-  }
-
-}
-
-
-/* Accessibility */
-
-@media(prefers-reduced-motion:reduce){
-
-  *,
-  *:before,
-  *:after{
-    animation:none !important;
-    transition:none !important;
-    scroll-behavior:auto !important;
-  }
-
-  } @media(prefers-reduced-motion:reduce){
-   ...
-}
-/* =========================================
-   AURA MOBILE SPACING + CLEAR FRAME
-   ========================================= */
-
-@media(max-width:550px){
-
-  /* HERO - extra space kam */
-  .hero{
-    padding-top:20px;
-    padding-bottom:20px;
-  }
-
-  /* SEARCH → CATEGORIES gap */
-  #categories{
-    padding-top:15px;
-    padding-bottom:10px;
-  }
-
-  /* CATEGORIES → POPULAR TOOLS gap */
-  #tools{
-    padding-top:10px;
-    padding-bottom:10px;
-  }
-
-  /* TOOLS → STATS gap */
-  #tools + section{
-    padding-top:10px;
-  }
-
-  /* STATS → WHY AURA gap */
-  #about{
-    padding-top:20px;
-  }
-}
-
-
-/* =========================================
-   AURA FULL WIDTH CLEAR FRAME
-   ========================================= */
-
-main{
-  width:100%;
-  margin:0 auto;
-
-  /* LEFT + RIGHT CLEAR LINES */
-  border-left:1px solid rgba(255,255,255,.28);
-  border-right:1px solid rgba(255,255,255,.28);
-}
-
-
-/* SECTION SEPARATOR LINES */
-
-main > section{
-  border-bottom:1px solid rgba(255,255,255,.22);
-}
-
-
-/* TOP LINE */
-
-main > .hero{
-  border-top:1px solid rgba(255,255,255,.28);
-} /* HEADER FRAME */
-
-header{
-  border-top:1px solid rgba(255,255,255,.28);
-  border-left:1px solid rgba(255,255,255,.28);
-  border-right:1px solid rgba(255,255,255,.28);
-}
-  /* BRIGHT TOP ACTION BUTTONS */
-
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:9px 12px;
-  border:1px solid rgba(255,255,255,.45);
-  border-radius:24px;
-  background:rgba(28,28,28,.97);
-  box-shadow:
-    0 0 20px rgba(255,255,255,.10),
-    inset 0 1px 0 rgba(255,255,255,.15);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-}
-
-.nav-actions .icon-btn{
-  border:1px solid rgba(255,255,255,.20);
-  border-radius:16px;
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  box-shadow:0 0 12px rgba(255,255,255,.06);
-  transition:.25s ease;
-}
-
-.nav-actions .icon-btn:active{
-  background:rgba(255,255,255,.20);
-  transform:scale(.95);
-} @media(max-width:600px){
-  header .container.nav{
-    gap:6px !important;
-  }
-
-  header .logo{
-    margin-right:0 !important;
-    flex-shrink:0;
-  }
-
-  header .nav-actions{
-    margin-left:auto !important;
-    gap:7px !important;
-    padding:7px 8px !important;
-    flex-shrink:0;
-  }
-  }
-</style>
-</style>
-</head>
-
-<body>
-
-<header>
-<div class="container nav">
-
-<a href="#" class="logo">
-  <span class="logo-icon">✦</span>
-  AURA
-</a>
-
-<nav class="desktop-nav">
-  <a href="#">Home</a>
-  <a href="#categories">Categories</a>
-  <a href="#tools">Tools</a>
-  <a href="#about">About</a>
-  <a href="#faq">FAQ</a>
-</nav>
-
-<div class="nav-actions">
-
-  <button class="icon-btn"
-    onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})"
-    aria-label="Quick Tools">
-    ⚡
-  </button>
-
-  <button class="icon-btn"
-    onclick="toggleTheme()"
-    aria-label="Theme">
-    ◐
-  </button>
-
-  <button class="icon-btn"
-    onclick="alert('New tools and updates will appear here soon!')"
-    aria-label="Updates">
-    🔔
-  </button>
-
-  <button class="icon-btn"
-    onclick="accountMessage()"
-    aria-label="Account">
-    ♙
-  </button>
-
-  <button class="icon-btn menu-btn"
-    onclick="toggleMenu()"
-    aria-label="Menu">
-    ☰
-  </button>
-
-</div>
-</div>
-
-<div class="mobile-menu" id="mobileMenu">
-<a href="#" onclick="closeMenu()">Home</a>
-<a href="#categories" onclick="closeMenu()">Categories</a>
-<a href="#tools" onclick="closeMenu()">Tools</a>
-<a href="#about" onclick="closeMenu()">About</a>
-<a href="#faq" onclick="closeMenu()">FAQ</a>
-</div>
-</header>
-
-
-<main>
-
-<!-- HERO -->
-
-<section class="hero">
-<div class="hero-glow"></div>
-
-<div class="container">
-
-<div class="badge">✦ 15+ useful tools • Free to use</div>
-
-<h1>
-Free Online Tools<br>
-<span>For PDF, Images, Text & More</span>
-</h1>
-
-<p>
-Fast, simple and free online tools for everyday digital tasks.
-Convert, compress, calculate, generate and manage your files easily.
-</p>
-
-<div class="search">
-<input
-id="searchInput"
-type="search"
-placeholder="Search tools..."
-oninput="searchTools()">
-<span class="search-icon">⌕</span>
-</div>
-
-</div>
-</section>
-
-
-<!-- CATEGORIES -->
-
-<section id="categories">
-<div class="container">
-
-<div class="section-head">
-<h2>Explore Categories</h2>
-<p>Choose a category and find the right tool.</p>
-</div>
-
-<div class="categories">
-
-<button class="category active" onclick="filterCategory('all',this)">
-All Tools
-</button>
-
-<button class="category" onclick="filterCategory('pdf',this)">
-📄 PDF
-</button>
-
-<button class="category" onclick="filterCategory('image',this)">
-🖼️ Images
-</button>
-
-<button class="category" onclick="filterCategory('text',this)">
-📝 Text
-</button>
-
-<button class="category" onclick="filterCategory('calculator',this)">
-🔢 Calculators
-</button>
-
-<button class="category" onclick="filterCategory('security',this)">
-🔐 Security
-</button>
-
-<button class="category" onclick="filterCategory('qr',this)">
-▦ QR Tools
-</button>
-
-</div>
-</div>
-</section>
-
-
-<!-- TOOLS -->
-
-<section id="tools">
-<div class="container">
-
-<div class="section-head">
-<h2>Popular Tools</h2>
-<p>Simple tools for everyday tasks.</p>
-</div>
-
-<div class="tools-grid" id="toolsGrid">
-
-
-<div class="tool-card" data-category="pdf" data-name="pdf to word">
-<div class="tool-icon">📄</div>
-<h3>PDF to Word</h3>
-<p>Convert PDF documents into editable Word files.</p>
-<div class="tool-bottom">
-<span class="open" onclick="window.location.href='pdf-to-word.html'">
-  Open tool →
-</span>
-<span class="tag">Popular</span>
-</div>
-</div>
-
-
-
-<div class="tool-card"
-     data-category="pdf"
-     data-name="jpg to pdf"
-     onclick="window.location.href='jpg-to-pdf.html'"
-     style="cursor:pointer;">
-
-  <div class="tool-icon">🖼️</div>
-
-  <h3>JPG to PDF</h3>
-
-  <p>Convert JPG images into PDF documents.</p>
-
-  <div class="tool-bottom">
-    <span class="open">Open tool →</span>
-    <span class="tag">Popular</span>
-  </div>
-
-</div>
-
-
-<div class="tool-card"
-     data-category="pdf"
-     data-name="pdf to jpg"
-     onclick="window.location.href='pdf-to-jpg.html'"
-     style="cursor:pointer;">
-
-  <div class="tool-icon">🖼️</div>
-
-  <h3>PDF to JPG</h3>
-
-  <p>Convert PDF pages into JPG images.</p>
-
-  <div class="tool-bottom">
-    <span class="open">Open tool →</span>
-    <span class="tag">Popular</span>
-  </div>
-
-</div>
-
-
-<div 
-  <div class="tool-card"
-     data-category="pdf"
-     data-name="word to pdf"
-     onclick="window.location.href='word-to-pdf.html'"
-     style="cursor:pointer;">
-
-  <div class="tool-icon">📄</div>
-
-  <h3>Word to PDF</h3>
-
-  <p>Convert Word documents into PDF files.</p>
-
-  <div class="tool-bottom">
-    <span class="open">Open tool →</span>
-    <span class="tag">New</span>
-  </div>
-  </div>
-
-<a href="merge-pdf.html" class="tool-card"
-   data-category="pdf"
-   data-name="merge pdf">
-
-  <div class="tool-icon">📚</div>
-  <h3>Merge PDF</h3>
-  <p>Combine multiple PDF files into one PDF.</p>
-
-  <div class="tool-bottom">
-    <span class="open">Open tool →</span>
-    <span class="tag">PDF</span>
-  </div>
-
-  <!-- COMPRESS PDF CARD - BLUE THEME -->
-<a href="compress-pdf.html"
-   class="tool-card"
-   data-category="pdf"
-   data-name="compress pdf"
-   style="text-decoration:none;color:inherit;">
-
-  <div style="width:58px;height:58px;display:grid;place-items:center;
-       background:linear-gradient(135deg,#0ea5e9,#2563eb);
-       border-radius:16px;font-size:30px;margin-bottom:18px;
-       box-shadow:0 7px 18px #2563eb30;">
-    🗜️
-  </div>
-
-  <h3>Compress PDF</h3>
-
-  <p>Reduce PDF file size quickly and easily.</p>
-
-  <div class="tool-bottom">
-    <span style="color:#2563eb;font-weight:bold;">Open tool →</span>
-    <span style="background:#dbeafe;color:#1d4ed8;padding:5px 10px;
-         border-radius:7px;font-size:11px;font-weight:bold;">PDF</span>
-  </div>
-</a>
-
-
-<!-- IMAGES TO PDF CARD - GREEN THEME -->
-<a href="images-to-pdf.html"
-   class="tool-card"
-   data-category="pdf"
-   data-name="images to pdf"
-   style="text-decoration:none;color:inherit;">
-
-  <div style="width:58px;height:58px;display:grid;place-items:center;
-       background:linear-gradient(135deg,#10b981,#047857);
-       border-radius:16px;font-size:30px;margin-bottom:18px;
-       box-shadow:0 7px 18px #05966930;">
-    🖼️
-  </div>
-
-  <h3>Images to PDF</h3>
-
-  <p>Combine multiple images into one PDF file.</p>
-
-  <div class="tool-bottom">
-    <span style="color:#047857;font-weight:bold;">Open tool →</span>
-    <span style="background:#d1fae5;color:#047857;padding:5px 10px;
-         border-radius:7px;font-size:11px;font-weight:bold;">IMAGES</span>
-  </div>
-</a>
-
-  <!-- ===== AURA NEW TOOLS: START ===== -->
-
-<style>
-.aura-new-tools {
-  max-width: 1150px;
-  margin: 35px auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.aura-new-tools * {
-  box-sizing: border-box;
-}
-
-.aura-new-tools .section-heading {
-  font-size: 27px;
-  color: #172033;
-  margin-bottom: 8px;
-}
-
-.aura-new-tools .section-description {
-  color: #64748b;
-  margin-bottom: 24px;
+:root {
+  --bg: #0b0d12;
+  --panel: #12151d;
+  --card: #151923;
+  --text: #f4f6fb;
+  --muted: #a4adbd;
+  --border: #282e3b;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
 }
 
-.aura-new-tools .new-tools-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+a { color: inherit; }
+
+.container {
+  width: min(1150px, calc(100% - 32px));
+  margin: auto;
 }
 
-.aura-new-tools .new-tool-card {
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #0b0d12ed;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #ffffff12;
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5cf6, #4f8cff);
+  color: #fff;
+}
+
+.desktop-nav {
+  display: flex;
+  gap: 22px;
+}
+
+.desktop-nav a,
+.mobile-menu a {
+  color: #c5ccda;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px;
+  border: 1px solid #ffffff35;
+  border-radius: 18px;
+  background: #171b24;
+}
+
+.icon-btn {
+  width: 37px;
+  height: 37px;
+  border-radius: 12px;
+  border: 1px solid #ffffff2e;
+  background: #242a36;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.menu-btn { display: none; }
+
+.mobile-menu {
+  display: none;
+  padding: 10px 20px 16px;
+  border-top: 1px solid #ffffff12;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 9px 0;
+}
+
+/* SEARCH BAR */
+.search-wrap {
+  padding: 25px 0 17px;
+}
+
+.search-box {
+  max-width: 760px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #242832;
+  border: 1px solid #f0f2f7;
+  border-radius: 16px;
+  padding: 0 16px;
+}
+
+.search-box span { font-size: 24px; }
+
+.search-box input {
+  width: 100%;
+  height: 56px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.search-box input::placeholder { color: #b4bac7; }
+
+/* PURPLE BANNER */
+.banner {
+  margin: 8px auto 34px;
+  min-height: 125px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 25px;
+  background: linear-gradient(115deg, #6d28d9, #8b5cf6 48%, #4f46e5);
+  box-shadow: 0 12px 32px #6d28d933;
+}
+
+.banner h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(27px, 5vw, 43px);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.banner p {
+  margin: 6px 0 0;
+  color: #f0eaff;
+  font-size: 14px;
+}
+
+/* CATEGORY HEADINGS */
+.category-section { margin-bottom: 34px; }
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px;
+  font-size: clamp(19px, 3vw, 24px);
+  font-weight: 800;
+  color: #83aaff;
+}
+
+.category-title:before {
+  content: "";
+  width: 5px;
+  height: 28px;
+  border-radius: 5px;
+  background: linear-gradient(#8b5cf6, #5797ff);
+}
+
+.count {
+  font-size: 11px;
+  color: #c5d1ed;
+  background: #202a40;
+  border: 1px solid #34476b;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* TOOL CARDS */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tool-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 245px;
-  padding: 23px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
+  min-height: 205px;
+  padding: 19px;
+  background: linear-gradient(145deg, #171b25, #11141b);
+  border: 1px solid #30394b;
+  border-radius: 17px;
   text-decoration: none;
-  color: #172033;
-  box-shadow: 0 5px 18px #00000008;
-  transition: transform .2s, box-shadow .2s;
+  color: var(--text);
+  transition: .2s;
 }
 
-.aura-new-tools .new-tool-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 28px #00000012;
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: #8066d8;
+  box-shadow: 0 14px 28px #0004;
 }
 
-.aura-new-tools .new-tool-icon {
-  width: 60px;
-  height: 60px;
+.tool-icon {
+  width: 50px;
+  height: 50px;
   display: grid;
   place-items: center;
-  border-radius: 17px;
-  font-size: 30px;
-  margin-bottom: 18px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #2c2351, #233a62);
+  font-size: 25px;
+  margin-bottom: 13px;
 }
 
-.aura-new-tools .converter-icon {
-  background: linear-gradient(135deg, #dbeafe, #93c5fd);
+.tool-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
 }
 
-.aura-new-tools .editor-icon {
-  background: linear-gradient(135deg, #ffedd5, #fdba74);
+.tool-card p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-.aura-new-tools .qr-icon {
-  background: linear-gradient(135deg, #d1fae5, #6ee7b7);
-}
-
-.aura-new-tools .new-tool-card h3 {
-  font-size: 19px;
-  margin: 0 0 10px;
-}
-
-.aura-new-tools .new-tool-card p {
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.7;
-  margin: 0 0 22px;
-}
-
-.aura-new-tools .new-tool-bottom {
+.tool-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
   margin-top: auto;
-}
-
-.aura-new-tools .new-open {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.aura-new-tools .converter-card .new-open {
-  color: #2563eb;
-}
-
-.aura-new-tools .editor-card .new-open {
-  color: #ea580c;
-}
-
-.aura-new-tools .qr-card .new-open {
-  color: #059669;
-}
-
-.aura-new-tools .new-badge {
-  font-size: 11px;
-  font-weight: bold;
-  padding: 6px 9px;
-  border-radius: 7px;
-}
-
-.aura-new-tools .converter-card .new-badge {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.aura-new-tools .editor-card .new-badge {
-  background: #ffedd5;
-  color: #c2410c;
-}
-
-.aura-new-tools .qr-card .new-badge {
-  background: #d1fae5;
-  color: #047857;
-}
-
-.aura-new-tools .other-tools {
-  margin-top: 38px;
-  padding: 22px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-}
-
-.aura-new-tools .other-tools h3 {
-  margin: 0 0 15px;
-  font-size: 19px;
-}
-
-.aura-new-tools .other-tool-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.aura-new-tools .other-tool-links a {
-  display: inline-block;
-  padding: 10px 13px;
-  background: #fff;
-  color: #475569;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
   font-size: 13px;
+}
+
+.open-tool {
+  font-weight: 700;
+  color: #a997ff;
+}
+
+.tag {
+  background: #252c3b;
+  color: #c7d4f4;
+  border: 1px solid #39445a;
+  border-radius: 7px;
+  padding: 3px 7px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.no-results {
+  display: none;
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding: 25px 0 40px;
+}
+
+.stat {
+  text-align: center;
+  padding: 20px 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+  color: #a78bfa;
+}
+
+.stat span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ABOUT */
+.info-section { padding: 30px 0 45px; }
+
+.section-head {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.section-head h2 {
+  font-size: 30px;
+  margin: 0 0 6px;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.feature {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.feature-icon { font-size: 25px; }
+
+.feature h3 { margin: 5px 0; }
+
+.feature p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* CTA */
+.cta {
+  padding: 30px;
+  text-align: center;
+  border: 1px solid #59439b;
+  border-radius: 22px;
+  background: linear-gradient(120deg, #21183b, #171d35);
+  margin: 10px auto 30px;
+}
+
+.cta h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.cta p {
+  color: #c4c9d7;
+  margin: 0 0 18px;
+}
+
+.main-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #8b5cf6, #5865f2);
+  padding: 11px 20px;
+  border-radius: 11px;
   text-decoration: none;
-  transition: .2s;
+  font-weight: 700;
 }
 
-.aura-new-tools .other-tool-links a:hover {
-  border-color: #818cf8;
-  color: #4f46e5;
+/* FAQ */
+.faq {
+  max-width: 850px;
+  margin: auto;
 }
 
-@media(max-width: 760px) {
-  .aura-new-tools .new-tools-grid {
+.faq details {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px 18px;
+  margin-bottom: 10px;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.faq details p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0 20px;
+  background: #090b10;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 25px;
+}
+
+.footer-brand p {
+  max-width: 270px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-col h4 { margin: 0 0 12px; }
+
+.footer-col a {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: none;
+  margin: 7px 0;
+}
+
+.copyright {
+  border-top: 1px solid var(--border);
+  margin-top: 27px;
+  padding-top: 17px;
+  text-align: center;
+  color: #7e8798;
+  font-size: 13px;
+}
+
+/* LIGHT THEME */
+body.light {
+  --bg: #f4f6fb;
+  --panel: #fff;
+  --text: #171923;
+  --muted: #5e6675;
+  --border: #dce1eb;
+}
+
+body.light header { background: #ffffffed; }
+body.light .desktop-nav a { color: #454b59; }
+body.light .nav-actions { background: #f1f3f8; }
+
+body.light .icon-btn {
+  background: #fff;
+  color: #252a35;
+  border-color: #d7dce6;
+}
+
+body.light .tool-card {
+  background: linear-gradient(145deg, #fff, #f6f7fc);
+  color: var(--text);
+}
+
+body.light .search-box {
+  background: #e9edf5;
+  border-color: #c4cbd8;
+}
+
+body.light .search-box input { color: #171923; }
+body.light footer { background: #eceff6; }
+
+body.light .cta {
+  background: linear-gradient(120deg, #eee7ff, #e8edff);
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+  .desktop-nav { gap: 12px; }
+
+  .tool-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media(max-width: 520px) {
-  .aura-new-tools {
+@media (max-width: 700px) {
+  .nav { min-height: 66px; }
+  .desktop-nav { display: none; }
+  .menu-btn { display: inline-block; }
+
+  .nav-actions {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .icon-btn {
+    width: 33px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .logo { font-size: 22px; }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .banner {
+    min-height: 110px;
+    border-radius: 18px;
+  }
+
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .tool-card {
     padding: 14px;
+    min-height: 205px;
+    border-radius: 15px;
   }
 
-  .aura-new-tools .new-tools-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
+  .tool-card h3 { font-size: 16px; }
+  .tool-card p { font-size: 12px; }
+
+  .tool-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
   }
 
-  .aura-new-tools .new-tool-card {
-    min-height: 220px;
-    padding: 20px;
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .features { grid-template-columns: 1fr; }
+  .footer-grid { gap: 18px; }
+  .section-head h2 { font-size: 26px; }
+
+  .aura-bottom-nav {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px;
+    background: rgba(22, 24, 32, .96);
+    border: 1px solid #ffffff38;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px #0008;
+    backdrop-filter: blur(16px);
+    z-index: 9999;
   }
 
-  .aura-new-tools .section-heading {
-    font-size: 24px;
+  .bottom-nav-item {
+    flex: 1;
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: 0;
+    color: #a8afbd;
+    text-decoration: none;
+    font: inherit;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 15px;
   }
+
+  .bottom-icon {
+    font-size: 21px;
+    line-height: 1;
+  }
+
+  .bottom-nav-item.active {
+    color: #fff;
+    background: #ffffff1a;
+  }
+
+  body { padding-bottom: 85px; }
+  .search-wrap { padding-top: 18px; }
+}
+
+@media (max-width: 390px) {
+  .tool-grid { grid-template-columns: 1fr; }
+  .tool-card { min-height: 170px; }
+
+  .nav-actions .icon-btn { width: 29px; }
+  .logo { font-size: 20px; }
+}
+
+@media (min-width: 701px) {
+  .aura-bottom-nav { display: none !important; }
 }
 </style>
+</head>
 
-<section class="aura-new-tools">
+<body>
 
-  <h2 class="section-heading">✨ New Tools</h2>
-
-  <p class="section-description">
-    Explore AURA's latest free online tools.
-    Simple, useful and designed for mobile and desktop.
-  </p>
-
-  <div class="new-tools-grid">
-
-    <!-- 1. PDF CONVERTER -->
-    <a href="pdf-converter.html"
-       class="new-tool-card converter-card">
-
-      <div class="new-tool-icon converter-icon">🔄</div>
-
-      <h3>PDF Converter</h3>
-
-      <p>
-        Convert PDF pages into JPG or PNG images.
-        Choose pages and image quality.
-      </p>
-
-      <div class="new-tool-bottom">
-        <span class="new-open">Open tool →</span>
-        <span class="new-badge">NEW</span>
-      </div>
-
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="#" class="logo">
+      <span class="logo-icon">✦</span>
+      AURA
     </a>
 
-    <!-- 2. PDF EDITOR -->
-    <a href="pdf-editor.html"
-       class="new-tool-card editor-card">
+    <nav class="desktop-nav">
+      <a href="#">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#tools">Tools</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+    </nav>
 
-      <div class="new-tool-icon editor-icon">✏️</div>
+    <div class="nav-actions">
+      <button class="icon-btn"
+        onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})"
+        aria-label="Quick Tools">⚡</button>
 
-      <h3>PDF Editor</h3>
+      <button class="icon-btn"
+        onclick="toggleTheme()"
+        aria-label="Theme">◐</button>
 
-      <p>
-        Add text notes to PDF pages and save
-        your edited document.
-      </p>
+      <button class="icon-btn"
+        onclick="alert('New tools and updates will appear here soon!')"
+        aria-label="Updates">🔔</button>
 
-      <div class="new-tool-bottom">
-        <span class="new-open">Open tool →</span>
-        <span class="new-badge">NEW</span>
-      </div>
+      <button class="icon-btn"
+        onclick="accountMessage()"
+        aria-label="Account">♙</button>
 
-    </a>
-
-    <!-- 3. QR CODE GENERATOR -->
-    <a href="qr-code-generator.html"
-       class="new-tool-card qr-card">
-
-      <div class="new-tool-icon qr-icon">📱</div>
-
-      <h3>QR Code Generator</h3>
-
-      <p>
-        Generate QR codes for website links,
-        text and other information.
-      </p>
-
-      <div class="new-tool-bottom">
-        <span class="new-open">Open tool →</span>
-        <span class="new-badge">NEW</span>
-      </div>
-
-    </a>
-
+      <button class="icon-btn menu-btn"
+        onclick="toggleMenu()"
+        aria-label="Menu">☰</button>
+    </div>
   </div>
 
-  <!-- OTHER AURA TOOLS -->
-  <div class="other-tools">
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="closeMenu()">Home</a>
+    <a href="#categories" onclick="closeMenu()">Categories</a>
+    <a href="#tools" onclick="closeMenu()">Tools</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#faq" onclick="closeMenu()">FAQ</a>
+  </div>
+</header>
 
-    <h3>🧰 Explore Other AURA Tools</h3>
+<main>
+<div class="container">
 
-    <div class="other-tool-links">
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <label class="search-box">
+      <span>⌕</span>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search tools... (e.g. PDF, age, QR)"
+        oninput="searchTools()">
+    </label>
+  </div>
 
-      <a href="merge-pdf.html">📚 Merge PDF</a>
+  <!-- PURPLE BANNER -->
+  <section class="banner">
+    <div>
+      <h1>ENJOY YOUR TOOLS</h1>
+      <p>Simple, useful and free online tools — all in one place.</p>
+    </div>
+  </section>
 
-      <a href="compress-pdf.html">🗜️ Compress PDF</a>
+  <!-- ALL TOOL CATEGORIES -->
+  <section id="categories">
+    <div id="tools">
 
-      <a href="pdf-to-jpg.html">🖼️ PDF to JPG</a>
+      <!-- PDF TOOLS -->
+      <div class="category-section" data-category-section="pdf">
+        <h2 class="category-title">
+          📄 PDF TOOLS <span class="count">9 TOOLS</span>
+        </h2>
 
-      <a href="jpg-to-pdf.html">📷 JPG to PDF</a>
+        <div class="tool-grid">
 
-      <a href="images-to-pdf.html">🖼️ Images to PDF</a>
+          <a href="pdf-to-word.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="pdf to word convert pdf documents editable word files">
+            <div class="tool-icon">📝</div>
+            <h3>PDF to Word</h3>
+            <p>Convert PDF documents into editable Word files.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
 
-      <a href="word-to-pdf.html">📄 Word to PDF</a>
+          <a href="jpg-to-pdf.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="jpg to pdf convert jpg images pdf documents">
+            <div class="tool-icon">🖼️</div>
+            <h3>JPG to PDF</h3>
+            <p>Convert JPG images into PDF documents.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
 
-      <a href="age-calculator.html">🎂 Age Calculator</a>
+          <a href="pdf-to-jpg.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="pdf to jpg convert pdf pages jpg images">
+            <div class="tool-icon">🌄</div>
+            <h3>PDF to JPG</h3>
+            <p>Convert PDF pages into JPG images.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="word-to-pdf.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="word to pdf convert word documents pdf files">
+            <div class="tool-icon">📃</div>
+            <h3>Word to PDF</h3>
+            <p>Convert Word documents into PDF files.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="merge-pdf.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="merge pdf combine multiple pdf files one pdf">
+            <div class="tool-icon">🧩</div>
+            <h3>Merge PDF</h3>
+            <p>Combine multiple PDF files into one PDF.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="compress-pdf.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="compress pdf reduce pdf file size">
+            <div class="tool-icon">🗜️</div>
+            <h3>Compress PDF</h3>
+            <p>Reduce PDF file size quickly and easily.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="images-to-pdf.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="images to pdf combine multiple images one pdf file">
+            <div class="tool-icon">🖼️</div>
+            <h3>Images to PDF</h3>
+            <p>Combine multiple images into one PDF file.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="pdf-converter.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="pdf converter convert pdf pages jpg png images choose pages image quality">
+            <div class="tool-icon">🔄</div>
+            <h3>PDF Converter</h3>
+            <p>Convert PDF pages into JPG or PNG images. Choose pages and image quality.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+          <a href="pdf-editor.html"
+             class="tool-card"
+             data-category="pdf"
+             data-name="pdf editor add text notes pdf pages save edited document">
+            <div class="tool-icon">✏️</div>
+            <h3>PDF Editor</h3>
+            <p>Add text notes to PDF pages and save your edited document.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">PDF</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- QR TOOLS -->
+      <div class="category-section" data-category-section="qr">
+        <h2 class="category-title">
+          🔳 QR TOOLS <span class="count">1 TOOL</span>
+        </h2>
+
+        <div class="tool-grid">
+          <a href="qr-code-generator.html"
+             class="tool-card"
+             data-category="qr"
+             data-name="qr code generator website links text information">
+            <div class="tool-icon">🔳</div>
+            <h3>QR Code Generator</h3>
+            <p>Generate QR codes for website links, text and other information.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">QR</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- CALCULATOR TOOLS -->
+      <div class="category-section" data-category-section="calculator">
+        <h2 class="category-title">
+          🧮 CALCULATOR TOOLS <span class="count">1 TOOL</span>
+        </h2>
+
+        <div class="tool-grid">
+          <a href="age-calculator.html"
+             class="tool-card"
+             data-category="calculator"
+             data-name="age calculator calculate exact age years months days">
+            <div class="tool-icon">🎂</div>
+            <h3>Age Calculator</h3>
+            <p>Calculate your exact age in years, months and days.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">CALCULATOR</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SECURITY TOOLS -->
+      <div class="category-section" data-category-section="security">
+        <h2 class="category-title">
+          🔐 SECURITY TOOLS <span class="count">1 TOOL</span>
+        </h2>
+
+        <div class="tool-grid">
+          <a href="password-generator.html"
+             class="tool-card"
+             data-category="security"
+             data-name="password generator create strong secure passwords instantly">
+            <div class="tool-icon">🔐</div>
+            <h3>Password Generator</h3>
+            <p>Create strong and secure passwords instantly.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">SECURITY</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- TEXT TOOLS -->
+      <div class="category-section" data-category-section="text">
+        <h2 class="category-title">
+          ✍️ TEXT TOOLS <span class="count">1 TOOL</span>
+        </h2>
+
+        <div class="tool-grid">
+          <a href="word-counter.html"
+             class="tool-card"
+             data-category="text"
+             data-name="word counter count words characters sentences reading time">
+            <div class="tool-icon">🔤</div>
+            <h3>Word Counter</h3>
+            <p>Count words, characters, sentences and reading time.</p>
+            <div class="tool-bottom">
+              <span class="open-tool">Open tool →</span>
+              <span class="tag">TEXT</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="no-results" id="noResults">
+        No matching tool found. Try another search.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><strong>15+</strong><span>Tools</span></div>
+    <div class="stat"><strong>100%</strong><span>Browser Based</span></div>
+    <div class="stat"><strong>24/7</strong><span>Available</span></div>
+    <div class="stat"><strong>Free</strong><span>To Start</span></div>
+  </div>
+
+  <!-- WHY AURA -->
+  <section id="about" class="info-section">
+    <div class="section-head">
+      <h2>Why AURA?</h2>
+      <p>Designed around simplicity and usefulness.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Fast</h3>
+        <p>Quick and simple tools without unnecessary steps.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy Focused</h3>
+        <p>We aim to make your tool experience simple and transparent.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Works Everywhere</h3>
+        <p>Use AURA from your phone, tablet or computer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta">
+      <h2>One place. Many useful tools.</h2>
+      <p>AURA is built to make everyday digital tasks easier.</p>
+      <a href="#tools" class="main-btn">Explore Tools →</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="info-section">
+    <div class="section-head">
+      <h2>Frequently Asked Questions</h2>
+      <p>Some quick answers about AURA.</p>
+    </div>
+
+    <div class="faq">
+      <details>
+        <summary>Are AURA tools free?</summary>
+        <p>AURA is designed to provide useful online tools with a simple free experience.</p>
+      </details>
+
+      <details>
+        <summary>Can I use AURA on my phone?</summary>
+        <p>Yes. The website is responsive and designed for mobile, tablet and desktop.</p>
+      </details>
+
+      <details>
+        <summary>Do I need to install an app?</summary>
+        <p>No. AURA tools are designed to work directly from your web browser.</p>
+      </details>
+
+      <details>
+        <summary>Will AURA add more tools?</summary>
+        <p>Yes. The platform is designed to grow with many more useful tools.</p>
+      </details>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-icon">✦</span>AURA
+        </a>
+        <p>Powerful online tools made simple. Fast, useful and easy to use.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <a href="#tools">PDF Tools</a>
+        <a href="#tools">Image Tools</a>
+        <a href="#tools">Text Tools</a>
+        <a href="#tools">Calculators</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About AURA</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="#faq">FAQ</a>
+        <a href="security.html">Security</a>
+        <a href="mailto:feedback@example.com">Feedback</a>
+      </div>
 
     </div>
 
+    <div class="copyright">© 2026 AURA. All rights reserved.</div>
   </div>
-
-</section>
-
-<!-- ===== AURA NEW TOOLS: END ===== -->
-
-<!-- 1. AGE CALCULATOR -->
-<a href="age-calculator.html"
-   class="tool-card"
-   data-category="calculator"
-   data-name="age calculator"
-   style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
-
-  <div class="icon">🎂</div>
-  <h3>Age Calculator</h3>
-  <p>Calculate your exact age in years, months and days.</p>
-
-  <span class="tag">Open Tool →</span>
-  <span class="category">Calculator</span>
-</a>
-
-
-<!-- 2. PASSWORD GENERATOR -->
-<a href="password-generator.html"
-   class="tool-card"
-   data-category="security"
-   data-name="password generator"
-   style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
-
-  <div class="icon">🔐</div>
-  <h3>Password Generator</h3>
-  <p>Create strong and secure passwords instantly.</p>
-
-  <span class="tag">Open Tool →</span>
-  <span class="category">Security</span>
-</a>
-
-
-<!-- 3. WORD COUNTER -->
-<a href="word-counter.html"
-   class="tool-card"
-   data-category="text"
-   data-name="word counter"
-   style="display:block;text-decoration:none;color:inherit;cursor:pointer;">
-
-  <div class="icon">📝</div>
-  <h3>Word Counter</h3>
-  <p>Count words, characters, sentences and reading time.</p>
-
-  <span class="tag">Open Tool →</span>
-  <span class="category">Text</span>
-</a>
-
-</div>
-
-<div class="no-results" id="noResults">
-No matching tool found.
-</div>
-
-</div>
-</section>
-
-
-<!-- STATS -->
-
-<section>
-<div class="container">
-
-<div class="stats">
-
-<div class="stat">
-<strong>15+</strong>
-<span>Tools</span>
-</div>
-
-<div class="stat">
-<strong>100%</strong>
-<span>Browser Based</span>
-</div>
-
-<div class="stat">
-<strong>24/7</strong>
-<span>Available</span>
-</div>
-
-<div class="stat">
-<strong>Free</strong>
-<span>To Start</span>
-</div>
-
-</div>
-</div>
-</section>
-
-
-<!-- WHY AURA -->
-
-<section id="about">
-<div class="container">
-
-<div class="section-head">
-<h2>Why AURA?</h2>
-<p>Designed around simplicity and usefulness.</p>
-</div>
-
-<div class="features">
-
-<div class="feature">
-<div class="feature-icon">⚡</div>
-<h3>Fast</h3>
-<p>Quick and simple tools without unnecessary steps.</p>
-</div>
-
-<div class="feature">
-<div class="feature-icon">🔒</div>
-<h3>Privacy Focused</h3>
-<p>We aim to make your tool experience simple and transparent.</p>
-</div>
-
-<div class="feature">
-<div class="feature-icon">📱</div>
-<h3>Works Everywhere</h3>
-<p>Use AURA from your phone, tablet or computer.</p>
-</div>
-
-</div>
-</div>
-</section>
-
-
-<!-- CTA -->
-
-<section>
-<div class="container">
-
-<div class="cta">
-<h2>One place. Many useful tools.</h2>
-
-<p>
-AURA is built to make everyday digital tasks easier.
-</p>
-
-<a href="#tools" class="main-btn">
-Explore Tools →
-</a>
-</div>
-
-</div>
-</section>
-
-
-<!-- FAQ -->
-
-<section id="faq">
-<div class="container">
-
-<div class="section-head">
-<h2>Frequently Asked Questions</h2>
-<p>Some quick answers about AURA.</p>
-</div>
-
-<div class="faq">
-
-<details>
-<summary>Are AURA tools free?</summary>
-<p>
-AURA is designed to provide useful online tools with a simple free experience.
-</p>
-</details>
-
-<details>
-<summary>Can I use AURA on my phone?</summary>
-<p>
-Yes. The website is responsive and designed for mobile, tablet and desktop.
-</p>
-</details>
-
-<details>
-<summary>Do I need to install an app?</summary>
-<p>
-No. AURA tools are designed to work directly from your web browser.
-</p>
-</details>
-
-<details>
-<summary>Will AURA add more tools?</summary>
-<p>
-Yes. The platform is designed to grow with many more useful tools.
-</p>
-</details>
-
-</div>
-</div>
-</section>
-
-</main>
-
-
-<!-- FOOTER -->
-
-<footer>
-<div class="container">
-
-<div class="footer-grid">
-
-<div class="footer-brand">
-
-<div class="logo">
-<span class="logo-icon">✦</span>
-AURA
-</div>
-
-<p>
-Powerful online tools made simple.
-Fast, useful and easy to use.
-</p>
-
-</div>
-
-
-<div class="footer-col">
-<h4>Tools</h4>
-<a href="#tools">PDF Tools</a>
-<a href="#tools">Image Tools</a>
-<a href="#tools">Text Tools</a>
-<a href="#tools">Calculators</a>
-</div>
-
-
-<div class="footer-col">
-<h4>Company</h4>
-<a href="about.html">About AURA</a>
-<a href="contact.html">Contact</a>
-<a href="privacy.html">Privacy</a>
-<a href="terms.html">Terms</a>
-</div>
-
-
-<div class="footer-col">
-<h4>Help</h4>
-<a href="#faq">FAQ</a>
-<a href="security.html">Security</a>
-<a href="#">Feedback</a>
-</div>
-
-</div>
-
-<div class="copyright">
-© 2026 AURA. All rights reserved.
-</div>
-
-</div>
 </footer>
 
-
-<script>
-
-/* MOBILE MENU */
-
-function toggleMenu(){
-
-const menu=document.getElementById("mobileMenu");
-
-menu.style.display =
-menu.style.display==="block"
-? "none"
-: "block";
-
-}
-
-function closeMenu(){
-document.getElementById("mobileMenu").style.display="none";
-}
-
-
-/* SEARCH */
-
-function focusSearch(){
-
-const input=document.getElementById("searchInput");
-
-input.focus();
-
-window.scrollTo({
-top:input.getBoundingClientRect().top+
-window.scrollY-120,
-behavior:"smooth"
-});
-
-}
-
-
-/* TOOL SEARCH */
-
-function searchTools(){
-
-const query=
-document
-.getElementById("searchInput")
-.value
-.toLowerCase()
-.trim();
-
-const cards=
-document.querySelectorAll(".tool-card");
-
-let found=0;
-
-cards.forEach(card=>{
-
-const name=card.dataset.name;
-
-if(name.includes(query)){
-
-card.style.display="block";
-found++;
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-document.getElementById("noResults").style.display=
-found===0 ? "block" : "none";
-
-}
-
-
-/* CATEGORY FILTER */
-
-function filterCategory(category,button){
-
-document
-.querySelectorAll(".category")
-.forEach(btn=>btn.classList.remove("active"));
-
-button.classList.add("active");
-
-document.getElementById("searchInput").value="";
-
-const cards=
-document.querySelectorAll(".tool-card");
-
-let found=0;
-
-cards.forEach(card=>{
-
-if(
-category==="all" ||
-card.dataset.category===category
-){
-
-card.style.display="block";
-found++;
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-document.getElementById("noResults").style.display=
-found===0 ? "block" : "none";
-
-}
-
-
-/* THEME */
-
-function toggleTheme(){
-
-document.body.classList.toggle("light");
-
-}
-
-
-/* ACCOUNT */
-
-function accountMessage(){
-
-alert(
-"AURA Account\n\nAccount features are coming soon."
-);
-
-}
-
-</script>
-<!-- AURA MOBILE BOTTOM NAV -->
-<nav class="aura-bottom-nav">
+<!-- MOBILE BOTTOM NAV -->
+<nav class="aura-bottom-nav" aria-label="Mobile navigation">
 
   <a href="index.html" class="bottom-nav-item active">
     <span class="bottom-icon">⌂</span>
@@ -2080,236 +1066,117 @@ alert(
 
 </nav>
 
-<style>
-
-/* ================================
-   AURA MOBILE BOTTOM NAVIGATION
-================================ */
-
-.aura-bottom-nav{
-  display:none;
-}
-
-@media(max-width:700px){
-
-  .aura-bottom-nav{
-    position:fixed;
-    left:10px;
-    right:10px;
-    bottom:25px;
-
-    height:72px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
-
-    background:rgba(22,22,22,.97);
-
-    border:1px solid rgba(255,255,255,.38);
-
-    border-radius:24px;
-
-    box-shadow:
-  0 10px 35px rgba(0,0,0,.65),
-  0 0 30px rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-
-    z-index:9999;
-
-    padding:5px 4px;
-
-  }
-
-
-  .bottom-nav-item{
-
-    flex:1;
-
-    height:62px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    gap:4px;
-
-    background:transparent;
-
-    border:0;
-
-    color:#888;
-
-    text-decoration:none;
-
-    font-family:inherit;
-
-    font-size:10px;
-
-    cursor:pointer;
-
-    border-radius:17px;
-
-    transition:
-      color .25s ease,
-      background .25s ease,
-      transform .25s ease;
-
-  }
-
-
-  .bottom-icon{
-
-    width:30px;
-    height:30px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:23px;
-
-    line-height:1;
-
-    transition:
-      transform .25s ease,
-      color .25s ease;
-
-  }
-
-
-  /* ACTIVE */
-
-  .bottom-nav-item.active{
-
-    color:#fff;
-
-    background:rgba(255,255,255,.10);
-
-  }
-
-
-  .bottom-nav-item.active .bottom-icon{
-
-    color:#fff;
-
-    transform:translateY(-1px);
-
-  }
-
-
-  /* HOVER / TOUCH */
-
-  .bottom-nav-item:hover{
-
-    color:#fff;
-
-    background:rgba(255,255,255,.07);
-
-  }
-
-
-  .bottom-nav-item:active{
-
-    transform:scale(.94);
-
-  }
-
-
-  /* Space so content doesn't hide behind nav */
-
-  body{
-
-    padding-bottom:92px;
-
-  }
-
-}
-
-
-/* DESKTOP HIDE */
-
-@media(min-width:701px){
-
-  .aura-bottom-nav{
-    display:none !important;
-  }
-
-}
-
-</style>
-
-
 <script>
-
-/* ================================
-   AURA BOTTOM NAV FUNCTIONS
-================================ */
-
-function focusToolSearch(){
-
-  const search =
-    document.querySelector(
-      '#toolSearch, #searchInput, input[type="search"]'
-    );
-
-  if(search){
-
-    search.focus();
-
-    search.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-  }else{
-
-    const heroSearch =
-      document.querySelector('.search');
-
-    if(heroSearch){
-
-      heroSearch.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-
-    }
-
-  }
-
+/* MOBILE MENU */
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  menu.style.display =
+    menu.style.display === "block" ? "none" : "block";
 }
 
-
-function openAuraMenu(){
-
-  const menu =
-    document.querySelector(
-      '#mobileMenu, .mobile-menu'
-    );
-
-  if(menu){
-
-    menu.classList.toggle('active');
-
-  }else{
-
-    /* Scroll to top if menu selector
-       is not found */
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-  }
-
+function closeMenu() {
+  document.getElementById("mobileMenu").style.display = "none";
 }
 
+/* SEARCH */
+function focusSearch() {
+  const input = document.getElementById("searchInput");
+  input.focus();
+  input.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function focusToolSearch() {
+  focusSearch();
+}
+
+/* SEARCH ALL TOOLS */
+function searchTools() {
+  const query = document
+    .getElementById("searchInput")
+    .value.toLowerCase()
+    .trim();
+
+  let found = 0;
+
+  document.querySelectorAll(".tool-card").forEach(card => {
+    const name = (
+      card.dataset.name || card.innerText
+    ).toLowerCase();
+
+    const show = name.includes(query);
+
+    card.style.display = show ? "flex" : "none";
+
+    if (show) found++;
+  });
+
+  document.querySelectorAll(".category-section").forEach(section => {
+    const visibleCards = [
+      ...section.querySelectorAll(".tool-card")
+    ].some(card => card.style.display !== "none");
+
+    section.style.display = visibleCards ? "block" : "none";
+  });
+
+  document.getElementById("noResults").style.display =
+    found === 0 ? "block" : "none";
+}
+
+/* CATEGORY FILTER SUPPORT */
+function filterCategory(category, button) {
+  document.getElementById("searchInput").value = "";
+
+  document.querySelectorAll(".tool-card").forEach(card => {
+    card.style.display = "flex";
+  });
+
+  document.querySelectorAll(".category-section").forEach(section => {
+    section.style.display = "block";
+  });
+
+  if (category && category !== "all") {
+    document.querySelectorAll(".tool-card").forEach(card => {
+      card.style.display =
+        card.dataset.category === category ? "flex" : "none";
+    });
+
+    document.querySelectorAll(".category-section").forEach(section => {
+      section.style.display =
+        section.dataset.categorySection === category ? "block" : "none";
+    });
+  }
+
+  document.getElementById("noResults").style.display = "none";
+}
+
+/* THEME */
+function toggleTheme() {
+  document.body.classList.toggle("light");
+}
+
+/* ACCOUNT */
+function accountMessage() {
+  alert("AURA Account\n\nAccount features are coming soon.");
+}
+
+/* MOBILE MORE MENU */
+function openAuraMenu() {
+  const menu = document.getElementById("mobileMenu");
+
+  menu.style.display =
+    menu.style.display === "block" ? "none" : "block";
+
+  if (menu.style.display === "block") {
+    menu.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  }
+}
 </script>
+
 </body>
   </html>
-       
