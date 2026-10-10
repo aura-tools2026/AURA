@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Counter | AURA</title>
+<meta name="description" content="Count words, characters, sentences and reading time instantly with AURA.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090712;color:#f7f1ff;font-family:Arial,sans-serif;padding:20px}
+.app{max-width:720px;margin:20px auto}
+header{text-align:center;margin-bottom:25px}
+.brand{color:#d49aff;letter-spacing:4px;font-size:12px}
+h1{font-size:32px;margin:14px 0}
+h1 span{color:#c879ff}
+p{color:#b7a9ca;line-height:1.6}
+.panel{background:#171126;border:1px solid #50316c;border-radius:20px;padding:20px;margin:18px 0;box-shadow:0 0 25px #bc70ff0b}
+textarea{width:100%;min-height:210px;background:#0c0916;color:white;border:1px solid #4a345e;border-radius:12px;padding:15px;font-size:16px;line-height:1.6;resize:vertical;outline:none}
+textarea:focus{border-color:#c879ff}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.stat{padding:15px;background:#211633;border:1px solid #49315f;border-radius:12px}
+.label{font-size:12px;color:#c7b1dc;text-transform:uppercase}
+.value{font-size:27px;color:#d49aff;font-weight:bold;margin-top:8px;overflow-wrap:anywhere}
+.buttons{display:flex;gap:10px;margin-top:15px}
+button{flex:1;padding:13px;border:0;border-radius:10px;background:#c879ff;color:#160822;font-weight:bold;cursor:pointer}
+button.alt{background:#30213f;color:#f1ddff;border:1px solid #60417a}
+button:active{transform:scale(.98)}
+.back{display:block;text-align:center;margin-top:25px;color:#d49aff;text-decoration:none}
+@media(min-width:520px){.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<main class="app">
+<header>
+<div class="brand">A U R A / TEXT LAB</div>
+<h1>WORD <span>COUNTER</span></h1>
+<p>Turn your text into instant, useful statistics.</p>
+</header>
+
+<section class="panel">
+<textarea id="text" placeholder="Type or paste your text here..." aria-label="Text to analyse"></textarea>
+
+<div class="stats" aria-live="polite">
+<div class="stat"><div class="label">Words</div><div class="value" id="words">0</div></div>
+<div class="stat"><div class="label">Characters</div><div class="value" id="chars">0</div></div>
+<div class="stat"><div class="label">Without spaces</div><div class="value" id="nospace">0</div></div>
+<div class="stat"><div class="label">Sentences</div><div class="value" id="sentences">0</div></div>
+<div class="stat"><div class="label">Paragraphs</div><div class="value" id="paragraphs">0</div></div>
+<div class="stat"><div class="label">Reading time</div><div class="value" id="reading">0 min</div></div>
+</div>
+
+<div class="buttons">
+<button id="copy">COPY TEXT</button>
+<button class="alt" id="clear">CLEAR</button>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
+</section>
+<a class="back" href="index.html">← Back to AURA</a>
+</main>
+
+<script>
+const input=document.getElementById("text");
+function update(){
+ const t=input.value, trimmed=t.trim();
+ const words=trimmed?(trimmed.match(/\S+/gu)||[]).length:0;
+ const sentences=trimmed?(trimmed.match(/[^.!?。！？]+[.!?。！？]*/gu)||[]).filter(s=>s.trim()).length:0;
+ const paragraphs=trimmed?trimmed.split(/\n\s*\n/u).filter(p=>p.trim()).length:0;
+ document.getElementById("words").textContent=words;
+ document.getElementById("chars").textContent=t.length;
+ document.getElementById("nospace").textContent=t.replace(/\s/gu,"").length;
+ document.getElementById("sentences").textContent=sentences;
+ document.getElementById("paragraphs").textContent=paragraphs;
+ document.getElementById("reading").textContent=words?Math.ceil(words/200)+" min":"0 min";
+}
+input.addEventListener("input",update);
+document.getElementById("clear").onclick=()=>{input.value="";update();document.getElementById("status").textContent="Text cleared.";input.focus()};
+document.getElementById("copy").onclick=async()=>{
+ if(!input.value){document.getElementById("status").textContent="Enter some text first.";return}
+ try{await navigator.clipboard.writeText(input.value);document.getElementById("status").textContent="Text copied!"}
+ catch(e){input.select();document.getElementById("status").textContent=document.execCommand("copy")?"Text copied!":"Select and copy the text manually."}
+};
+update();
+</script>
+</body>
+           </html>
