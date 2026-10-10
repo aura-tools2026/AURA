@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF Editor - AURA</title>
+<meta name="description" content="Add text notes to PDF pages with AURA PDF Editor.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;background:#fff7ed;color:#431407}
+.wrap{max-width:800px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
+.logo{font-size:28px;font-weight:900;color:#ea580c}
+.home{background:white;padding:12px 16px;border-radius:12px;color:#c2410c;text-decoration:none;font-weight:bold}
+.hero{text-align:center;margin-bottom:25px}
+.hero .icon{font-size:42px}
+h1{font-size:32px;margin:10px}
+.hero p{color:#9a3412;line-height:1.6}
+.card{background:white;padding:22px;border-radius:22px;border:1px solid #fed7aa;box-shadow:0 12px 35px #9a341210}
+.upload{display:block;text-align:center;padding:25px 12px;border:2px dashed #fb923c;border-radius:16px;background:#fffaf5;cursor:pointer}
+.upload strong{display:block;margin:10px}
+input[type=file]{display:none}
+.info{margin:15px 0;color:#9a3412;overflow-wrap:anywhere}
+label{display:block;font-weight:bold;margin:15px 0 8px}
+input[type=text],input[type=number],textarea,select{width:100%;padding:12px;border:1px solid #fed7aa;border-radius:10px;font:inherit}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{width:100%;margin-top:18px;background:linear-gradient(135deg,#f97316,#ea580c);color:white}
+button:disabled{opacity:.5}
+#preview{margin-top:20px;background:#fff7ed;padding:10px;border-radius:12px;overflow:auto}
+canvas{display:block;max-width:100%;height:auto;margin:auto;background:white}
+.status{display:none;margin-top:15px;padding:13px;border-radius:10px;line-height:1.5}
+.ok{display:block;background:#dcfce7;color:#166534}
+.err{display:block;background:#fee2e2;color:#991b1b}
+.note{font-size:13px;color:#9a3412;line-height:1.7;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">AURA</div><a class="home" href="index.html">← Home</a></header>
+<section class="hero">
+<div class="icon">✏️</div>
+<h1>PDF Editor</h1>
+<p>Add a text note to a PDF page and save your edited copy.</p>
+</section>
+<main class="card">
+<label class="upload" for="pdf">
+<div style="font-size:34px">📄</div>
+<strong>Select PDF to edit</strong>
+<span style="font-size:13px;color:#9a3412">Choose a PDF from your device</span>
+</label>
+<input id="pdf" type="file" accept=".pdf,application/pdf">
+<div id="info" class="info">No PDF selected</div>
+<div class="row">
+<div><label for="page">Page number</label><input id="page" type="number" min="1" value="1"></div>
+<div><label for="size">Text size</label><input id="size" type="number" min="8" max="48" value="16"></div>
+</div>
+<label for="note">Text to add</label>
+<textarea id="note" placeholder="Type your note here..."></textarea>
+<div class="row">
+<div><label for="x">Horizontal position (pt)</label><input id="x" type="number" min="0" value="50"></div>
+<div><label for="y">Vertical position from top (pt)</label><input id="y" type="number" min="0" value="100"></div>
+</div>
+<button id="save" class="primary" disabled>Save Edited PDF</button>
+<div id="status" class="status"></div>
+<div id="preview"></div>
+<p class="note">This basic editor adds new text over existing pages. It does not edit or remove existing text, and it does not support signatures, form filling, or advanced editing. Use only PDFs you are allowed to edit.</p>
+</main>
+</div>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const input=document.getElementById('pdf'),info=document.getElementById('info'),save=document.getElementById('save'),status=document.getElementById('status'),preview=document.getElementById('preview');
+let file=null,totalPages=0;
+input.onchange=async()=>{
+file=input.files[0]||null;preview.innerHTML='';status.className='status';
+info.textContent=file?file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB':'No PDF selected';
+save.disabled=!file;
+if(!file)return;
+try{
+const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+totalPages=doc.numPages;document.getElementById('page').max=totalPages;
+document.getElementById('page').value=1;
+const page=await doc.getPage(1),viewport=page.getViewport({scale:1});
+const canvas=document.createElement('canvas');canvas.width=viewport.width;canvas.height=viewport.height;
+await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+preview.appendChild(canvas);
+status.textContent='PDF loaded: '+totalPages+' page(s). Text is added to the page number you select.';status.className='status ok';
+}catch(e){status.textContent='Could not read this PDF. It may be damaged or encrypted.';status.className='status err';save.disabled=true;}
+};
+save.onclick=async()=>{
+if(!file)return;
+const text=document.getElementById('note').value;
+if(!text.trim()){status.textContent='Please type the text you want to add.';status.className='status err';return;}
+save.disabled=true;save.textContent='Saving...';
+try{
+const pdf=await PDFLib.PDFDocument.load(await file.arrayBuffer());
+const pageNum=Number(document.getElementById('page').value);
+if(pageNum<1||pageNum>pdf.getPageCount())throw Error('Choose a valid page number.');
+const page=pdf.getPages()[pageNum-1],{width,height}=page.getSize();
+const x=Math.max(0,Math.min(width,Number(document.getElementById('x').value)||0));
+const top=Math.max(0,Math.min(height,Number(document.getElementById('y').value)||0));
+const fontSize=Math.max(8,Math.min(48,Number(document.getElementById('size').value)||16));
+page.drawText(text,{x,y:Math.max(0,height-top-fontSize),size:fontSize,maxWidth:Math.max(10,width-x-10),lineHeight:fontSize*1.3,color:PDFLib.rgb(0.1,0.1,0.1)});
+const bytes=await pdf.save(),blob=new Blob([bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
+const a=document.createElement('a');a.href=url;a.download='AURA-Edited.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+status.textContent='Edited PDF downloaded successfully.';status.className='status ok';
+}catch(e){status.textContent=e.message||'Could not save the edited PDF.';status.className='status err';}
+finally{save.disabled=!file;save.textContent='Save Edited PDF';}
+};
+</script>
+</body>
+  </html>
