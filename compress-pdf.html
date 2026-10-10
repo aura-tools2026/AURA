@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compress PDF - AURA</title>
+<meta name="description" content="Reduce PDF file size with AURA's free online PDF tool.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f5ff;color:#172033;padding:18px}
+.container{max-width:700px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
+.logo{font-size:28px;font-weight:900;color:#6254e7}
+a{text-decoration:none}
+.home{background:white;padding:10px 14px;border-radius:10px;color:#5145cd;font-weight:bold}
+.hero{text-align:center;margin-bottom:25px}
+.icon{font-size:40px;margin-bottom:12px}
+h1{font-size:32px;margin-bottom:12px}
+.hero p{color:#64748b;line-height:1.6}
+.card{background:white;padding:22px;border-radius:20px;border:1px solid #e5e7eb;box-shadow:0 10px 35px #0000000a}
+.upload{display:block;text-align:center;padding:30px 15px;border:2px dashed #a5b4fc;background:#f7f7ff;border-radius:15px;cursor:pointer}
+.upload strong{display:block;margin:10px 0}
+.upload p{font-size:13px;color:#64748b}
+input[type=file]{display:none}
+label.option{display:flex;align-items:flex-start;gap:10px;padding:14px;margin-top:12px;border:1px solid #e5e7eb;border-radius:12px;cursor:pointer}
+.option input{margin-top:3px}
+.option small{display:block;color:#64748b;margin-top:5px;line-height:1.5}
+.file-info{margin:16px 0;color:#475569;overflow-wrap:anywhere}
+button{width:100%;padding:15px;border:0;border-radius:12px;background:linear-gradient(135deg,#6254e7,#8b5cf6);color:white;font-size:16px;font-weight:bold;cursor:pointer;margin-top:15px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.status{display:none;margin-top:16px;padding:14px;border-radius:10px;line-height:1.6;overflow-wrap:anywhere}
+.status.ok{display:block;background:#dcfce7;color:#166534}
+.status.err{display:block;background:#fee2e2;color:#991b1b}
+.note{margin-top:20px;color:#64748b;font-size:13px;line-height:1.7}
+footer{text-align:center;margin:28px 0;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="logo">AURA</div>
+<a class="home" href="index.html">← Home</a>
+</header>
+
+<section class="hero">
+<div class="icon">🗜️</div>
+<h1>Compress PDF</h1>
+<p>Try to reduce your PDF file size with AURA.</p>
+</section>
+
+<main class="card">
+<label class="upload" for="pdfFile">
+<div style="font-size:35px">📄</div>
+<strong>Select a PDF file</strong>
+<p>Tap here to choose your PDF</p>
+</label>
+<input id="pdfFile" type="file" accept=".pdf,application/pdf">
+
+<div class="file-info" id="fileInfo">No file selected</div>
+
+<label class="option">
+<input type="radio" name="level" value="light" checked>
+<span><b>Light compression</b><small>Attempts to optimize the PDF while preserving its existing quality.</small></span>
+</label>
+
+<label class="option">
+<input type="radio" name="level" value="strong">
+<span><b>Strong compression</b><small>Re-renders pages as images. This can reduce size but may lower quality and remove selectable text, links and forms.</small></span>
+</label>
+
+<button id="compressBtn" disabled>Compress PDF</button>
+<div id="status" class="status"></div>
+<p class="note">Note: PDF compression depends on the file contents. Some PDFs may not get smaller. Files are processed in your browser using the loaded libraries.</p>
+</main>
+
+<footer>© AURA Tools</footer>
+</div>
+
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const fileInput=document.getElementById('pdfFile');
+const fileInfo=document.getElementById('fileInfo');
+const btn=document.getElementById('compressBtn');
+const statusBox=document.getElementById('status');
+
+if(window.pdfjsLib){
+  pdfjsLib.GlobalWorkerOptions.workerSrc=
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+let selectedFile=null;
+
+function sizeText(n){
+  return n<1024*1024?(n/1024).toFixed(1)+' KB':(n/1024/1024).toFixed(2)+' MB';
+}
+function status(msg,type){
+  statusBox.className='status '+type;
+  statusBox.textContent=msg;
+}
+fileInput.addEventListener('change',()=>{
+  selectedFile=fileInput.files[0]||null;
+  statusBox.className='status';
+  fileInfo.textContent=selectedFile?
+    selectedFile.name+' · '+sizeText(selectedFile.size):'No file selected';
+  btn.disabled=!selectedFile;
+});
+
+btn.addEventListener('click',async()=>{
+  if(!selectedFile)return;
+  if(!window.PDFLib){
+    status('PDF library failed to load. Check your internet connection and reload.','err');return;
+  }
+  const level=document.querySelector('input[name="level"]:checked').value;
+  btn.disabled=true;
+  btn.textContent='Compressing...';
+  statusBox.className='status';
+
+  try{
+    const inputBytes=await selectedFile.arrayBuffer();
+    let outputBytes;
+
+    if(level==='light'){
+      const doc=await PDFLib.PDFDocument.load(inputBytes);
+      outputBytes=await doc.save({useObjectStreams:true});
+    }else{
+      if(!window.pdfjsLib)throw new Error('PDF rendering library failed to load.');
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(inputBytes)}).promise;
+      const output=await PDFLib.PDFDocument.create();
+
+      for(let i=1;i<=pdf.numPages;i++){
+        const page=await pdf.getPage(i);
+        const viewport=page.getViewport({scale:1.1});
+        const canvas=document.createElement('canvas');
+        canvas.width=Math.ceil(viewport.width);
+        canvas.height=Math.ceil(viewport.height);
+        const ctx=canvas.getContext('2d');
+        await page.render({canvasContext:ctx,viewport}).promise;
+
+        const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.65));
+        if(!blob)throw new Error('Could not compress a page.');
+        const jpg=await blob.arrayBuffer();
+        const image=await output.embedJpg(jpg);
+        const outPage=output.addPage([viewport.width,viewport.height]);
+        outPage.drawImage(image,{x:0,y:0,width:viewport.width,height:viewport.height});
+        canvas.width=0;canvas.height=0;
+      }
+      outputBytes=await output.save({useObjectStreams:true});
+    }
+
+    const blob=new Blob([outputBytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='AURA-Compressed.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+
+    const newSize=blob.size;
+    const diff=selectedFile.size-newSize;
+    if(diff>0){
+      status('Done! Original: '+sizeText(selectedFile.size)+
+        ' · New: '+sizeText(newSize)+' · Reduced by '+sizeText(diff)+
+        '. Download started.','ok');
+    }else{
+      status('Finished, but this PDF did not get smaller. Original: '+
+        sizeText(selectedFile.size)+' · New: '+sizeText(newSize)+
+        '. Try Strong compression if suitable.','ok');
+    }
+  }catch(e){
+    console.error(e);
+    status('Could not process this PDF. It may be damaged, encrypted, or too large for your device.','err');
+  }finally{
+    btn.disabled=!selectedFile;
+    btn.textContent='Compress PDF';
+  }
+});
+</script>
+</body>
+</html>
