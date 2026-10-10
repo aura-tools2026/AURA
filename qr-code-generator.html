@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Code Generator - AURA</title>
+<meta name="description" content="Generate and download QR codes for text or links with AURA.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;background:#f0fdf4;color:#14532d}
+.wrap{max-width:700px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
+.logo{font-size:28px;font-weight:900;color:#059669}
+.home{background:white;padding:12px 16px;border-radius:12px;color:#047857;text-decoration:none;font-weight:bold}
+.hero{text-align:center;margin-bottom:25px}
+.icon{font-size:42px}
+h1{font-size:32px;margin:10px}
+.hero p{color:#64748b;line-height:1.6}
+.card{background:white;padding:22px;border-radius:22px;border:1px solid #bbf7d0;box-shadow:0 12px 35px #04785710}
+label{display:block;font-weight:bold;margin:16px 0 8px}
+textarea,select,input[type=color]{width:100%;padding:12px;border:1px solid #bbf7d0;border-radius:10px;font:inherit;background:white}
+textarea{min-height:110px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{width:100%;margin-top:18px;background:linear-gradient(135deg,#10b981,#047857);color:white}
+.secondary{background:#d1fae5;color:#047857}
+button:disabled{opacity:.5}
+#result{display:none;text-align:center;margin-top:22px;padding:18px;background:#f0fdf4;border-radius:15px}
+#qr{max-width:100%;height:auto;background:white;padding:10px;border-radius:12px}
+.download{display:inline-block;margin-top:15px;background:#047857;color:white;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:bold}
+.status{display:none;margin-top:15px;padding:13px;border-radius:10px;line-height:1.5}
+.err{display:block;background:#fee2e2;color:#991b1b}
+.note{font-size:13px;color:#64748b;line-height:1.7;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">AURA</div><a class="home" href="index.html">← Home</a></header>
+<section class="hero">
+<div class="icon">📱</div>
+<h1>QR Code Generator</h1>
+<p>Create a QR code for a website link, text, or contact information.</p>
+</section>
+<main class="card">
+<label for="content">Enter text or URL</label>
+<textarea id="content" placeholder="https://example.com"></textarea>
+<div class="row">
+<div>
+<label for="size">QR Code Size</label>
+<select id="size">
+<option value="200">Small · 200px</option>
+<option value="300" selected>Medium · 300px</option>
+<option value="500">Large · 500px</option>
+<option value="800">Extra Large · 800px</option>
+</select>
+</div>
+<div>
+<label for="dark">QR Colour</label>
+<input id="dark" type="color" value="#14532d">
+</div>
+</div>
+<label for="light">Background Colour</label>
+<input id="light" type="color" value="#ffffff">
+<button id="generate" class="primary">Generate QR Code</button>
+<div id="status" class="status"></div>
+<div id="result">
+<img id="qr" alt="Generated QR code">
+<br>
+<a id="download" class="download" download="AURA-QR-Code.png">⬇ Download PNG</a>
+</div>
+<p class="note">QR generation uses an online library, so an internet connection is required. Check the QR code with your phone before sharing it.</p>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const content=document.getElementById('content');
+const result=document.getElementById('result');
+const qrImage=document.getElementById('qr');
+const download=document.getElementById('download');
+const status=document.getElementById('status');
+document.getElementById('generate').onclick=()=>{
+const text=content.value.trim();
+if(!text){status.textContent='Please enter some text or a URL.';status.className='status err';result.style.display='none';return;}
+if(!window.QRCode){status.textContent='QR library failed to load. Check your internet connection and reload.';status.className='status err';return;}
+status.className='status';
+const holder=document.createElement('div');
+const size=Number(document.getElementById('size').value);
+new QRCode(holder,{text,width:size,height:size,colorDark:document.getElementById('dark').value,colorLight:document.getElementById('light').value,correctLevel:QRCode.CorrectLevel.H});
+setTimeout(()=>{
+const canvas=holder.querySelector('canvas'),img=holder.querySelector('img');
+let data='';
+if(canvas)data=canvas.toDataURL('image/png');
+else if(img)data=img.src;
+if(!data){status.textContent='Could not generate the QR code. Try again.';status.className='status err';return;}
+qrImage.src=data;download.href=data;result.style.display='block';
+},150);
+};
+</script>
+</body>
+  </html>
