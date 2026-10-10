@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Images to PDF - AURA</title>
+<meta name="description" content="Convert multiple images into one PDF online for free with AURA Tools.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f5ff;color:#172033;padding:18px}
+.container{max-width:720px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
+.logo{font-size:28px;font-weight:900;color:#6254e7}
+a{text-decoration:none}
+.home{background:white;padding:10px 14px;border-radius:10px;color:#5145cd;font-weight:bold}
+.hero{text-align:center;margin-bottom:25px}
+.icon{font-size:40px;margin-bottom:12px}
+h1{font-size:32px;margin-bottom:12px}
+.hero p{color:#64748b;line-height:1.6}
+.card{background:white;padding:22px;border-radius:20px;border:1px solid #e5e7eb;box-shadow:0 10px 35px #0000000a}
+.upload{display:block;text-align:center;padding:30px 15px;border:2px dashed #a5b4fc;background:#f7f7ff;border-radius:15px;cursor:pointer}
+.upload strong{display:block;margin:10px 0}
+.upload p{font-size:13px;color:#64748b}
+input[type=file]{display:none}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
+select{width:100%;padding:12px;border:1px solid #dbe1ef;border-radius:10px;background:white}
+.count{margin:20px 0 12px;font-weight:bold;color:#475569}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.item{border:1px solid #e5e7eb;border-radius:12px;padding:10px;min-width:0}
+.item img{width:100%;height:130px;object-fit:contain;background:#f8fafc;border-radius:8px}
+.name{font-size:12px;overflow-wrap:anywhere;margin:8px 0}
+.actions{display:flex;gap:5px}
+.small{flex:1;padding:8px;border:0;border-radius:7px;background:#efedff;color:#5145cd;cursor:pointer}
+.remove{background:#fee2e2;color:#b91c1c}
+.buttons{display:flex;gap:10px;margin-top:18px}
+button{font-family:inherit}
+.secondary,.convert{padding:14px;border:0;border-radius:11px;font-size:14px;font-weight:bold;cursor:pointer}
+.secondary{background:#efedff;color:#5145cd}
+.convert{flex:1;background:linear-gradient(135deg,#6254e7,#8b5cf6);color:white}
+button:disabled{opacity:.5;cursor:not-allowed}
+.status{display:none;margin-top:16px;padding:14px;border-radius:10px;line-height:1.6}
+.status.ok{display:block;background:#dcfce7;color:#166534}
+.status.err{display:block;background:#fee2e2;color:#991b1b}
+.note{margin-top:20px;color:#64748b;font-size:13px;line-height:1.7}
+footer{text-align:center;margin:28px 0;color:#64748b;font-size:13px}
+@media(max-width:480px){body{padding:12px}.card{padding:15px}.options{grid-template-columns:1fr}.list{grid-template-columns:repeat(2,minmax(0,1fr))}.item img{height:100px}.buttons{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="logo">AURA</div>
+<a class="home" href="index.html">← Home</a>
+</header>
+
+<section class="hero">
+<div class="icon">🖼️</div>
+<h1>Images to PDF</h1>
+<p>Combine multiple photos into one PDF document.</p>
+</section>
+
+<main class="card">
+<label class="upload" for="images">
+<div style="font-size:35px">📸</div>
+<strong>Select Images</strong>
+<p>Choose multiple JPG, PNG or WebP images</p>
+</label>
+<input type="file" id="images" accept="image/jpeg,image/png,image/webp" multiple>
+
+<div class="count" id="count">No images selected</div>
+<div class="list" id="list"></div>
+
+<div class="options">
+<div class="field">
+<label for="pageSize">PDF Page Size</label>
+<select id="pageSize">
+<option value="a4">A4</option>
+<option value="letter">Letter</option>
+<option value="fit">Fit to Image</option>
+</select>
+</div>
+<div class="field">
+<label for="orientation">Orientation</label>
+<select id="orientation">
+<option value="portrait">Portrait</option>
+<option value="landscape">Landscape</option>
+</select>
+</div>
+</div>
+
+<div class="buttons">
+<button class="secondary" id="addMore">＋ Add Images</button>
+<button class="secondary" id="clear">Clear All</button>
+</div>
+<button class="convert" id="convert" disabled style="width:100%;margin-top:12px">Convert to PDF</button>
+<div id="status" class="status"></div>
+<p class="note">Images are processed in your browser. You can change image order before creating your PDF.</p>
+</main>
+<footer>© AURA Tools</footer>
+</div>
+
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>
+const input=document.getElementById('images');
+const list=document.getElementById('list');
+const count=document.getElementById('count');
+const convert=document.getElementById('convert');
+const clear=document.getElementById('clear');
+const addMore=document.getElementById('addMore');
+const statusBox=document.getElementById('status');
+let files=[];
+
+function showStatus(msg,type){
+  statusBox.className='status '+type;
+  statusBox.textContent=msg;
+}
+function render(){
+  list.innerHTML='';
+  count.textContent=files.length?files.length+' image(s) selected':'No images selected';
+  files.forEach((file,i)=>{
+    const item=document.createElement('div');
+    item.className='item';
+    const img=document.createElement('img');
+    img.alt='Image preview';
+    img.src=URL.createObjectURL(file);
+    const name=document.createElement('div');
+    name.className='name';
+    name.textContent=(i+1)+'. '+file.name;
+    const actions=document.createElement('div');
+    actions.className='actions';
+
+    const up=document.createElement('button');
+    up.className='small';
+    up.textContent='↑';
+    up.disabled=i===0;
+    up.onclick=()=>move(i,-1);
+
+    const down=document.createElement('button');
+    down.className='small';
+    down.textContent='↓';
+    down.disabled=i===files.length-1;
+    down.onclick=()=>move(i,1);
+
+    const del=document.createElement('button');
+    del.className='small remove';
+    del.textContent='✕';
+    del.onclick=()=>{files.splice(i,1);render()};
+
+    actions.append(up,down,del);
+    item.append(img,name,actions);
+    list.appendChild(item);
+  });
+  convert.disabled=files.length===0;
+  clear.disabled=files.length===0;
+}
+function move(i,d){
+  const j=i+d;
+  if(j<0||j>=files.length)return;
+  [files[i],files[j]]=[files[j],files[i]];
+  render();
+}
+input.addEventListener('change',()=>{
+  const valid=Array.from(input.files).filter(f=>
+    ['image/jpeg','image/png','image/webp'].includes(f.type));
+  files.push(...valid);
+  if(valid.length!==input.files.length){
+    showStatus('Some files were skipped. Please use JPG, PNG or WebP images.','err');
+  }else{
+    statusBox.className='status';
+  }
+  input.value='';
+  render();
+});
+addMore.onclick=()=>input.click();
+clear.onclick=()=>{
+  files=[];
+  render();
+  statusBox.className='status';
+};
+convert.onclick=async()=>{
+  if(!files.length)return;
+  if(!window.PDFLib){
+    showStatus('PDF library failed to load. Check your internet connection and reload.','err');return;
+  }
+  convert.disabled=true;
+  convert.textContent='Creating PDF...';
+  statusBox.className='status';
+
+  try{
+    const pdf=await PDFLib.PDFDocument.create();
+    const size=document.getElementById('pageSize').value;
+    const orientation=document.getElementById('orientation').value;
+
+    for(const file of files){
+      const bytes=await file.arrayBuffer();
+      let image;
+      if(file.type==='image/jpeg'){
+        image=await pdf.embedJpg(bytes);
+      }else{
+        image=await pdf.embedPng(bytes);
+      }
+
+      const iw=image.width,ih=image.height;
+      let pageWidth,pageHeight;
+
+      if(size==='fit'){
+        pageWidth=iw;
+        pageHeight=ih;
+      }else{
+        const base=size==='a4'?[595.28,841.89]:[612,792];
+        [pageWidth,pageHeight]=base;
+        if(orientation==='landscape'){
+          [pageWidth,pageHeight]=[pageHeight,pageWidth];
+        }
+      }
+
+      const page=pdf.addPage([pageWidth,pageHeight]);
+      const margin=size==='fit'?0:24;
+      const scale=Math.min(
+        (pageWidth-2*margin)/iw,
+        (pageHeight-2*margin)/ih
+      );
+      const w=iw*scale,h=ih*scale;
+      page.drawImage(image,{
+        x:(pageWidth-w)/2,
+        y:(pageHeight-h)/2,
+        width:w,
+        height:h
+      });
+    }
+
+    const bytes=await pdf.save();
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='AURA-Images-to-PDF.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    showStatus('Success! Your PDF has been created and downloaded.','ok');
+  }catch(e){
+    console.error(e);
+    showStatus('Could not create the PDF. Try different images or smaller files.','err');
+  }finally{
+    convert.disabled=files.length===0;
+    convert.textContent='Convert to PDF';
+  }
+};
+render();
+</script>
+</body>
+</html>
