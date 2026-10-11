@@ -2,84 +2,304 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Word Counter | AURA</title>
-<meta name="description" content="Count words, characters, sentences and reading time instantly with AURA.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Advanced Word Counter - AURA</title>
+
+<meta name="description" content="Count words, sentences and paragraphs instantly with AURA's free advanced word counter.">
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#090712;color:#f7f1ff;font-family:Arial,sans-serif;padding:20px}
-.app{max-width:720px;margin:20px auto}
-header{text-align:center;margin-bottom:25px}
-.brand{color:#d49aff;letter-spacing:4px;font-size:12px}
-h1{font-size:32px;margin:14px 0}
-h1 span{color:#c879ff}
-p{color:#b7a9ca;line-height:1.6}
-.panel{background:#171126;border:1px solid #50316c;border-radius:20px;padding:20px;margin:18px 0;box-shadow:0 0 25px #bc70ff0b}
-textarea{width:100%;min-height:210px;background:#0c0916;color:white;border:1px solid #4a345e;border-radius:12px;padding:15px;font-size:16px;line-height:1.6;resize:vertical;outline:none}
-textarea:focus{border-color:#c879ff}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
-.stat{padding:15px;background:#211633;border:1px solid #49315f;border-radius:12px}
-.label{font-size:12px;color:#c7b1dc;text-transform:uppercase}
-.value{font-size:27px;color:#d49aff;font-weight:bold;margin-top:8px;overflow-wrap:anywhere}
-.buttons{display:flex;gap:10px;margin-top:15px}
-button{flex:1;padding:13px;border:0;border-radius:10px;background:#c879ff;color:#160822;font-weight:bold;cursor:pointer}
-button.alt{background:#30213f;color:#f1ddff;border:1px solid #60417a}
-button:active{transform:scale(.98)}
-.back{display:block;text-align:center;margin-top:25px;color:#d49aff;text-decoration:none}
-@media(min-width:520px){.stats{grid-template-columns:repeat(3,1fr)}}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    padding: 20px 0 30px;
+}
+
+header h1 {
+    font-size: 32px;
+    color: #2563eb;
+}
+
+header p {
+    color: #64748b;
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 850px;
+    margin: auto;
+}
+
+.editor {
+    background: white;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+}
+
+textarea {
+    width: 100%;
+    height: 260px;
+    padding: 16px;
+    border: 1px solid #dbe3ef;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #2563eb;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.copy {
+    background: #2563eb;
+    color: white;
+}
+
+.clear {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 22px;
+}
+
+.card {
+    background: white;
+    text-align: center;
+    padding: 22px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.card h2 {
+    font-size: 30px;
+    color: #2563eb;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.extra {
+    background: white;
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.extra strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.extra span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    padding: 30px 0 10px;
+    font-size: 14px;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    .stats {
+        gap: 8px;
+    }
+
+    .card {
+        padding: 18px 5px;
+    }
+
+    .card h2 {
+        font-size: 25px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+}
 </style>
 </head>
+
 <body>
-<main class="app">
+
 <header>
-<div class="brand">A U R A / TEXT LAB</div>
-<h1>WORD <span>COUNTER</span></h1>
-<p>Turn your text into instant, useful statistics.</p>
+    <h1>AURA</h1>
+    <p>Advanced Word Counter</p>
 </header>
 
-<section class="panel">
-<textarea id="text" placeholder="Type or paste your text here..." aria-label="Text to analyse"></textarea>
+<main class="container">
 
-<div class="stats" aria-live="polite">
-<div class="stat"><div class="label">Words</div><div class="value" id="words">0</div></div>
-<div class="stat"><div class="label">Characters</div><div class="value" id="chars">0</div></div>
-<div class="stat"><div class="label">Without spaces</div><div class="value" id="nospace">0</div></div>
-<div class="stat"><div class="label">Sentences</div><div class="value" id="sentences">0</div></div>
-<div class="stat"><div class="label">Paragraphs</div><div class="value" id="paragraphs">0</div></div>
-<div class="stat"><div class="label">Reading time</div><div class="value" id="reading">0 min</div></div>
-</div>
+    <section class="editor">
+        <textarea id="textInput"
+        placeholder="Type or paste your text here..."></textarea>
 
-<div class="buttons">
-<button id="copy">COPY TEXT</button>
-<button class="alt" id="clear">CLEAR</button>
-</div>
-<p id="status" role="status" aria-live="polite"></p>
-</section>
-<a class="back" href="index.html">← Back to AURA</a>
+        <div class="buttons">
+            <button class="copy" onclick="copyText()">📋 Copy Text</button>
+            <button class="clear" onclick="clearText()">✖ Clear All</button>
+        </div>
+    </section>
+
+    <section class="stats">
+
+        <div class="card">
+            <h2 id="wordCount">0</h2>
+            <p>Words</p>
+        </div>
+
+        <div class="card">
+            <h2 id="sentenceCount">0</h2>
+            <p>Sentences</p>
+        </div>
+
+        <div class="card">
+            <h2 id="paragraphCount">0</h2>
+            <p>Paragraphs</p>
+        </div>
+
+    </section>
+
+    <section class="extra">
+        <div>
+            <strong id="charCount">0</strong>
+            <span>Characters</span>
+        </div>
+
+        <div>
+            <strong id="charNoSpace">0</strong>
+            <span>Characters (without spaces)</span>
+        </div>
+
+        <div>
+            <strong id="readingTime">0 min</strong>
+            <span>Reading Time</span>
+        </div>
+    </section>
+
 </main>
 
+<footer>
+    © 2026 AURA | Free Online Word Counter
+</footer>
+
 <script>
-const input=document.getElementById("text");
-function update(){
- const t=input.value, trimmed=t.trim();
- const words=trimmed?(trimmed.match(/\S+/gu)||[]).length:0;
- const sentences=trimmed?(trimmed.match(/[^.!?。！？]+[.!?。！？]*/gu)||[]).filter(s=>s.trim()).length:0;
- const paragraphs=trimmed?trimmed.split(/\n\s*\n/u).filter(p=>p.trim()).length:0;
- document.getElementById("words").textContent=words;
- document.getElementById("chars").textContent=t.length;
- document.getElementById("nospace").textContent=t.replace(/\s/gu,"").length;
- document.getElementById("sentences").textContent=sentences;
- document.getElementById("paragraphs").textContent=paragraphs;
- document.getElementById("reading").textContent=words?Math.ceil(words/200)+" min":"0 min";
+const textInput = document.getElementById("textInput");
+
+function countText() {
+    const text = textInput.value;
+
+    const trimmed = text.trim();
+
+    const words = trimmed
+        ? trimmed.split(/\s+/).length
+        : 0;
+
+    const sentences = trimmed
+        ? (trimmed.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [])
+            .filter(s => s.trim().length > 0).length
+        : 0;
+
+    const paragraphs = text
+        .split(/\n\s*\n/)
+        .filter(p => p.trim().length > 0).length;
+
+    const characters = text.length;
+
+    const charactersNoSpaces = text
+        .replace(/\s/g, "").length;
+
+    const minutes = words === 0
+        ? 0
+        : Math.ceil(words / 200);
+
+    document.getElementById("wordCount").textContent = words;
+    document.getElementById("sentenceCount").textContent = sentences;
+    document.getElementById("paragraphCount").textContent = paragraphs;
+    document.getElementById("charCount").textContent = characters;
+    document.getElementById("charNoSpace").textContent = charactersNoSpaces;
+
+    document.getElementById("readingTime").textContent =
+        minutes + (minutes === 1 ? " min" : " min");
 }
-input.addEventListener("input",update);
-document.getElementById("clear").onclick=()=>{input.value="";update();document.getElementById("status").textContent="Text cleared.";input.focus()};
-document.getElementById("copy").onclick=async()=>{
- if(!input.value){document.getElementById("status").textContent="Enter some text first.";return}
- try{await navigator.clipboard.writeText(input.value);document.getElementById("status").textContent="Text copied!"}
- catch(e){input.select();document.getElementById("status").textContent=document.execCommand("copy")?"Text copied!":"Select and copy the text manually."}
-};
-update();
+
+function clearText() {
+    textInput.value = "";
+    countText();
+    textInput.focus();
+}
+
+async function copyText() {
+    const text = textInput.value;
+
+    if (!text) {
+        alert("Please enter some text first!");
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Text copied successfully!");
+    } catch (error) {
+        textInput.select();
+        const copied = document.execCommand("copy");
+        alert(copied ? "Text copied successfully!" : "Please copy the selected text manually.");
+    }
+}
+
+textInput.addEventListener("input", countText);
+
+countText();
 </script>
+
 </body>
-           </html>
+ </html>
