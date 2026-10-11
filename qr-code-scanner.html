@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>QR Code Scanner - AURA</title>
-<meta name="description" content="Scan QR codes online using your camera or an image with AURA QR Code Scanner.">
+<meta name="description" content="Scan QR codes online by uploading an image with AURA QR Code Scanner.">
 
 <style>
 * {
@@ -15,86 +15,102 @@
 body {
     margin: 0;
     padding: 18px;
-    font-family: Arial, sans-serif;
-    background: #0b0b0b;
-    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0b0d12;
+    color: #f4f6fb;
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 650px;
+    width: min(650px, 100%);
     margin: 20px auto;
 }
 
 h1 {
     text-align: center;
     font-size: 29px;
+    line-height: 1.3;
 }
 
 .subtitle {
-    color: #bbb;
+    color: #a4adbd;
     text-align: center;
-    line-height: 1.6;
     margin-bottom: 25px;
 }
 
-/* Main card box */
+/* PROPER CARD BOXES */
 .card {
-    background: #171717;
-    border: 1px solid #333;
-    border-radius: 18px;
+    background: linear-gradient(145deg, #171b25, #11141b);
+    border: 1px solid #30394b;
+    border-radius: 17px;
     padding: 22px;
-    margin-bottom: 22px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.25);
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px #0003;
 }
 
 .card h2 {
-    margin-top: 0;
+    margin: 0 0 14px;
     font-size: 21px;
 }
 
-button,
-.upload-label {
+.upload-label,
+button {
     display: block;
     width: 100%;
     padding: 14px;
     margin-top: 12px;
     border: none;
     border-radius: 10px;
+    font-family: inherit;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
 }
 
-.primary {
-    background: #22c55e;
-    color: #07120a;
-}
-
-.secondary {
-    background: #303030;
-    color: #fff;
-}
-
 .upload-label {
-    background: #fff;
-    color: #111;
+    background: #ffffff;
+    color: #111111;
+}
+
+button {
+    background: #303746;
+    color: #ffffff;
+}
+
+.upload-label:active,
+button:active {
+    transform: scale(.99);
 }
 
 input[type="file"] {
     display: none;
 }
 
-#reader {
-    width: 100%;
-    overflow: hidden;
-    border-radius: 12px;
-    background: #fff;
-    color: #111;
+.small {
+    color: #a4adbd;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 0;
 }
 
-#reader video {
+.result-box {
+    background: #0b0d12;
+    border: 1px solid #30394b;
+    padding: 15px;
     border-radius: 10px;
+    margin-top: 12px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.7;
+    min-height: 60px;
+}
+
+.result-box a {
+    display: inline-block;
+    color: #a997ff;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
 }
 
 .status {
@@ -105,46 +121,29 @@ input[type="file"] {
     overflow-wrap: anywhere;
 }
 
-.result-box {
-    background: #101010;
-    border: 1px solid #333;
-    padding: 14px;
-    border-radius: 10px;
-    margin-top: 15px;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    line-height: 1.6;
-}
-
-.result-box a {
-    color: #86efac;
-    overflow-wrap: anywhere;
-}
-
-.small {
-    color: #aaa;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
 .footer {
-    color: #777;
+    color: #7e8798;
     text-align: center;
     font-size: 13px;
     margin-top: 25px;
 }
 
-@media(max-width:480px) {
+@media (max-width: 480px) {
     body {
         padding: 12px;
     }
 
-    .card {
-        padding: 17px;
+    .container {
+        margin-top: 12px;
     }
 
     h1 {
         font-size: 25px;
+    }
+
+    .card {
+        padding: 17px;
+        border-radius: 16px;
     }
 }
 </style>
@@ -157,31 +156,8 @@ input[type="file"] {
     <h1>📷 QR Code Scanner</h1>
 
     <p class="subtitle">
-        Scan any QR code using your camera or upload an image.
-        View the decoded result instantly.
+        Upload an image containing a QR code and scan it instantly.
     </p>
-
-    <!-- CAMERA SCANNER CARD -->
-    <div class="card">
-
-        <h2>📸 Scan with Camera</h2>
-
-        <div id="reader"></div>
-
-        <button class="primary" id="startBtn" type="button">
-            Start Camera Scanner
-        </button>
-
-        <button class="secondary" id="stopBtn" type="button">
-            Stop Camera
-        </button>
-
-        <p class="small">
-            Allow camera permission when asked. Camera scanning generally
-            requires HTTPS, which GitHub Pages supports.
-        </p>
-
-    </div>
 
     <!-- IMAGE UPLOAD CARD -->
     <div class="card">
@@ -189,7 +165,7 @@ input[type="file"] {
         <h2>🖼️ Scan from Image</h2>
 
         <label class="upload-label" for="imageInput">
-            Choose QR Code Image
+            📤 Choose QR Code Image
         </label>
 
         <input
@@ -199,8 +175,11 @@ input[type="file"] {
         >
 
         <p class="small">
-            Select a photo or screenshot containing a QR code.
+            Choose a photo or screenshot containing a QR code.
+            Supported image formats depend on your browser.
         </p>
+
+        <p id="status" class="status" aria-live="polite"></p>
 
     </div>
 
@@ -209,24 +188,22 @@ input[type="file"] {
 
         <h2>✅ Scan Result</h2>
 
-        <div id="result" class="result-box">
+        <div id="result" class="result-box" aria-live="polite">
             Your scanned QR code result will appear here.
         </div>
 
-        <button class="secondary" id="copyBtn" type="button">
-            Copy Result
+        <button id="copyBtn" type="button">
+            📋 Copy Result
         </button>
 
-        <button class="secondary" id="clearBtn" type="button">
-            Clear Result
+        <button id="clearBtn" type="button">
+            🗑️ Clear Result
         </button>
-
-        <p id="status" class="status" aria-live="polite"></p>
 
     </div>
 
     <div class="footer">
-        © AURA | QR Code Scanner
+        © 2026 AURA | QR Code Scanner
     </div>
 
 </div>
@@ -234,12 +211,10 @@ input[type="file"] {
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
+const imageInput = document.getElementById("imageInput");
 const resultBox = document.getElementById("result");
 const statusBox = document.getElementById("status");
-const imageInput = document.getElementById("imageInput");
 
-let scanner = null;
-let cameraRunning = false;
 let lastResult = "";
 
 function showResult(text) {
@@ -247,111 +222,30 @@ function showResult(text) {
 
     resultBox.replaceChildren();
 
-    // Show normal text safely without interpreting it as HTML.
-    const textNode = document.createElement("div");
-    textNode.textContent = text;
-    resultBox.appendChild(textNode);
+    const textElement = document.createElement("div");
+    textElement.textContent = text;
+    resultBox.appendChild(textElement);
 
-    // Create a clickable link only for valid HTTP/HTTPS URLs.
+    // Make normal web links clickable.
     try {
         const url = new URL(text);
 
-        if (url.protocol === "http:" || url.protocol === "https:") {
+        if (url.protocol === "https:" || url.protocol === "http:") {
             const link = document.createElement("a");
+
             link.href = url.href;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.textContent = "Open link";
-            link.style.display = "block";
-            link.style.marginTop = "10px";
+            link.textContent = "Open Link →";
+
             resultBox.appendChild(link);
         }
     } catch (error) {
-        // Non-URL QR content remains plain text.
+        // Other QR data is displayed as plain text.
     }
 
-    statusBox.textContent = "QR code scanned successfully!";
+    statusBox.textContent = "✅ QR code scanned successfully!";
 }
-
-function onScanSuccess(decodedText) {
-    showResult(decodedText);
-    statusBox.textContent = "QR code scanned successfully!";
-    stopCamera();
-}
-
-function onScanFailure() {
-    // QR code has not been detected in this video frame.
-}
-
-async function startCamera() {
-    if (cameraRunning) return;
-
-    if (typeof Html5Qrcode === "undefined") {
-        statusBox.textContent =
-            "Scanner library load nahi hui. Internet check karke page reload karein.";
-        return;
-    }
-
-    try {
-        if (!scanner) {
-            scanner = new Html5Qrcode("reader");
-        }
-
-        statusBox.textContent =
-            "Camera start ho raha hai. Permission allow karein.";
-
-        await scanner.start(
-            { facingMode: "environment" },
-            {
-                fps: 10,
-                qrbox: function(viewWidth, viewHeight) {
-                    const size = Math.floor(
-                        Math.min(viewWidth, viewHeight) * 0.7
-                    );
-
-                    return {
-                        width: Math.max(150, size),
-                        height: Math.max(150, size)
-                    };
-                }
-            },
-            onScanSuccess,
-            onScanFailure
-        );
-
-        cameraRunning = true;
-        statusBox.textContent = "QR code ko camera ke saamne rakhein.";
-
-    } catch (error) {
-        cameraRunning = false;
-
-        statusBox.textContent =
-            "Camera start nahi hua. Camera permission allow karein aur HTTPS page par try karein.";
-    }
-}
-
-async function stopCamera() {
-    if (!scanner || !cameraRunning) return;
-
-    try {
-        await scanner.stop();
-        cameraRunning = false;
-        statusBox.textContent = "Camera band kar diya gaya.";
-    } catch (error) {
-        statusBox.textContent =
-            "Camera band nahi ho saka. Page reload karke try karein.";
-    }
-}
-
-document.getElementById("startBtn").addEventListener(
-    "click",
-    startCamera
-);
-
-document.getElementById("stopBtn").addEventListener(
-    "click",
-    stopCamera
-);
 
 imageInput.addEventListener("change", async function() {
     const file = imageInput.files && imageInput.files[0];
@@ -360,49 +254,70 @@ imageInput.addEventListener("change", async function() {
 
     if (typeof Html5Qrcode === "undefined") {
         statusBox.textContent =
-            "Scanner library load nahi hui. Internet check karein.";
+            "Scanner library load nahi hui. Internet check karke page reload karein.";
+
         imageInput.value = "";
         return;
     }
 
-    try {
-        statusBox.textContent = "Image scan ho rahi hai...";
+    if (!file.type.startsWith("image/")) {
+        statusBox.textContent = "Please select a valid image file.";
+        imageInput.value = "";
+        return;
+    }
 
-        const imageScanner = new Html5Qrcode("reader");
-        const decodedText = await imageScanner.scanFile(file, true);
+    statusBox.textContent = "⏳ Image scan ho rahi hai...";
+
+    let imageScanner;
+
+    try {
+        imageScanner = new Html5Qrcode("result");
+
+        const decodedText = await imageScanner.scanFile(file, false);
 
         showResult(decodedText);
 
     } catch (error) {
         statusBox.textContent =
-            "Is image mein QR code nahi mila. Clear aur poori QR image select karein.";
+            "❌ QR code nahi mila. Clear aur poori QR image select karke dobara try karein.";
+
     } finally {
+        if (imageScanner) {
+            try {
+                await imageScanner.clear();
+            } catch (error) {
+                // Ignore cleanup errors.
+            }
+        }
+
         imageInput.value = "";
     }
 });
 
 document.getElementById("copyBtn").addEventListener("click", async function() {
     if (!lastResult) {
-        statusBox.textContent = "Pehle QR code scan karein.";
+        statusBox.textContent = "Pehle QR code image scan karein.";
         return;
     }
 
     try {
         await navigator.clipboard.writeText(lastResult);
-        statusBox.textContent = "Result copied!";
+        statusBox.textContent = "✅ Result copied!";
     } catch (error) {
         statusBox.textContent =
-            "Copy automatic nahi hua. Result ko select karke manually copy karein.";
+            "Copy nahi hua. Result ko select karke manually copy karein.";
     }
 });
 
 document.getElementById("clearBtn").addEventListener("click", function() {
     lastResult = "";
+
     resultBox.textContent =
         "Your scanned QR code result will appear here.";
+
     statusBox.textContent = "";
 });
 </script>
 
 </body>
-</html>
+    </html>
