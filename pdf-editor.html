@@ -2,114 +2,672 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>PDF Editor - AURA</title>
-<meta name="description" content="Add text notes to PDF pages with AURA PDF Editor.">
+<meta name="description" content="Upload, annotate, draw on and download PDF files online for free with AURA PDF Editor.">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;padding:18px;font-family:Arial,sans-serif;background:#fff7ed;color:#431407}
-.wrap{max-width:800px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;margin:10px 0 35px}
-.logo{font-size:28px;font-weight:900;color:#ea580c}
-.home{background:white;padding:12px 16px;border-radius:12px;color:#c2410c;text-decoration:none;font-weight:bold}
-.hero{text-align:center;margin-bottom:25px}
-.hero .icon{font-size:42px}
-h1{font-size:32px;margin:10px}
-.hero p{color:#9a3412;line-height:1.6}
-.card{background:white;padding:22px;border-radius:22px;border:1px solid #fed7aa;box-shadow:0 12px 35px #9a341210}
-.upload{display:block;text-align:center;padding:25px 12px;border:2px dashed #fb923c;border-radius:16px;background:#fffaf5;cursor:pointer}
-.upload strong{display:block;margin:10px}
-input[type=file]{display:none}
-.info{margin:15px 0;color:#9a3412;overflow-wrap:anywhere}
-label{display:block;font-weight:bold;margin:15px 0 8px}
-input[type=text],input[type=number],textarea,select{width:100%;padding:12px;border:1px solid #fed7aa;border-radius:10px;font:inherit}
-textarea{min-height:90px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button{border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer}
-.primary{width:100%;margin-top:18px;background:linear-gradient(135deg,#f97316,#ea580c);color:white}
-button:disabled{opacity:.5}
-#preview{margin-top:20px;background:#fff7ed;padding:10px;border-radius:12px;overflow:auto}
-canvas{display:block;max-width:100%;height:auto;margin:auto;background:white}
-.status{display:none;margin-top:15px;padding:13px;border-radius:10px;line-height:1.5}
-.ok{display:block;background:#dcfce7;color:#166534}
-.err{display:block;background:#fee2e2;color:#991b1b}
-.note{font-size:13px;color:#9a3412;line-height:1.7;margin-top:18px}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff7ed;
+    color: #431407;
+}
+
+header {
+    text-align: center;
+    padding: 24px 12px;
+}
+
+header .icon {
+    font-size: 48px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+header p {
+    color: #9a3412;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 12px;
+}
+
+.panel {
+    background: #ffffff;
+    border: 1px solid #fed7aa;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 5px 20px #43140710;
+}
+
+.upload {
+    display: block;
+    width: 100%;
+    padding: 25px 12px;
+    border: 2px dashed #fb923c;
+    border-radius: 14px;
+    background: #fffaf5;
+    text-align: center;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.upload span {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 13px;
+    background: #ffedd5;
+    color: #7c2d12;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+button.active {
+    background: #9a3412;
+    color: white;
+}
+
+.primary {
+    background: #f97316;
+    color: white;
+}
+
+.download {
+    background: #15803d;
+    color: white;
+}
+
+.status {
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff7ed;
+    color: #9a3412;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.viewer {
+    margin-top: 16px;
+    overflow: auto;
+    max-height: 75vh;
+    background: #e7e5e4;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.page {
+    position: relative;
+    margin: 0 auto 18px;
+    background: white;
+    box-shadow: 0 2px 10px #0002;
+    line-height: 0;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.page canvas {
+    display: block;
+    max-width: none;
+}
+
+.page .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.hint {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #9a3412;
+    margin-top: 12px;
+}
+
+@media (max-width: 500px) {
+    header h1 {
+        font-size: 28px;
+    }
+
+    .panel {
+        padding: 12px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .viewer {
+        padding: 6px;
+    }
+}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-<header><div class="logo">AURA</div><a class="home" href="index.html">← Home</a></header>
-<section class="hero">
-<div class="icon">✏️</div>
-<h1>PDF Editor</h1>
-<p>Add a text note to a PDF page and save your edited copy.</p>
-</section>
-<main class="card">
-<label class="upload" for="pdf">
-<div style="font-size:34px">📄</div>
-<strong>Select PDF to edit</strong>
-<span style="font-size:13px;color:#9a3412">Choose a PDF from your device</span>
+
+<header>
+    <div class="icon">✏️</div>
+    <h1>AURA PDF Editor</h1>
+    <p>Upload, annotate, sign and save your PDF.</p>
+</header>
+
+<main class="container">
+<section class="panel">
+
+<label class="upload" for="pdfFile">
+    📄 Select PDF to edit
+    <span>Choose a PDF from your device</span>
 </label>
-<input id="pdf" type="file" accept=".pdf,application/pdf">
-<div id="info" class="info">No PDF selected</div>
-<div class="row">
-<div><label for="page">Page number</label><input id="page" type="number" min="1" value="1"></div>
-<div><label for="size">Text size</label><input id="size" type="number" min="8" max="48" value="16"></div>
+
+<input type="file" id="pdfFile" accept="application/pdf,.pdf">
+
+<div class="toolbar">
+    <button id="zoomOut" disabled>− Zoom</button>
+    <button id="zoomIn" disabled>+ Zoom</button>
+    <button id="textMode" disabled>✏️ Add Text</button>
+    <button id="drawMode" disabled>🖊️ Draw / Sign</button>
+    <button id="eraseMode" disabled>🗑️ Eraser</button>
+    <button id="undoBtn" disabled>↶ Undo</button>
+    <button id="redoBtn" disabled>↷ Redo</button>
+    <button id="newPage" disabled>➕ New Page</button>
+    <button id="downloadBtn" class="download" disabled>
+        💾 Download PDF
+    </button>
 </div>
-<label for="note">Text to add</label>
-<textarea id="note" placeholder="Type your note here..."></textarea>
-<div class="row">
-<div><label for="x">Horizontal position (pt)</label><input id="x" type="number" min="0" value="50"></div>
-<div><label for="y">Vertical position from top (pt)</label><input id="y" type="number" min="0" value="100"></div>
+
+<div id="status" class="status">
+    Please select a PDF file to begin.
 </div>
-<button id="save" class="primary" disabled>Save Edited PDF</button>
-<div id="status" class="status"></div>
-<div id="preview"></div>
-<p class="note">This basic editor adds new text over existing pages. It does not edit or remove existing text, and it does not support signatures, form filling, or advanced editing. Use only PDFs you are allowed to edit.</p>
+
+<div id="viewer" class="viewer"></div>
+
+<p class="hint">
+    Add Text: select the tool, then tap a page.
+    Draw / Sign: draw using your finger or mouse.
+    Eraser: erase annotations you added.
+    Save: download your edited PDF.
+</p>
+
+</section>
 </main>
-</div>
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 <script>
-if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const input=document.getElementById('pdf'),info=document.getElementById('info'),save=document.getElementById('save'),status=document.getElementById('status'),preview=document.getElementById('preview');
-let file=null,totalPages=0;
-input.onchange=async()=>{
-file=input.files[0]||null;preview.innerHTML='';status.className='status';
-info.textContent=file?file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB':'No PDF selected';
-save.disabled=!file;
-if(!file)return;
-try{
-const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
-totalPages=doc.numPages;document.getElementById('page').max=totalPages;
-document.getElementById('page').value=1;
-const page=await doc.getPage(1),viewport=page.getViewport({scale:1});
-const canvas=document.createElement('canvas');canvas.width=viewport.width;canvas.height=viewport.height;
-await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
-preview.appendChild(canvas);
-status.textContent='PDF loaded: '+totalPages+' page(s). Text is added to the page number you select.';status.className='status ok';
-}catch(e){status.textContent='Could not read this PDF. It may be damaged or encrypted.';status.className='status err';save.disabled=true;}
-};
-save.onclick=async()=>{
-if(!file)return;
-const text=document.getElementById('note').value;
-if(!text.trim()){status.textContent='Please type the text you want to add.';status.className='status err';return;}
-save.disabled=true;save.textContent='Saving...';
-try{
-const pdf=await PDFLib.PDFDocument.load(await file.arrayBuffer());
-const pageNum=Number(document.getElementById('page').value);
-if(pageNum<1||pageNum>pdf.getPageCount())throw Error('Choose a valid page number.');
-const page=pdf.getPages()[pageNum-1],{width,height}=page.getSize();
-const x=Math.max(0,Math.min(width,Number(document.getElementById('x').value)||0));
-const top=Math.max(0,Math.min(height,Number(document.getElementById('y').value)||0));
-const fontSize=Math.max(8,Math.min(48,Number(document.getElementById('size').value)||16));
-page.drawText(text,{x,y:Math.max(0,height-top-fontSize),size:fontSize,maxWidth:Math.max(10,width-x-10),lineHeight:fontSize*1.3,color:PDFLib.rgb(0.1,0.1,0.1)});
-const bytes=await pdf.save(),blob=new Blob([bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
-const a=document.createElement('a');a.href=url;a.download='AURA-Edited.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
-status.textContent='Edited PDF downloaded successfully.';status.className='status ok';
-}catch(e){status.textContent=e.message||'Could not save the edited PDF.';status.className='status err';}
-finally{save.disabled=!file;save.textContent='Save Edited PDF';}
-};
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const { PDFDocument, StandardFonts, rgb } = PDFLib;
+
+const fileInput = document.getElementById("pdfFile");
+const viewer = document.getElementById("viewer");
+const statusBox = document.getElementById("status");
+
+const zoomInBtn = document.getElementById("zoomIn");
+const zoomOutBtn = document.getElementById("zoomOut");
+const textBtn = document.getElementById("textMode");
+const drawBtn = document.getElementById("drawMode");
+const eraseBtn = document.getElementById("eraseMode");
+const undoBtn = document.getElementById("undoBtn");
+const redoBtn = document.getElementById("redoBtn");
+const newPageBtn = document.getElementById("newPage");
+const downloadBtn = document.getElementById("downloadBtn");
+
+let originalBytes = null;
+let pdfDocument = null;
+let scale = 1;
+let currentMode = "draw";
+let pages = [];
+let busy = false;
+
+function status(message) {
+    statusBox.textContent = message;
+}
+
+function setButtons(enabled) {
+    [
+        zoomInBtn, zoomOutBtn, textBtn, drawBtn,
+        eraseBtn, undoBtn, redoBtn, newPageBtn, downloadBtn
+    ].forEach(button => button.disabled = !enabled);
+}
+
+function updateHistoryButtons(page) {
+    undoBtn.disabled = !page || page.history.length <= 1;
+    redoBtn.disabled = !page || page.historyIndex >= page.history.length - 1;
+}
+
+function setMode(mode) {
+    currentMode = mode;
+
+    textBtn.classList.toggle("active", mode === "text");
+    drawBtn.classList.toggle("active", mode === "draw");
+    eraseBtn.classList.toggle("active", mode === "erase");
+
+    pages.forEach(page => {
+        page.overlay.style.pointerEvents = "auto";
+        page.overlay.style.cursor =
+            mode === "text" ? "text" : "crosshair";
+    });
+
+    if (mode === "text") {
+        status("Text mode: tap where you want to place text.");
+    } else if (mode === "draw") {
+        status("Draw / Sign mode: use your finger or mouse.");
+    } else {
+        status("Eraser mode: erase your added annotations.");
+    }
+}
+
+function saveSnapshot(page) {
+    const image = page.overlay.toDataURL("image/png");
+
+    page.history = page.history.slice(0, page.historyIndex + 1);
+    page.history.push(image);
+    page.historyIndex = page.history.length - 1;
+
+    if (page.history.length > 30) {
+        page.history.shift();
+        page.historyIndex--;
+    }
+
+    updateHistoryButtons(page);
+}
+
+function restoreSnapshot(page, index) {
+    if (!page || index < 0 || index >= page.history.length) return;
+
+    const image = new Image();
+
+    image.onload = () => {
+        const ctx = page.overlay.getContext("2d");
+        ctx.clearRect(0, 0, page.overlay.width, page.overlay.height);
+        ctx.drawImage(image, 0, 0);
+        page.historyIndex = index;
+        updateHistoryButtons(page);
+    };
+
+    image.src = page.history[index];
+}
+
+function currentPage() {
+    return pages.find(page => {
+        const rect = page.wrapper.getBoundingClientRect();
+        return rect.bottom > 0 && rect.top < window.innerHeight;
+    }) || pages[0];
+}
+
+async function loadPDF(bytes) {
+    status("Loading PDF...");
+
+    const copy = new Uint8Array(bytes);
+
+    pdfDocument = await pdfjsLib.getDocument({
+        data: copy
+    }).promise;
+
+    viewer.innerHTML = "";
+    pages = [];
+
+    for (let number = 1; number <= pdfDocument.numPages; number++) {
+        const pdfPage = await pdfDocument.getPage(number);
+        const viewport = pdfPage.getViewport({ scale });
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "page";
+        wrapper.style.width = viewport.width + "px";
+        wrapper.style.height = viewport.height + "px";
+
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.ceil(viewport.width);
+        canvas.height = Math.ceil(viewport.height);
+        canvas.style.width = viewport.width + "px";
+        canvas.style.height = viewport.height + "px";
+
+        const overlay = document.createElement("canvas");
+        overlay.className = "overlay";
+        overlay.width = canvas.width;
+        overlay.height = canvas.height;
+        overlay.style.width = viewport.width + "px";
+        overlay.style.height = viewport.height + "px";
+
+        wrapper.appendChild(canvas);
+        wrapper.appendChild(overlay);
+        viewer.appendChild(wrapper);
+
+        await pdfPage.render({
+            canvasContext: canvas.getContext("2d"),
+            viewport
+        }).promise;
+
+        const page = {
+            number,
+            pdfPage,
+            wrapper,
+            canvas,
+            overlay,
+            viewport,
+            history: [],
+            historyIndex: -1,
+            drawing: false,
+            lastX: 0,
+            lastY: 0
+        };
+
+        pages.push(page);
+        installOverlay(page);
+        saveSnapshot(page);
+    }
+
+    setButtons(true);
+    setMode(currentMode);
+    status("PDF loaded: " + pdfDocument.numPages + " page(s).");
+}
+
+function getPoint(event, page) {
+    const rect = page.overlay.getBoundingClientRect();
+
+    return {
+        x: (event.clientX - rect.left) *
+            (page.overlay.width / rect.width),
+        y: (event.clientY - rect.top) *
+            (page.overlay.height / rect.height)
+    };
+}
+
+function installOverlay(page) {
+    const canvas = page.overlay;
+    const ctx = canvas.getContext("2d");
+
+    canvas.addEventListener("pointerdown", event => {
+        if (busy) return;
+
+        event.preventDefault();
+
+        if (currentMode === "text") {
+            const point = getPoint(event, page);
+            const text = prompt("Enter the text to add:");
+
+            if (text && text.trim()) {
+                const size = Number(prompt("Text size in points:", "18"));
+
+                if (!Number.isFinite(size) || size < 1 || size > 200) {
+                    status("Enter a text size between 1 and 200.");
+                    return;
+                }
+
+                const fontSize = size * scale;
+
+                ctx.save();
+                ctx.fillStyle = "#111111";
+                ctx.font = fontSize + "px Arial";
+                ctx.textBaseline = "top";
+
+                const lines = text.split("\n");
+
+                lines.forEach((line, index) => {
+                    ctx.fillText(
+                        line,
+                        point.x,
+                        point.y + index * fontSize * 1.3
+                    );
+                });
+
+                ctx.restore();
+                saveSnapshot(page);
+            }
+
+            return;
+        }
+
+        page.drawing = true;
+        page.lastX = getPoint(event, page).x;
+        page.lastY = getPoint(event, page).y;
+
+        canvas.setPointerCapture(event.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", event => {
+        if (!page.drawing) return;
+
+        event.preventDefault();
+
+        const point = getPoint(event, page);
+
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        if (currentMode === "erase") {
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.lineWidth = 28 * scale;
+        } else {
+            ctx.globalCompositeOperation = "source-over";
+            ctx.strokeStyle = "#111111";
+            ctx.lineWidth = 3 * scale;
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(page.lastX, page.lastY);
+        ctx.lineTo(point.x, point.y);
+        ctx.stroke();
+        ctx.restore();
+
+        page.lastX = point.x;
+        page.lastY = point.y;
+    });
+
+    function finishDrawing() {
+        if (!page.drawing) return;
+
+        page.drawing = false;
+        saveSnapshot(page);
+    }
+
+    canvas.addEventListener("pointerup", finishDrawing);
+    canvas.addEventListener("pointercancel", finishDrawing);
+}
+
+zoomInBtn.addEventListener("click", async () => {
+    if (!originalBytes || busy || scale >= 2.5) return;
+    scale = Math.min(2.5, scale + 0.2);
+    await loadPDF(originalBytes);
+});
+
+zoomOutBtn.addEventListener("click", async () => {
+    if (!originalBytes || busy || scale <= 0.5) return;
+    scale = Math.max(0.5, scale - 0.2);
+    await loadPDF(originalBytes);
+});
+
+textBtn.addEventListener("click", () => setMode("text"));
+drawBtn.addEventListener("click", () => setMode("draw"));
+eraseBtn.addEventListener("click", () => setMode("erase"));
+
+undoBtn.addEventListener("click", () => {
+    const page = currentPage();
+    if (page && page.historyIndex > 0) {
+        restoreSnapshot(page, page.historyIndex - 1);
+    }
+});
+
+redoBtn.addEventListener("click", () => {
+    const page = currentPage();
+    if (page && page.historyIndex < page.history.length - 1) {
+        restoreSnapshot(page, page.historyIndex + 1);
+    }
+});
+
+async function bakeAnnotations() {
+    const pdf = await PDFDocument.load(originalBytes);
+    const pngs = [];
+
+    for (const page of pages) {
+        const dataURL = page.overlay.toDataURL("image/png");
+        pngs.push({
+            number: page.number,
+            data: await fetch(dataURL).then(response => response.arrayBuffer()),
+            width: page.viewport.width,
+            height: page.viewport.height
+        });
+    }
+
+    for (const annotation of pngs) {
+        const embedded = await pdf.embedPng(annotation.data);
+        const target = pdf.getPage(annotation.number - 1);
+        const size = target.getSize();
+
+        target.drawImage(embedded, {
+            x: 0,
+            y: 0,
+            width: size.width,
+            height: size.height
+        });
+    }
+
+    return pdf;
+}
+
+newPageBtn.addEventListener("click", async () => {
+    if (busy || !originalBytes) return;
+
+    busy = true;
+    newPageBtn.disabled = true;
+
+    try {
+        status("Preparing existing annotations...");
+
+        const pdf = await bakeAnnotations();
+        pdf.addPage();
+
+        originalBytes = await pdf.save();
+        scale = 1;
+
+        await loadPDF(originalBytes);
+
+        status("New blank page added successfully.");
+        viewer.lastElementChild?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    } catch (error) {
+        console.error(error);
+        status("Could not add a page: " + error.message);
+    } finally {
+        busy = false;
+        newPageBtn.disabled = false;
+    }
+});
+
+downloadBtn.addEventListener("click", async () => {
+    if (busy || !originalBytes) return;
+
+    busy = true;
+    downloadBtn.disabled = true;
+
+    try {
+        status("Creating edited PDF...");
+
+        const pdf = await bakeAnnotations();
+        const bytes = await pdf.save();
+
+        const blob = new Blob([bytes], {
+            type: "application/pdf"
+        });
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "AURA-Edited-PDF.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 30000);
+
+        status("Edited PDF download started.");
+    } catch (error) {
+        console.error(error);
+        status("Could not save PDF: " + error.message);
+    } finally {
+        busy = false;
+        downloadBtn.disabled = false;
+    }
+});
+
+fileInput.addEventListener("change", async event => {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    if (file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")) {
+        status("Please select a PDF file.");
+        return;
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+        status("Please choose a PDF smaller than 25 MB.");
+        return;
+    }
+
+    try {
+        setButtons(false);
+        scale = 1;
+        originalBytes = await file.arrayBuffer();
+        await loadPDF(originalBytes);
+    } catch (error) {
+        console.error(error);
+        originalBytes = null;
+        pdfDocument = null;
+        pages = [];
+        viewer.innerHTML = "";
+        setButtons(false);
+        status("Unable to open this PDF. Try another valid PDF file.");
+    }
+});
 </script>
+
 </body>
   </html>
