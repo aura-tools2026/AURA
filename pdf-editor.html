@@ -3,263 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>PDF Editor - AURA</title>
-<meta name="description" content="Upload, annotate, draw on and download PDF files online for free with AURA PDF Editor.">
+<meta name="description" content="Edit and annotate PDF files online with AURA PDF Editor.">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff7ed;
-    color: #431407;
-}
-
-header {
-    text-align: center;
-    padding: 24px 12px;
-}
-
-header .icon {
-    font-size: 48px;
-}
-
-header h1 {
-    font-size: 32px;
-    margin: 10px 0;
-}
-
-header p {
-    color: #9a3412;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 12px;
-}
-
-.panel {
-    background: #ffffff;
-    border: 1px solid #fed7aa;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 5px 20px #43140710;
-}
-
-.upload {
-    display: block;
-    width: 100%;
-    padding: 25px 12px;
-    border: 2px dashed #fb923c;
-    border-radius: 14px;
-    background: #fffaf5;
-    text-align: center;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.upload span {
-    display: block;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: normal;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 16px 0;
-}
-
-button {
-    border: 0;
-    border-radius: 8px;
-    padding: 11px 13px;
-    background: #ffedd5;
-    color: #7c2d12;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-}
-
-button.active {
-    background: #9a3412;
-    color: white;
-}
-
-.primary {
-    background: #f97316;
-    color: white;
-}
-
-.download {
-    background: #15803d;
-    color: white;
-}
-
-.status {
-    padding: 10px;
-    border-radius: 8px;
-    background: #fff7ed;
-    color: #9a3412;
-    font-size: 14px;
-    overflow-wrap: anywhere;
-}
-
-.viewer {
-    margin-top: 16px;
-    overflow: auto;
-    max-height: 75vh;
-    background: #e7e5e4;
-    padding: 12px;
-    border-radius: 12px;
-}
-
-.page {
-    position: relative;
-    margin: 0 auto 18px;
-    background: white;
-    box-shadow: 0 2px 10px #0002;
-    line-height: 0;
-    width: fit-content;
-    max-width: 100%;
-}
-
-.page canvas {
-    display: block;
-    max-width: none;
-}
-
-.page .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    touch-action: none;
-    cursor: crosshair;
-}
-
-.hint {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #9a3412;
-    margin-top: 12px;
-}
-
-@media (max-width: 500px) {
-    header h1 {
-        font-size: 28px;
-    }
-
-    .panel {
-        padding: 12px;
-    }
-
-    button {
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    .viewer {
-        padding: 6px;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fff7ed;color:#431407}
+header{text-align:center;padding:24px 12px}
+header .icon{font-size:48px}
+header h1{font-size:32px;margin:10px 0}
+header p{color:#9a3412;line-height:1.6}
+.container{max-width:1000px;margin:auto;padding:12px}
+.panel{background:#fff;border:1px solid #fed7aa;border-radius:18px;padding:18px;box-shadow:0 5px 20px #43140710}
+.upload{display:block;width:100%;padding:25px 12px;border:2px dashed #fb923c;border-radius:14px;background:#fffaf5;text-align:center;cursor:pointer;font-size:17px;font-weight:bold}
+.upload span{display:block;margin-top:8px;font-size:14px;font-weight:normal}
+input[type=file]{display:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+button{border:0;border-radius:8px;padding:11px 13px;background:#ffedd5;color:#7c2d12;font-size:14px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.active{background:#9a3412;color:white}
+.download{background:#15803d;color:white}
+.status{padding:10px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:14px;overflow-wrap:anywhere}
+.viewer{margin-top:16px;overflow:auto;max-height:75vh;background:#e7e5e4;padding:12px;border-radius:12px}
+.page{position:relative;margin:0 auto 18px;background:white;box-shadow:0 2px 10px #0002;width:fit-content;line-height:0}
+.page canvas{display:block;max-width:none}
+.page .overlay{position:absolute;top:0;left:0;touch-action:none;cursor:crosshair}
+.hint{font-size:13px;line-height:1.5;color:#9a3412;margin-top:12px}
+@media(max-width:500px){header h1{font-size:28px}.panel{padding:12px}button{padding:10px;font-size:13px}.viewer{padding:6px}}
 </style>
 </head>
 
 <body>
-
 <header>
-    <div class="icon">✏️</div>
-    <h1>AURA PDF Editor</h1>
-    <p>Upload, annotate, sign and save your PDF.</p>
+<div class="icon">✏️</div>
+<h1>AURA PDF Editor</h1>
+<p>Upload, annotate, sign and save your PDF.</p>
 </header>
 
 <main class="container">
 <section class="panel">
 
 <label class="upload" for="pdfFile">
-    📄 Select PDF to edit
-    <span>Choose a PDF from your device</span>
+📄 Select PDF to edit
+<span>Choose a PDF from your device (max 25 MB)</span>
 </label>
 
 <input type="file" id="pdfFile" accept="application/pdf,.pdf">
 
 <div class="toolbar">
-    <button id="zoomOut" disabled>− Zoom</button>
-    <button id="zoomIn" disabled>+ Zoom</button>
-    <button id="textMode" disabled>✏️ Add Text</button>
-    <button id="drawMode" disabled>🖊️ Draw / Sign</button>
-    <button id="eraseMode" disabled>🗑️ Eraser</button>
-    <button id="undoBtn" disabled>↶ Undo</button>
-    <button id="redoBtn" disabled>↷ Redo</button>
-    <button id="newPage" disabled>➕ New Page</button>
-    <button id="downloadBtn" class="download" disabled>
-        💾 Download PDF
-    </button>
+<button id="zoomOut" disabled>− Zoom</button>
+<button id="zoomIn" disabled>+ Zoom</button>
+<button id="textMode" disabled>✏️ Add Text</button>
+<button id="drawMode" disabled>🖊️ Draw / Sign</button>
+<button id="eraseMode" disabled>🗑️ Eraser</button>
+<button id="undoBtn" disabled>↶ Undo</button>
+<button id="redoBtn" disabled>↷ Redo</button>
+<button id="newPage" disabled>➕ New Page</button>
+<button id="downloadBtn" class="download" disabled>💾 Download PDF</button>
 </div>
 
-<div id="status" class="status">
-    Please select a PDF file to begin.
-</div>
-
+<div id="status" class="status">Please select a PDF file to begin.</div>
 <div id="viewer" class="viewer"></div>
 
 <p class="hint">
-    Add Text: select the tool, then tap a page.
-    Draw / Sign: draw using your finger or mouse.
-    Eraser: erase annotations you added.
-    Save: download your edited PDF.
+Add Text: choose the tool and tap a page.
+Draw / Sign: draw with your finger or mouse.
+Eraser: erase annotations you added.
+Undo / Redo applies to your edits.
+Download saves your edits into a new PDF.
 </p>
 
 </section>
 </main>
 
 <script>
+(() => {
+"use strict";
+
+if (!window.pdfjsLib || !window.PDFLib) {
+    document.getElementById("status").textContent =
+    "Could not load PDF libraries. Check your internet connection and reload this page.";
+    return;
+}
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-const { PDFDocument, StandardFonts, rgb } = PDFLib;
+const { PDFDocument } = PDFLib;
 
-const fileInput = document.getElementById("pdfFile");
-const viewer = document.getElementById("viewer");
-const statusBox = document.getElementById("status");
+const $ = id => document.getElementById(id);
 
-const zoomInBtn = document.getElementById("zoomIn");
-const zoomOutBtn = document.getElementById("zoomOut");
-const textBtn = document.getElementById("textMode");
-const drawBtn = document.getElementById("drawMode");
-const eraseBtn = document.getElementById("eraseMode");
-const undoBtn = document.getElementById("undoBtn");
-const redoBtn = document.getElementById("redoBtn");
-const newPageBtn = document.getElementById("newPage");
-const downloadBtn = document.getElementById("downloadBtn");
+const fileInput = $("pdfFile");
+const viewer = $("viewer");
+const statusBox = $("status");
+
+const zoomInBtn = $("zoomIn");
+const zoomOutBtn = $("zoomOut");
+const textBtn = $("textMode");
+const drawBtn = $("drawMode");
+const eraseBtn = $("eraseMode");
+const undoBtn = $("undoBtn");
+const redoBtn = $("redoBtn");
+const newPageBtn = $("newPage");
+const downloadBtn = $("downloadBtn");
 
 let originalBytes = null;
 let pdfDocument = null;
 let scale = 1;
 let currentMode = "draw";
 let pages = [];
+let pageCount = 0;
 let busy = false;
+let history = [];
+let historyIndex = -1;
 
 function status(message) {
     statusBox.textContent = message;
@@ -272,9 +131,31 @@ function setButtons(enabled) {
     ].forEach(button => button.disabled = !enabled);
 }
 
-function updateHistoryButtons(page) {
-    undoBtn.disabled = !page || page.history.length <= 1;
-    redoBtn.disabled = !page || page.historyIndex >= page.history.length - 1;
+function cloneState() {
+    return {
+        pageCount,
+        annotations: pages.map(page =>
+            JSON.parse(JSON.stringify(page.annotations || []))
+        )
+    };
+}
+
+function pushHistory() {
+    history = history.slice(0, historyIndex + 1);
+    history.push(cloneState());
+
+    if (history.length > 60) {
+        history.shift();
+    }
+
+    historyIndex = history.length - 1;
+    updateHistoryButtons();
+}
+
+function updateHistoryButtons() {
+    undoBtn.disabled = !originalBytes || historyIndex <= 0;
+    redoBtn.disabled =
+        !originalBytes || historyIndex >= history.length - 1;
 }
 
 function setMode(mode) {
@@ -285,100 +166,246 @@ function setMode(mode) {
     eraseBtn.classList.toggle("active", mode === "erase");
 
     pages.forEach(page => {
-        page.overlay.style.pointerEvents = "auto";
         page.overlay.style.cursor =
             mode === "text" ? "text" : "crosshair";
     });
 
     if (mode === "text") {
-        status("Text mode: tap where you want to place text.");
+        status("Text mode: tap where you want the text.");
     } else if (mode === "draw") {
-        status("Draw / Sign mode: use your finger or mouse.");
+        status("Draw / Sign mode: draw with your finger or mouse.");
     } else {
-        status("Eraser mode: erase your added annotations.");
+        status("Eraser mode: tap or draw over an annotation you added.");
     }
 }
 
-function saveSnapshot(page) {
-    const image = page.overlay.toDataURL("image/png");
+function getPoint(event, page) {
+    const rect = page.overlay.getBoundingClientRect();
 
-    page.history = page.history.slice(0, page.historyIndex + 1);
-    page.history.push(image);
-    page.historyIndex = page.history.length - 1;
+    const x = (event.clientX - rect.left) *
+        (page.overlay.width / rect.width);
 
-    if (page.history.length > 30) {
-        page.history.shift();
-        page.historyIndex--;
+    const y = (event.clientY - rect.top) *
+        (page.overlay.height / rect.height);
+
+    return page.viewport.convertToPdfPoint(x, y);
+}
+
+function drawAnnotations(page) {
+    const canvas = page.overlay;
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const annotation of page.annotations) {
+
+        if (annotation.type === "text") {
+            const point = page.viewport.convertToViewportPoint(
+                annotation.x, annotation.y
+            );
+
+            ctx.save();
+            ctx.fillStyle = annotation.color || "#111111";
+            ctx.font =
+                `${annotation.size * page.viewport.scale}px Arial`;
+            ctx.textBaseline = "alphabetic";
+
+            annotation.text.split("\n").forEach((line, index) => {
+                ctx.fillText(
+                    line,
+                    point[0],
+                    point[1] +
+                    index * annotation.size * page.viewport.scale * 1.25
+                );
+            });
+
+            ctx.restore();
+
+        } else if (
+            annotation.type === "stroke" &&
+            annotation.points.length
+        ) {
+            ctx.save();
+            ctx.strokeStyle = annotation.color || "#111111";
+            ctx.lineWidth =
+                (annotation.width || 2) * page.viewport.scale;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+
+            const first = page.viewport.convertToViewportPoint(
+                annotation.points[0][0],
+                annotation.points[0][1]
+            );
+
+            ctx.moveTo(first[0], first[1]);
+
+            for (let i = 1; i < annotation.points.length; i++) {
+                const point = page.viewport.convertToViewportPoint(
+                    annotation.points[i][0],
+                    annotation.points[i][1]
+                );
+
+                ctx.lineTo(point[0], point[1]);
+            }
+
+            if (annotation.points.length === 1) {
+                ctx.lineTo(first[0] + 0.1, first[1] + 0.1);
+            }
+
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
+}
+
+function distanceToSegment(point, a, b) {
+    const dx = b[0] - a[0];
+    const dy = b[1] - a[1];
+
+    if (dx === 0 && dy === 0) {
+        return Math.hypot(point[0] - a[0], point[1] - a[1]);
     }
 
-    updateHistoryButtons(page);
+    const t = Math.max(0, Math.min(1,
+        ((point[0] - a[0]) * dx +
+         (point[1] - a[1]) * dy) / (dx * dx + dy * dy)
+    ));
+
+    return Math.hypot(
+        point[0] - (a[0] + t * dx),
+        point[1] - (a[1] + t * dy)
+    );
 }
 
-function restoreSnapshot(page, index) {
-    if (!page || index < 0 || index >= page.history.length) return;
+function eraseAt(page, point) {
+    const radius = 18 / scale;
+    let bestIndex = -1;
+    let bestDistance = Infinity;
 
-    const image = new Image();
+    for (let i = page.annotations.length - 1; i >= 0; i--) {
+        const annotation = page.annotations[i];
+        let distance = Infinity;
 
-    image.onload = () => {
-        const ctx = page.overlay.getContext("2d");
-        ctx.clearRect(0, 0, page.overlay.width, page.overlay.height);
-        ctx.drawImage(image, 0, 0);
-        page.historyIndex = index;
-        updateHistoryButtons(page);
-    };
+        if (annotation.type === "text") {
+            distance = Math.hypot(
+                point[0] - annotation.x,
+                point[1] - annotation.y
+            );
 
-    image.src = page.history[index];
+        } else if (annotation.type === "stroke") {
+            for (let j = 0; j < annotation.points.length; j++) {
+                const q = annotation.points[j];
+
+                distance = Math.min(
+                    distance,
+                    Math.hypot(point[0] - q[0], point[1] - q[1])
+                );
+
+                if (j > 0) {
+                    distance = Math.min(
+                        distance,
+                        distanceToSegment(
+                            point,
+                            annotation.points[j - 1],
+                            q
+                        )
+                    );
+                }
+            }
+        }
+
+        if (distance < radius && distance < bestDistance) {
+            bestIndex = i;
+            bestDistance = distance;
+        }
+    }
+
+    if (bestIndex >= 0) {
+        page.annotations.splice(bestIndex, 1);
+        drawAnnotations(page);
+        pushHistory();
+    }
 }
 
-function currentPage() {
-    return pages.find(page => {
-        const rect = page.wrapper.getBoundingClientRect();
-        return rect.bottom > 0 && rect.top < window.innerHeight;
-    }) || pages[0];
-}
+async function renderAll() {
+    if (!originalBytes) return;
 
-async function loadPDF(bytes) {
-    status("Loading PDF...");
-
-    const copy = new Uint8Array(bytes);
-
-    pdfDocument = await pdfjsLib.getDocument({
-        data: copy
-    }).promise;
+    const savedAnnotations = pages.map(page =>
+        JSON.parse(JSON.stringify(page.annotations || []))
+    );
 
     viewer.innerHTML = "";
     pages = [];
 
-    for (let number = 1; number <= pdfDocument.numPages; number++) {
-        const pdfPage = await pdfDocument.getPage(number);
-        const viewport = pdfPage.getViewport({ scale });
+    for (let number = 1; number <= pageCount; number++) {
+        let pdfPage = null;
+        let viewport;
+        let width;
+        let height;
+
+        if (number <= pdfDocument.numPages) {
+            pdfPage = await pdfDocument.getPage(number);
+            viewport = pdfPage.getViewport({ scale });
+
+            width = Math.ceil(viewport.width);
+            height = Math.ceil(viewport.height);
+
+        } else {
+            const basePage = await pdfDocument.getPage(1);
+            const baseViewport = basePage.getViewport({ scale });
+
+            width = Math.ceil(baseViewport.width);
+            height = Math.ceil(baseViewport.height);
+
+            viewport = {
+                width,
+                height,
+                scale,
+
+                convertToPdfPoint: (x, y) => [
+                    x / scale,
+                    y / scale
+                ],
+
+                convertToViewportPoint: (x, y) => [
+                    x * scale,
+                    y * scale
+                ]
+            };
+        }
 
         const wrapper = document.createElement("div");
         wrapper.className = "page";
-        wrapper.style.width = viewport.width + "px";
-        wrapper.style.height = viewport.height + "px";
+        wrapper.style.width = width + "px";
+        wrapper.style.height = height + "px";
 
         const canvas = document.createElement("canvas");
-        canvas.width = Math.ceil(viewport.width);
-        canvas.height = Math.ceil(viewport.height);
-        canvas.style.width = viewport.width + "px";
-        canvas.style.height = viewport.height + "px";
+        canvas.width = width;
+        canvas.height = height;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
 
         const overlay = document.createElement("canvas");
         overlay.className = "overlay";
-        overlay.width = canvas.width;
-        overlay.height = canvas.height;
-        overlay.style.width = viewport.width + "px";
-        overlay.style.height = viewport.height + "px";
+        overlay.width = width;
+        overlay.height = height;
+        overlay.style.width = width + "px";
+        overlay.style.height = height + "px";
 
-        wrapper.appendChild(canvas);
-        wrapper.appendChild(overlay);
+        wrapper.append(canvas, overlay);
         viewer.appendChild(wrapper);
 
-        await pdfPage.render({
-            canvasContext: canvas.getContext("2d"),
-            viewport
-        }).promise;
+        if (pdfPage) {
+            await pdfPage.render({
+                canvasContext: canvas.getContext("2d"),
+                viewport
+            }).promise;
+        } else {
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+        }
 
         const page = {
             number,
@@ -387,212 +414,231 @@ async function loadPDF(bytes) {
             canvas,
             overlay,
             viewport,
-            history: [],
-            historyIndex: -1,
-            drawing: false,
-            lastX: 0,
-            lastY: 0
+            annotations: savedAnnotations[number - 1] || []
         };
 
         pages.push(page);
         installOverlay(page);
-        saveSnapshot(page);
     }
 
     setButtons(true);
     setMode(currentMode);
-    status("PDF loaded: " + pdfDocument.numPages + " page(s).");
-}
-
-function getPoint(event, page) {
-    const rect = page.overlay.getBoundingClientRect();
-
-    return {
-        x: (event.clientX - rect.left) *
-            (page.overlay.width / rect.width),
-        y: (event.clientY - rect.top) *
-            (page.overlay.height / rect.height)
-    };
+    pages.forEach(drawAnnotations);
+    updateHistoryButtons();
 }
 
 function installOverlay(page) {
     const canvas = page.overlay;
-    const ctx = canvas.getContext("2d");
+    let drawing = false;
+    let stroke = null;
 
     canvas.addEventListener("pointerdown", event => {
         if (busy) return;
 
         event.preventDefault();
 
+        const point = getPoint(event, page);
+
         if (currentMode === "text") {
-            const point = getPoint(event, page);
             const text = prompt("Enter the text to add:");
 
-            if (text && text.trim()) {
-                const size = Number(prompt("Text size in points:", "18"));
+            if (!text || !text.trim()) return;
 
-                if (!Number.isFinite(size) || size < 1 || size > 200) {
-                    status("Enter a text size between 1 and 200.");
-                    return;
-                }
+            const rawSize = prompt("Text size in points (1–100):", "18");
 
-                const fontSize = size * scale;
+            if (rawSize === null) return;
 
-                ctx.save();
-                ctx.fillStyle = "#111111";
-                ctx.font = fontSize + "px Arial";
-                ctx.textBaseline = "top";
+            const size = Number(rawSize);
 
-                const lines = text.split("\n");
-
-                lines.forEach((line, index) => {
-                    ctx.fillText(
-                        line,
-                        point.x,
-                        point.y + index * fontSize * 1.3
-                    );
-                });
-
-                ctx.restore();
-                saveSnapshot(page);
+            if (!Number.isFinite(size) || size < 1 || size > 100) {
+                status("Enter a text size from 1 to 100.");
+                return;
             }
 
+            page.annotations.push({
+                type: "text",
+                x: point[0],
+                y: point[1],
+                text,
+                size,
+                color: "#111111"
+            });
+
+            drawAnnotations(page);
+            pushHistory();
             return;
         }
 
-        page.drawing = true;
-        page.lastX = getPoint(event, page).x;
-        page.lastY = getPoint(event, page).y;
+        if (currentMode === "erase") {
+            eraseAt(page, point);
+            return;
+        }
 
+        drawing = true;
+
+        stroke = {
+            type: "stroke",
+            points: [point],
+            color: "#111111",
+            width: 2
+        };
+
+        page.annotations.push(stroke);
         canvas.setPointerCapture(event.pointerId);
+        drawAnnotations(page);
     });
 
     canvas.addEventListener("pointermove", event => {
-        if (!page.drawing) return;
+        if (!drawing || !stroke) return;
 
         event.preventDefault();
-
-        const point = getPoint(event, page);
-
-        ctx.save();
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-
-        if (currentMode === "erase") {
-            ctx.globalCompositeOperation = "destination-out";
-            ctx.lineWidth = 28 * scale;
-        } else {
-            ctx.globalCompositeOperation = "source-over";
-            ctx.strokeStyle = "#111111";
-            ctx.lineWidth = 3 * scale;
-        }
-
-        ctx.beginPath();
-        ctx.moveTo(page.lastX, page.lastY);
-        ctx.lineTo(point.x, point.y);
-        ctx.stroke();
-        ctx.restore();
-
-        page.lastX = point.x;
-        page.lastY = point.y;
+        stroke.points.push(getPoint(event, page));
+        drawAnnotations(page);
     });
 
     function finishDrawing() {
-        if (!page.drawing) return;
+        if (!drawing) return;
 
-        page.drawing = false;
-        saveSnapshot(page);
+        drawing = false;
+        stroke = null;
+        pushHistory();
     }
 
     canvas.addEventListener("pointerup", finishDrawing);
     canvas.addEventListener("pointercancel", finishDrawing);
 }
 
-zoomInBtn.addEventListener("click", async () => {
-    if (!originalBytes || busy || scale >= 2.5) return;
-    scale = Math.min(2.5, scale + 0.2);
-    await loadPDF(originalBytes);
+async function loadFile(file) {
+    if (!file) return;
+
+    if (
+        file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+        throw new Error("Please select a PDF file.");
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+        throw new Error("Please choose a PDF smaller than 25 MB.");
+    }
+
+    originalBytes = new Uint8Array(await file.arrayBuffer());
+    pages = [];
+
+    // PDF.js gets its own copy so the saved PDF bytes remain intact.
+    pdfDocument = await pdfjsLib.getDocument({
+        data: originalBytes.slice()
+    }).promise;
+
+    pageCount = pdfDocument.numPages;
+    scale = 1;
+    history = [];
+    historyIndex = -1;
+
+    await renderAll();
+    pushHistory();
+
+    status("PDF loaded: " + pageCount + " page(s).");
+}
+
+async function rerenderAt(newScale) {
+    if (!originalBytes || busy) return;
+
+    busy = true;
+
+    try {
+        scale = newScale;
+        await renderAll();
+
+        status(
+            "Zoom: " + Math.round(scale * 100) +
+            "%. Your annotations are preserved."
+        );
+
+    } catch (error) {
+        console.error(error);
+        status("Could not zoom: " + error.message);
+
+    } finally {
+        busy = false;
+    }
+}
+
+zoomInBtn.addEventListener("click", () => {
+    rerenderAt(Math.min(
+        2.5,
+        Math.round((scale + 0.2) * 10) / 10
+    ));
 });
 
-zoomOutBtn.addEventListener("click", async () => {
-    if (!originalBytes || busy || scale <= 0.5) return;
-    scale = Math.max(0.5, scale - 0.2);
-    await loadPDF(originalBytes);
+zoomOutBtn.addEventListener("click", () => {
+    rerenderAt(Math.max(
+        0.5,
+        Math.round((scale - 0.2) * 10) / 10
+    ));
 });
 
 textBtn.addEventListener("click", () => setMode("text"));
 drawBtn.addEventListener("click", () => setMode("draw"));
 eraseBtn.addEventListener("click", () => setMode("erase"));
 
+function applyHistory(index) {
+    if (index < 0 || index >= history.length) return;
+
+    historyIndex = index;
+
+    const state = history[index];
+
+    pageCount = state.pageCount;
+
+    renderAll().then(() => {
+        pages.forEach((page, i) => {
+            page.annotations = JSON.parse(
+                JSON.stringify(state.annotations[i] || [])
+            );
+        });
+
+        pages.forEach(drawAnnotations);
+        updateHistoryButtons();
+        status("Undo/Redo complete.");
+
+    }).catch(error => {
+        status("Could not restore edits: " + error.message);
+    });
+}
+
 undoBtn.addEventListener("click", () => {
-    const page = currentPage();
-    if (page && page.historyIndex > 0) {
-        restoreSnapshot(page, page.historyIndex - 1);
-    }
+    applyHistory(historyIndex - 1);
 });
 
 redoBtn.addEventListener("click", () => {
-    const page = currentPage();
-    if (page && page.historyIndex < page.history.length - 1) {
-        restoreSnapshot(page, page.historyIndex + 1);
-    }
+    applyHistory(historyIndex + 1);
 });
 
-async function bakeAnnotations() {
-    const pdf = await PDFDocument.load(originalBytes);
-    const pngs = [];
-
-    for (const page of pages) {
-        const dataURL = page.overlay.toDataURL("image/png");
-        pngs.push({
-            number: page.number,
-            data: await fetch(dataURL).then(response => response.arrayBuffer()),
-            width: page.viewport.width,
-            height: page.viewport.height
-        });
-    }
-
-    for (const annotation of pngs) {
-        const embedded = await pdf.embedPng(annotation.data);
-        const target = pdf.getPage(annotation.number - 1);
-        const size = target.getSize();
-
-        target.drawImage(embedded, {
-            x: 0,
-            y: 0,
-            width: size.width,
-            height: size.height
-        });
-    }
-
-    return pdf;
-}
-
 newPageBtn.addEventListener("click", async () => {
-    if (busy || !originalBytes) return;
+    if (!originalBytes || busy) return;
 
     busy = true;
     newPageBtn.disabled = true;
 
     try {
-        status("Preparing existing annotations...");
+        pageCount++;
 
-        const pdf = await bakeAnnotations();
-        pdf.addPage();
+        await renderAll();
+        pushHistory();
 
-        originalBytes = await pdf.save();
-        scale = 1;
-
-        await loadPDF(originalBytes);
-
-        status("New blank page added successfully.");
-        viewer.lastElementChild?.scrollIntoView({
+        pages[pages.length - 1].wrapper.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
+
+        status("Blank page added. It will be included in the downloaded PDF.");
+
     } catch (error) {
+        pageCount--;
         console.error(error);
         status("Could not add a page: " + error.message);
+
     } finally {
         busy = false;
         newPageBtn.disabled = false;
@@ -600,16 +646,46 @@ newPageBtn.addEventListener("click", async () => {
 });
 
 downloadBtn.addEventListener("click", async () => {
-    if (busy || !originalBytes) return;
+    if (!originalBytes || busy) return;
 
     busy = true;
     downloadBtn.disabled = true;
 
     try {
-        status("Creating edited PDF...");
+        status("Creating your edited PDF...");
 
-        const pdf = await bakeAnnotations();
-        const bytes = await pdf.save();
+        const outputPDF = await PDFDocument.load(originalBytes.slice());
+        const firstPageSize = outputPDF.getPage(0).getSize();
+
+        while (outputPDF.getPageCount() < pageCount) {
+            outputPDF.addPage([
+                firstPageSize.width,
+                firstPageSize.height
+            ]);
+        }
+
+        for (let i = 0; i < pages.length; i++) {
+            const page = pages[i];
+
+            if (!page.annotations.length) continue;
+
+            const pngBytes = await fetch(
+                page.overlay.toDataURL("image/png")
+            ).then(response => response.arrayBuffer());
+
+            const png = await outputPDF.embedPng(pngBytes);
+            const target = outputPDF.getPage(i);
+            const size = target.getSize();
+
+            target.drawImage(png, {
+                x: 0,
+                y: 0,
+                width: size.width,
+                height: size.height
+            });
+        }
+
+        const bytes = await outputPDF.save();
 
         const blob = new Blob([bytes], {
             type: "application/pdf"
@@ -620,16 +696,23 @@ downloadBtn.addEventListener("click", async () => {
 
         link.href = url;
         link.download = "AURA-Edited-PDF.pdf";
+
         document.body.appendChild(link);
         link.click();
         link.remove();
 
-        setTimeout(() => URL.revokeObjectURL(url), 30000);
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
 
-        status("Edited PDF download started.");
+        status("Download started: AURA-Edited-PDF.pdf");
+
     } catch (error) {
         console.error(error);
-        status("Could not save PDF: " + error.message);
+
+        status(
+            "PDF could not be saved: " +
+            (error.message || "Unknown error")
+        );
+
     } finally {
         busy = false;
         downloadBtn.disabled = false;
@@ -637,37 +720,31 @@ downloadBtn.addEventListener("click", async () => {
 });
 
 fileInput.addEventListener("change", async event => {
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    if (file.type !== "application/pdf" &&
-        !file.name.toLowerCase().endsWith(".pdf")) {
-        status("Please select a PDF file.");
-        return;
-    }
-
-    if (file.size > 25 * 1024 * 1024) {
-        status("Please choose a PDF smaller than 25 MB.");
-        return;
-    }
-
     try {
         setButtons(false);
-        scale = 1;
-        originalBytes = await file.arrayBuffer();
-        await loadPDF(originalBytes);
+        viewer.innerHTML = "";
+        status("Opening PDF...");
+
+        await loadFile(event.target.files[0]);
+
     } catch (error) {
         console.error(error);
+
         originalBytes = null;
         pdfDocument = null;
         pages = [];
+
         viewer.innerHTML = "";
         setButtons(false);
-        status("Unable to open this PDF. Try another valid PDF file.");
+
+        status(
+            "Could not open PDF: " +
+            (error.message || "Check the file and internet connection.")
+        );
     }
 });
-</script>
 
+})();
+</script>
 </body>
-  </html>
+    </html>
