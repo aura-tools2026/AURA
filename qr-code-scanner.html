@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>QR Code Scanner - AURA</title>
-<meta name="description" content="Scan QR codes online by uploading an image with AURA QR Code Scanner.">
+<meta name="description" content="Scan QR codes online from images with AURA QR Code Scanner.">
 
 <style>
 * {
@@ -22,60 +22,55 @@ body {
 }
 
 .container {
-    width: min(650px, 100%);
+    width: 100%;
+    max-width: 650px;
     margin: 20px auto;
 }
 
 h1 {
     text-align: center;
     font-size: 29px;
-    line-height: 1.3;
+    margin-bottom: 8px;
 }
 
 .subtitle {
     color: #a4adbd;
     text-align: center;
-    margin-bottom: 25px;
+    margin: 0 0 28px;
 }
 
-/* PROPER CARD BOXES */
 .card {
     background: linear-gradient(145deg, #171b25, #11141b);
     border: 1px solid #30394b;
-    border-radius: 17px;
+    border-radius: 20px;
     padding: 22px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     box-shadow: 0 5px 20px #0003;
 }
 
 .card h2 {
-    margin: 0 0 14px;
-    font-size: 21px;
+    margin: 0 0 18px;
+    font-size: 23px;
 }
 
-.upload-label,
-button {
+button,
+.upload-label {
     display: block;
     width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border: none;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 16px;
+    padding: 15px;
+    margin-top: 14px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-size: 17px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
+    font-family: inherit;
 }
 
 .upload-label {
-    background: #ffffff;
-    color: #111111;
-}
-
-button {
-    background: #303746;
-    color: #ffffff;
+    background: #fff;
+    color: #111;
 }
 
 .upload-label:active,
@@ -87,29 +82,41 @@ input[type="file"] {
     display: none;
 }
 
-.small {
-    color: #a4adbd;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 0;
+.secondary {
+    background: #303747;
+    border-color: #3b4559;
+    color: #fff;
 }
 
+.small {
+    color: #a4adbd;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 16px 0 0;
+}
+
+/* RESULT BOX */
 .result-box {
-    background: #0b0d12;
-    border: 1px solid #30394b;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 12px;
+    width: 100%;
+    min-height: 100px;
+    padding: 16px;
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    margin-top: 10px;
     overflow-wrap: anywhere;
     word-break: break-word;
+    white-space: pre-wrap;
     line-height: 1.7;
-    min-height: 60px;
+    font-size: 16px;
 }
 
 .result-box a {
     display: inline-block;
-    color: #a997ff;
     margin-top: 10px;
+    color: #075dcc;
+    font-weight: bold;
     overflow-wrap: anywhere;
 }
 
@@ -117,18 +124,22 @@ input[type="file"] {
     color: #86efac;
     font-size: 14px;
     line-height: 1.6;
-    margin-top: 12px;
+    margin-top: 14px;
     overflow-wrap: anywhere;
+}
+
+.status.error {
+    color: #fca5a5;
 }
 
 .footer {
     color: #7e8798;
     text-align: center;
     font-size: 13px;
-    margin-top: 25px;
+    margin: 28px 0;
 }
 
-@media (max-width: 480px) {
+@media(max-width:480px) {
     body {
         padding: 12px;
     }
@@ -137,13 +148,22 @@ input[type="file"] {
         margin-top: 12px;
     }
 
+    .card {
+        padding: 17px;
+        border-radius: 17px;
+    }
+
     h1 {
         font-size: 25px;
     }
 
-    .card {
-        padding: 17px;
-        border-radius: 16px;
+    .card h2 {
+        font-size: 21px;
+    }
+
+    button,
+    .upload-label {
+        font-size: 16px;
     }
 }
 </style>
@@ -159,7 +179,7 @@ input[type="file"] {
         Upload an image containing a QR code and scan it instantly.
     </p>
 
-    <!-- IMAGE UPLOAD CARD -->
+    <!-- IMAGE SCANNER CARD -->
     <div class="card">
 
         <h2>🖼️ Scan from Image</h2>
@@ -179,26 +199,28 @@ input[type="file"] {
             Supported image formats depend on your browser.
         </p>
 
-        <p id="status" class="status" aria-live="polite"></p>
+        <p id="scanStatus" class="status" aria-live="polite"></p>
 
     </div>
 
     <!-- RESULT CARD -->
     <div class="card">
 
-        <h2>✅ Scan Result</h2>
+        <h2>✔️ Scan Result</h2>
 
         <div id="result" class="result-box" aria-live="polite">
             Your scanned QR code result will appear here.
         </div>
 
-        <button id="copyBtn" type="button">
+        <button class="secondary" id="copyBtn" type="button">
             📋 Copy Result
         </button>
 
-        <button id="clearBtn" type="button">
+        <button class="secondary" id="clearBtn" type="button">
             🗑️ Clear Result
         </button>
+
+        <p id="actionStatus" class="status" aria-live="polite"></p>
 
     </div>
 
@@ -213,38 +235,51 @@ input[type="file"] {
 <script>
 const imageInput = document.getElementById("imageInput");
 const resultBox = document.getElementById("result");
-const statusBox = document.getElementById("status");
+const scanStatus = document.getElementById("scanStatus");
+const actionStatus = document.getElementById("actionStatus");
+
+const copyBtn = document.getElementById("copyBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+const defaultMessage =
+    "Your scanned QR code result will appear here.";
 
 let lastResult = "";
+
+function setStatus(element, message, isError = false) {
+    element.textContent = message;
+    element.classList.toggle("error", isError);
+}
 
 function showResult(text) {
     lastResult = text;
 
+    // Clear previous content.
     resultBox.replaceChildren();
 
-    const textElement = document.createElement("div");
-    textElement.textContent = text;
-    resultBox.appendChild(textElement);
+    // Show decoded QR text in a visible text colour.
+    const textNode = document.createElement("div");
+    textNode.textContent = text;
+    resultBox.appendChild(textNode);
 
-    // Make normal web links clickable.
+    // Make HTTP and HTTPS links clickable.
     try {
         const url = new URL(text);
 
-        if (url.protocol === "https:" || url.protocol === "http:") {
+        if (url.protocol === "http:" || url.protocol === "https:") {
             const link = document.createElement("a");
-
             link.href = url.href;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.textContent = "Open Link →";
-
+            link.textContent = "Open link ↗";
             resultBox.appendChild(link);
         }
     } catch (error) {
-        // Other QR data is displayed as plain text.
+        // Non-URL content remains visible as ordinary text.
     }
 
-    statusBox.textContent = "✅ QR code scanned successfully!";
+    setStatus(scanStatus, "✔️ QR code scanned successfully!");
+    setStatus(actionStatus, "");
 }
 
 imageInput.addEventListener("change", async function() {
@@ -252,71 +287,102 @@ imageInput.addEventListener("change", async function() {
 
     if (!file) return;
 
-    if (typeof Html5Qrcode === "undefined") {
-        statusBox.textContent =
-            "Scanner library load nahi hui. Internet check karke page reload karein.";
-
-        imageInput.value = "";
-        return;
-    }
-
     if (!file.type.startsWith("image/")) {
-        statusBox.textContent = "Please select a valid image file.";
+        setStatus(scanStatus, "Please select a valid image file.", true);
         imageInput.value = "";
         return;
     }
 
-    statusBox.textContent = "⏳ Image scan ho rahi hai...";
+    if (typeof Html5Qrcode === "undefined") {
+        setStatus(
+            scanStatus,
+            "Scanner library load nahi hui. Internet check karke page reload karein.",
+            true
+        );
+        imageInput.value = "";
+        return;
+    }
 
-    let imageScanner;
+    setStatus(scanStatus, "⏳ Image scan ho rahi hai...");
+    setStatus(actionStatus, "");
 
     try {
-        imageScanner = new Html5Qrcode("result");
-
+        const imageScanner = new Html5Qrcode("imageScannerHelper");
         const decodedText = await imageScanner.scanFile(file, false);
 
         showResult(decodedText);
 
     } catch (error) {
-        statusBox.textContent =
-            "❌ QR code nahi mila. Clear aur poori QR image select karke dobara try karein.";
-
+        setStatus(
+            scanStatus,
+            "❌ QR code nahi mila. Clear aur poori QR image select karein.",
+            true
+        );
     } finally {
-        if (imageScanner) {
-            try {
-                await imageScanner.clear();
-            } catch (error) {
-                // Ignore cleanup errors.
-            }
-        }
-
         imageInput.value = "";
     }
 });
 
-document.getElementById("copyBtn").addEventListener("click", async function() {
+copyBtn.addEventListener("click", async function() {
     if (!lastResult) {
-        statusBox.textContent = "Pehle QR code image scan karein.";
+        setStatus(actionStatus, "Pehle QR code scan karein.", true);
         return;
     }
 
     try {
         await navigator.clipboard.writeText(lastResult);
-        statusBox.textContent = "✅ Result copied!";
+        setStatus(actionStatus, "✔️ Result copied successfully!");
     } catch (error) {
-        statusBox.textContent =
-            "Copy nahi hua. Result ko select karke manually copy karein.";
+        // Fallback for browsers where Clipboard API is unavailable.
+        const textArea = document.createElement("textarea");
+        textArea.value = lastResult;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            const copied = document.execCommand("copy");
+
+            setStatus(
+                actionStatus,
+                copied
+                    ? "✔️ Result copied successfully!"
+                    : "Result copy nahi hua. Text ko manually select karein.",
+                !copied
+            );
+        } catch (copyError) {
+            setStatus(
+                actionStatus,
+                "Result copy nahi hua. Text ko manually select karein.",
+                true
+            );
+        }
+
+        textArea.remove();
     }
 });
 
-document.getElementById("clearBtn").addEventListener("click", function() {
+clearBtn.addEventListener("click", function() {
+    // Delete the stored QR result.
     lastResult = "";
 
-    resultBox.textContent =
-        "Your scanned QR code result will appear here.";
+    // Restore the default message visibly.
+    resultBox.replaceChildren();
+    resultBox.textContent = defaultMessage;
 
-    statusBox.textContent = "";
+    // Clear status messages and reset image selection.
+    setStatus(scanStatus, "");
+    setStatus(actionStatus, "");
+    imageInput.value = "";
 });
+
+/* Hidden helper required by the QR scanning library. */
+const helper = document.createElement("div");
+helper.id = "imageScannerHelper";
+helper.style.display = "none";
+document.body.appendChild(helper);
 </script>
 
 </body>
