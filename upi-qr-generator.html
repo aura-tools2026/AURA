@@ -3,239 +3,498 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Create UPI payment QR codes online for free with AURA.">
-<meta name="theme-color" content="#080808">
+
 <title>UPI QR Code Generator - AURA</title>
 
+<meta name="description" content="Generate and download your UPI payment QR code easily with AURA.">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#080808;color:#fff;line-height:1.6}
-header{padding:18px 20px;border-bottom:1px solid #292929}
-header a{color:#fff;text-decoration:none;font-size:22px;font-weight:bold}
-header span{color:#a78bfa}
-.container{max-width:650px;margin:25px auto;padding:20px}
-.back{display:inline-block;color:#bbb;text-decoration:none;margin-bottom:20px}
-.hero{text-align:center;margin-bottom:25px}
-.badge{display:inline-block;border:1px solid #444;padding:5px 14px;border-radius:25px;color:#c4b5fd;font-size:13px;margin-bottom:12px}
-h1{font-size:32px;line-height:1.25;margin-bottom:10px}
-.hero p,.note{color:#aaa;font-size:14px}
-.card{background:#111;border:1px solid #303030;border-radius:20px;padding:22px;margin-bottom:22px}
-h2{font-size:21px;margin-bottom:16px}
-label{display:block;color:#ddd;font-size:14px;margin:15px 0 7px}
-input,textarea{width:100%;padding:14px;border:1px solid #414141;background:#080808;color:#fff;border-radius:10px;font-size:16px}
-input:focus,textarea:focus{outline:1px solid #a78bfa}
-textarea{min-height:75px;resize:vertical}
-button{width:100%;padding:14px;border:0;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:16px}
-.primary{background:#a78bfa;color:#080808}
-.secondary{background:#252525;color:#fff;border:1px solid #444}
-.note{margin-top:12px}
-#status{margin-top:12px;font-size:14px;overflow-wrap:anywhere}
-.success{color:#86efac}
-.error{color:#fca5a5}
-#result{display:none}
-.qr-paper{background:#fff;color:#222;border-radius:14px;padding:20px;text-align:center}
-.payee{font-size:20px;font-weight:bold;overflow-wrap:anywhere}
-.upi-text{color:#555;font-size:14px;overflow-wrap:anywhere}
-.amount{font-size:22px;font-weight:bold;margin-top:8px}
-#qr{display:flex;justify-content:center;margin:18px auto;min-height:20px}
-#qr canvas,#qr img{max-width:100%;height:auto}
-.qr-paper .note{color:#666}
-footer{text-align:center;padding:25px 15px;border-top:1px solid #292929;color:#888;font-size:13px}
-@media(max-width:480px){.container{padding:15px}h1{font-size:29px}.card{padding:17px}}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #0b0b0b;
+    color: white;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #bbbbbb;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* MAIN CARD BOX */
+.card {
+    background: #171717;
+    border: 1px solid #333;
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 22px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 15px 0 7px;
+    font-size: 14px;
+    color: #eeeeee;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 13px;
+    border-radius: 9px;
+    border: 1px solid #444;
+    background: #242424;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #4ade80;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 75px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.generate-btn {
+    background: #22c55e;
+    color: #06120a;
+}
+
+.download-btn {
+    background: #ffffff;
+    color: #111111;
+}
+
+.reset-btn {
+    background: #333333;
+    color: white;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#result {
+    display: none;
+}
+
+.qr-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+}
+
+/* WHITE QR BOX */
+.qr-paper {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+#qrcode {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+#qrcode canvas,
+#qrcode img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.payee-name {
+    color: #111111;
+    font-size: 21px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    margin-bottom: 16px;
+}
+
+.qr-caption {
+    color: #555555;
+    font-size: 12px;
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+
+.status {
+    text-align: center;
+    color: #86efac;
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.note {
+    font-size: 13px;
+    color: #bbbbbb;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+.footer {
+    text-align: center;
+    color: #777777;
+    font-size: 13px;
+    margin-top: 25px;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 14px;
+    }
+
+    .card {
+        padding: 17px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .qr-paper {
+        padding: 20px;
+    }
+}
 </style>
 </head>
 
 <body>
-<header><a href="index.html">AURA<span>.</span></a></header>
 
-<main class="container">
-<a class="back" href="index.html">← Back to AURA</a>
+<div class="container">
 
-<section class="hero">
-<div class="badge">Free Payment Tool</div>
-<h1>UPI QR Code Generator</h1>
-<p>Create and download a UPI payment QR code.</p>
-</section>
+    <h1>UPI QR Code Generator</h1>
 
-<!-- UPI TOOL FORM BOX -->
-<section class="card">
-<h2>Payment Details</h2>
+    <p class="subtitle">
+        Create your UPI payment QR code and download it as a PNG image.
+    </p>
 
-<form id="upiForm">
-<label for="payee">Payee / Business Name *</label>
-<input id="payee" maxlength="80" placeholder="Enter name or business name" required>
+    <!-- UPI GENERATOR CARD -->
+    <div class="card">
 
-<label for="upiId">UPI ID *</label>
-<input id="upiId" maxlength="100" placeholder="yourname@oksbi" required>
+        <h2>💳 Enter Payment Details</h2>
 
-<label for="amount">Amount (₹) — Optional</label>
-<input id="amount" type="number" min="0.01" max="10000000" step="0.01" placeholder="Enter amount">
+        <form id="upiForm">
 
-<label for="note">Description — Optional</label>
-<textarea id="note" maxlength="100" placeholder="Payment description"></textarea>
+            <label for="payeeName">Payee Name *</label>
+            <input
+                type="text"
+                id="payeeName"
+                placeholder="Enter your name"
+                maxlength="100"
+                required
+            >
 
-<button class="primary" type="submit">Generate UPI QR Code</button>
-<div id="status" role="status" aria-live="polite"></div>
-<p class="note">Check your UPI ID carefully. AURA does not verify accounts or process payments.</p>
-</form>
-</section>
+            <label for="upiId">UPI ID *</label>
+            <input
+                type="text"
+                id="upiId"
+                placeholder="example@upi"
+                maxlength="100"
+                required
+            >
 
-<!-- UPI QR RESULT BOX -->
-<section class="card" id="result">
-<h2 style="text-align:center">Your UPI QR Code</h2>
+            <label for="amount">Amount (₹) - Optional</label>
+            <input
+                type="number"
+                id="amount"
+                placeholder="Enter amount"
+                min="1"
+                step="0.01"
+            >
 
-<div class="qr-paper">
-<div class="payee" id="previewName"></div>
-<div id="qr"></div>
-<div class="upi-text" id="previewUpi"></div>
-<div class="amount" id="previewAmount"></div>
-<p class="note">Scan with a compatible UPI app and verify the payment details.</p>
+            <label for="note">Payment Note - Optional</label>
+            <textarea
+                id="note"
+                placeholder="For example: Payment"
+                maxlength="150"
+            ></textarea>
+
+            <button type="submit" class="generate-btn">
+                Generate UPI QR Code
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- RESULT CARD -->
+    <div class="card" id="result">
+
+        <h2 class="qr-title">Your UPI QR Code</h2>
+
+        <div class="qr-paper">
+
+            <div class="payee-name" id="displayName"></div>
+
+            <div id="qrcode"></div>
+
+            <div class="qr-caption">
+                Scan with a compatible UPI payment app
+            </div>
+
+        </div>
+
+        <button type="button" class="download-btn" id="downloadBtn">
+            ⬇ Download QR Code (PNG)
+        </button>
+
+        <button type="button" class="generate-btn" id="openUpiBtn">
+            Open UPI App
+        </button>
+
+        <button type="button" class="reset-btn" id="resetBtn">
+            Create Another QR Code
+        </button>
+
+        <div class="status" id="status"></div>
+
+        <p class="note">
+            Note: Scan the QR code and verify the payee name and amount
+            in your UPI app before making a payment. UPI app compatibility
+            may vary.
+        </p>
+
+    </div>
+
+    <div class="footer">
+        © AURA | UPI QR Code Generator
+    </div>
+
 </div>
-
-<button class="primary" id="downloadBtn" type="button">Download QR Code</button>
-<button class="secondary" id="payBtn" type="button">Open UPI App</button>
-
-<p class="note">Always verify the recipient name and amount in your UPI app before paying.</p>
-</section>
-
-<section class="card">
-<h2>How to Use</h2>
-<p>1. Enter the recipient name and UPI ID.</p>
-<p>2. Add an amount if needed.</p>
-<p>3. Generate and download the QR code.</p>
-<p>4. Scan it with your UPI app and verify the details.</p>
-</section>
-</main>
-
-<footer>
-<p>© 2026 AURA. Free online tools.</p>
-<p>Payments are processed by your UPI app, not by AURA.</p>
-</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-const form=document.getElementById("upiForm");
-const statusBox=document.getElementById("status");
-const result=document.getElementById("result");
-const qrBox=document.getElementById("qr");
+const form = document.getElementById("upiForm");
+const result = document.getElementById("result");
+const qrBox = document.getElementById("qrcode");
+const statusBox = document.getElementById("status");
 
-let currentUpiLink="";
-let qrReady=false;
+let currentUpiLink = "";
+let currentPayeeName = "";
 
-function status(message,type){
- statusBox.textContent=message;
- statusBox.className=type||"";
-}
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-function validUpiId(id){
- return /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z0-9.-]{2,64}$/.test(id);
-}
+    if (typeof QRCode === "undefined") {
+        alert("QR library load nahi hui. Internet check karke dobara try karein.");
+        return;
+    }
 
-form.addEventListener("submit",function(e){
- e.preventDefault();
+    const name = document.getElementById("payeeName").value.trim();
+    const upi = document.getElementById("upiId").value.trim();
+    const amountText = document.getElementById("amount").value.trim();
+    const note = document.getElementById("note").value.trim();
 
- if(typeof QRCode==="undefined"){
-  status("QR library could not load. Check your internet connection.","error");
-  return;
- }
+    if (!name || !upi) {
+        alert("Payee Name aur UPI ID zaroori hain.");
+        return;
+    }
 
- const payee=document.getElementById("payee").value.trim();
- const upiId=document.getElementById("upiId").value.trim();
- const amountInput=document.getElementById("amount").value.trim();
- const note=document.getElementById("note").value.trim();
+    // Basic UPI ID format check
+    if (!/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+$/.test(upi)) {
+        alert("UPI ID ka format check karein. Example: name@upi");
+        return;
+    }
 
- if(!payee||!upiId){
-  status("Enter the payee name and UPI ID.","error");
-  return;
- }
+    if (amountText !== "") {
+        const amount = Number(amountText);
 
- if(!validUpiId(upiId)){
-  status("Check your UPI ID format, for example name@oksbi.","error");
-  return;
- }
+        if (!Number.isFinite(amount) || amount <= 0) {
+            alert("Amount zero se zyada hona chahiye.");
+            return;
+        }
+    }
 
- let amount="";
+    const params = new URLSearchParams();
 
- if(amountInput!==""){
-  const n=Number(amountInput);
-  if(!Number.isFinite(n)||n<=0||n>10000000){
-   status("Enter a valid amount greater than zero.","error");
-   return;
-  }
-  amount=n.toFixed(2);
- }
+    params.set("pa", upi);
+    params.set("pn", name);
+    params.set("cu", "INR");
 
- /*
-  Standard UPI payment URI.
-  Actual acceptance depends on the UPI app and payment provider.
- */
- const params=new URLSearchParams();
- params.set("pa",upiId);
- params.set("pn",payee);
- params.set("cu","INR");
+    if (amountText !== "") {
+        params.set("am", Number(amountText).toFixed(2));
+    }
 
- if(amount)params.set("am",amount);
- if(note)params.set("tn",note);
+    if (note) {
+        params.set("tn", note);
+    }
 
- currentUpiLink="upi://pay?"+params.toString();
+    currentUpiLink = "upi://pay?" + params.toString();
+    currentPayeeName = name;
 
- qrBox.innerHTML="";
- qrReady=false;
+    qrBox.innerHTML = "";
+    statusBox.textContent = "";
 
- document.getElementById("previewName").textContent=payee;
- document.getElementById("previewUpi").textContent=upiId;
- document.getElementById("previewAmount").textContent=amount?"₹"+amount:"Any amount";
+    document.getElementById("displayName").textContent = name;
 
- try{
-  new QRCode(qrBox,{
-   text:currentUpiLink,
-   width:260,
-   height:260,
-   colorDark:"#000000",
-   colorLight:"#ffffff",
-   correctLevel:QRCode.CorrectLevel.M
-  });
+    result.style.display = "block";
 
-  result.style.display="block";
-  qrReady=true;
-  status("QR code generated. Test it with a compatible UPI app.","success");
-  result.scrollIntoView({behavior:"smooth",block:"start"});
- }catch(err){
-  qrBox.innerHTML="";
-  result.style.display="none";
-  status("Could not generate the QR code. Please try again.","error");
- }
+    try {
+        new QRCode(qrBox, {
+            text: currentUpiLink,
+            width: 300,
+            height: 300,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+        });
+
+        statusBox.textContent =
+            "QR code ready. Download it as a PNG image.";
+
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    } catch (error) {
+        qrBox.innerHTML = "";
+        alert("QR code generate nahi hua. Dobara try karein.");
+    }
 });
 
-document.getElementById("downloadBtn").addEventListener("click",function(){
- if(!qrReady)return;
+document.getElementById("downloadBtn").addEventListener("click", function() {
+    const sourceCanvas = qrBox.querySelector("canvas");
 
- const canvas=qrBox.querySelector("canvas");
- const image=qrBox.querySelector("img");
- let url="";
+    if (!sourceCanvas || !sourceCanvas.width || !sourceCanvas.height) {
+        alert("Pehle QR code generate karein.");
+        return;
+    }
 
- if(canvas)url=canvas.toDataURL("image/png");
- else if(image&&image.src)url=image.src;
+    /*
+      Download fix:
+      QR ko white background aur extra quiet-zone border
+      ke saath ek nayi PNG image mein draw kiya ja raha hai.
+    */
 
- if(!url){
-  status("QR image is not ready. Try again.","error");
-  return;
- }
+    const scale = 3;
+    const padding = 60;
 
- const a=document.createElement("a");
- a.href=url;
- a.download="AURA-UPI-QR.png";
- document.body.appendChild(a);
- a.click();
- a.remove();
+    const qrWidth = sourceCanvas.width * scale;
+    const qrHeight = sourceCanvas.height * scale;
+
+    const outputCanvas = document.createElement("canvas");
+
+    outputCanvas.width = qrWidth + padding * 2;
+    outputCanvas.height = qrHeight + padding * 2;
+
+    const context = outputCanvas.getContext("2d");
+
+    if (!context) {
+        alert("Image create nahi ho paayi. Dobara try karein.");
+        return;
+    }
+
+    // Pure white background
+    context.fillStyle = "#ffffff";
+    context.fillRect(
+        0,
+        0,
+        outputCanvas.width,
+        outputCanvas.height
+    );
+
+    // Nearest-neighbour scaling keeps QR modules sharp
+    context.imageSmoothingEnabled = false;
+
+    context.drawImage(
+        sourceCanvas,
+        padding,
+        padding,
+        qrWidth,
+        qrHeight
+    );
+
+    const imageUrl = outputCanvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+
+    link.href = imageUrl;
+    link.download = "AURA-UPI-QR.png";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    statusBox.textContent =
+        "PNG download started. QR image mein white border add hai.";
 });
 
-document.getElementById("payBtn").addEventListener("click",function(){
- if(qrReady&&currentUpiLink){
-  window.location.href=currentUpiLink;
- }
+document.getElementById("openUpiBtn").addEventListener("click", function() {
+    if (!currentUpiLink) {
+        alert("Pehle QR code generate karein.");
+        return;
+    }
+
+    window.location.href = currentUpiLink;
+});
+
+document.getElementById("resetBtn").addEventListener("click", function() {
+    form.reset();
+
+    qrBox.innerHTML = "";
+    result.style.display = "none";
+
+    currentUpiLink = "";
+    currentPayeeName = "";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 });
 </script>
+
 </body>
-</html>
+         </html>
