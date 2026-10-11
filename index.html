@@ -604,11 +604,31 @@ body.light .cta {
 }
 
 @media (max-width: 390px) {
-  .tool-grid { grid-template-columns: 1fr; }
-  .tool-card { min-height: 170px; }
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
 
-  .nav-actions .icon-btn { width: 29px; }
-  .logo { font-size: 20px; }
+  .tool-card {
+    min-height: 190px;
+    padding: 11px;
+  }
+
+  .tool-card h3 {
+    font-size: 15px;
+  }
+
+  .tool-card p {
+    font-size: 12px;
+  }
+
+  .nav-actions .icon-btn {
+    width: 29px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
 }
 
 @media (min-width: 701px) {
